@@ -1,6 +1,7 @@
 ````mermaid
 classDiagram
 class User {
+    +UID
     +user_first_name: String
     +user_last_name: String
     +user_email: Formated String
@@ -11,6 +12,7 @@ class User {
     +user_delete()
 }
 class Place {
+    +UID
     +place_title: String
     +place_description: String
     +place_price: Int
@@ -23,6 +25,7 @@ class Place {
     +place_listed()
 }
 class Review {
+    +UID
     +review_rating: Int
     +review_comment: String
     +review_create()
@@ -31,15 +34,16 @@ class Review {
 }
 
 class Amenity {
+    +UID
     +amenity_name: String
     +amenity_description: String
     +amenity_create()
     +amenity_delete()
     +amenity_listed()
 }
-Place --> Amenity
-User --> Place
-User --> Review
+Place --> Amenity : has
+User --> Place : owns
+User --> Review : makes
 Place <-- Review
 
 ```
