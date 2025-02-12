@@ -5,8 +5,8 @@ class User {
     +user_first_name: String
     +user_last_name: String
     +user_email: String
-    +user_password: String (private)
-    +user_administrator: boolean (private)
+    +user_password: String
+    +user_administrator: boolean
     +user_register()
     +user_update()
     +user_delete()
@@ -45,7 +45,7 @@ Place --> Amenity : has
 User --> Place : owns
 User --> Place : searchs
 User --> Review : makes
-Place <-- Review : has
+Place --> Review : has
 
 ```
 
