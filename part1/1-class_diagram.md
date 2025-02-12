@@ -14,33 +14,33 @@ class Place {
     +place_title: String
     +place_description: String
     +place_price: Int
-    +place_latitude: formated string
-    +place_longitude : 
-    +place_owner
+    +place_latitude: Formated Int
+    +place_longitude : Formated Int
+    +place_owner: String
     +place_create()
     +place_update()
     +place_delete()
     +place_listed()
 }
 class Review {
-    +review_rating
-    +review_comment
+    +review_rating: Int
+    +review_comment: String
     +review_create()
     +review_delete()
     +review_listed_by_place()
 }
 
 class Amenity {
-    +amenity_name
-    +amenity_description
+    +amenity_name: String
+    +amenity_description: String
     +amenity_create()
     +amenity_delete()
     +amenity_listed()
 }
-Place -- Amenity
-User -- Place
-User -- Review
-Place -- Review
+Place --> Amenity
+User --> Place
+User --> Review
+Place <-- Review
 
 ```
 
