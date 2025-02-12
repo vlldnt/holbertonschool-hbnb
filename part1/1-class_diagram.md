@@ -1,10 +1,10 @@
 ````mermaid
 classDiagram
 class User {
-    +UID
+    +UID: String
     +user_first_name: String
     +user_last_name: String
-    +user_email: Formated String
+    +user_email: String
     +user_password: String (private)
     +user_administrator: boolean (private)
     +user_register()
@@ -12,12 +12,12 @@ class User {
     +user_delete()
 }
 class Place {
-    +UID
+    +UID: String
     +place_title: String
     +place_description: String
-    +place_price: Int
-    +place_latitude: Formated Int
-    +place_longitude : Formated Int
+    +place_price: int
+    +place_latitude: float
+    +place_longitude: float
     +place_owner: String
     +place_create()
     +place_update()
@@ -25,8 +25,8 @@ class Place {
     +place_listed()
 }
 class Review {
-    +UID
-    +review_rating: Int
+    +UID: String
+    +review_rating: int
     +review_comment: String
     +review_create()
     +review_delete()
@@ -34,7 +34,7 @@ class Review {
 }
 
 class Amenity {
-    +UID
+    +UID: String
     +amenity_name: String
     +amenity_description: String
     +amenity_create()
@@ -43,8 +43,9 @@ class Amenity {
 }
 Place --> Amenity : has
 User --> Place : owns
+User --> Place : searchs
 User --> Review : makes
-Place <-- Review
+Place <-- Review : has
 
 ```
 
