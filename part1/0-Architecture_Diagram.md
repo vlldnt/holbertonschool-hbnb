@@ -15,10 +15,6 @@ class BusinessLogic {
     +Place
     +Review
     +Amenity
-    +user_management()
-    +place_management()
-    +review_management()
-    +amenity_management()
 }
 class Persistence {
     +Database
