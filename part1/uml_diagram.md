@@ -1,21 +1,21 @@
 ````mermaid
 classDiagram
 class User {
-    +user_first_name
-    +user_last_name
-    +user_email
-    +user_password
-    +user_administrator
+    +user_first_name: String
+    +user_last_name: String
+    +user_email: Formated String
+    +user_password: String (private)
+    +user_administrator: boolean (private)
     +user_register()
     +user_update()
     +user_delete()
 }
 class Place {
-    +place_title
-    +place_description
-    +place_price
-    +place_latitude
-    +place_longitude
+    +place_title: String
+    +place_description: String
+    +place_price: Int
+    +place_latitude: formated string
+    +place_longitude : 
     +place_owner
     +place_create()
     +place_update()
