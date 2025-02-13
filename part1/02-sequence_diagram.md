@@ -1,3 +1,4 @@
+### HbnB - sequenceDiagram
 ```mermaid
 sequenceDiagram
     participant User
