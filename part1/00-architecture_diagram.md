@@ -1,7 +1,4 @@
-### High-Level Architecture 
-1. Presentation Layer
-2. Business Layer
-3. Persistence Layer
+### High-Level Architecture - classDiagram
 
 ````mermaid
 classDiagram

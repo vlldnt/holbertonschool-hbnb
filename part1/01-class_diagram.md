@@ -1,4 +1,6 @@
-````mermaid
+### High-Level Architecture - classDiagram
+
+```mermaid
 classDiagram
 class User {
     +UID: String
