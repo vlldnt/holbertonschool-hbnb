@@ -11,21 +11,21 @@ sequenceDiagram
     BusinessLogicLayer->>PersistenceLayer: Store user data
     PersistenceLayer-->>BusinessLogicLayer: Confirmation
     BusinessLogicLayer-->>PresentationLayer: Response
-    PresentationLayer-->>User: Registration success message
+    PresentationLayer-->>User: Registration success msg/error msg
 
     User->>PresentationLayer: Create Place
     PresentationLayer->>BusinessLogicLayer: Validate place data
     BusinessLogicLayer->>PersistenceLayer: Insert place data
     PersistenceLayer-->>BusinessLogicLayer: Confirmation
     BusinessLogicLayer-->>PresentationLayer: Response
-    PresentationLayer-->>User: Place creation success
+    PresentationLayer-->>User: Place creation success/failed
 
     User->>PresentationLayer: Submit Review
     PresentationLayer->>BusinessLogicLayer: Validate review data
     BusinessLogicLayer->>PersistenceLayer: Save review data
     PersistenceLayer-->>BusinessLogicLayer: Confirmation
     BusinessLogicLayer-->>PresentationLayer: Response
-    PresentationLayer-->>User: Review submitted
+    PresentationLayer-->>User: Review submitted/failed
 
     User->>PresentationLayer: Request List of Places
     PresentationLayer->>BusinessLogicLayer: Fetch places
