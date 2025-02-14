@@ -9,7 +9,11 @@ We launched the development of the HBnB Evolution application by creating a deta
 
 2. [Detailed diagrams representing the business logic layer](https://github.com/vlldnt/holbertonschool-hbnb/blob/main/part1/01-class_diagram.md) with a detailed class diagram illustrating key entities and their relationships.
 
-3. [Sequence diagrams for key API interactions](https://github.com/vlldnt/holbertonschool-hbnb/blob/main/part1/02-sequence_diagram.md) depicting critical operations such as **[user registration](https://github.com/vlldnt/holbertonschool-hbnb/blob/main/part1/02-detailed_sequence_diagrams/2-user_registration.md), [place creation](https://github.com/vlldnt/holbertonschool-hbnb/blob/main/part1/02-detailed_sequence_diagrams/2-place_creation.md), [review submission](https://github.com/vlldnt/holbertonschool-hbnb/blob/main/part1/02-detailed_sequence_diagrams/2-review_submission.md),**  and **[fetching places](https://github.com/vlldnt/holbertonschool-hbnb/blob/main/part1/02-detailed_sequence_diagrams/2-place_fetching.md)**.
+3. [Sequence diagrams for key API interactions](https://github.com/vlldnt/holbertonschool-hbnb/blob/main/part1/02-sequence_diagram.md) depicting critical operations such as :
+    - **[user registration](https://github.com/vlldnt/holbertonschool-hbnb/blob/main/part1/02-detailed_sequence_diagrams/2-user_registration.md)** 
+    - **[place creation](https://github.com/vlldnt/holbertonschool-hbnb/blob/main/part1/02-detailed_sequence_diagrams/2-place_creation.md)**
+    - **[review submission](https://github.com/vlldnt/holbertonschool-hbnb/blob/main/part1/02-detailed_sequence_diagrams/2-review_submission.md)** 
+    - **[fetching places](https://github.com/vlldnt/holbertonschool-hbnb/blob/main/part1/02-detailed_sequence_diagrams/2-place_fetching.md)**
 
 
 ### 👤 Authors:
