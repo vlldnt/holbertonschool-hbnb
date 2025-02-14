@@ -24,7 +24,7 @@ class Place {
     +place_create()
     +place_update()
     +place_delete()
-    +place_listed()
+    +place_fetch()
 }
 class Review {
     #UID: String
