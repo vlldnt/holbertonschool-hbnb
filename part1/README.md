@@ -1,66 +1,233 @@
-### HbnB Project C#25
+# 🏠 HBnB Project – Documentation  
 
-## Part 1: Technical Documentation
+## 📌 Introduction  
 
-### Context and Objective
+### 🎯 Objectif  
+Ce document fournit un plan détaillé pour l’application **HBnB Evolution**. Il consolide tous les diagrammes et notes explicatives en une référence technique complète, guidant les phases de mise en œuvre et clarifiant l’architecture et la conception du système.  
 
-In this initial phase, you will focus on creating comprehensive technical documentation that will serve as the foundation for the development of the HBnB Evolution application. This documentation will help in understanding the overall architecture, the detailed design of the business logic, and the interactions within the system.
+### 📍 Portée du Projet  
+**HBnB Evolution** est une application simplifiée inspirée d’Airbnb qui permet aux utilisateurs de :  
+✔️ S’inscrire 🔑  
+✔️ Ajouter des propriétés 🏡  
+✔️ Associer des commodités 🏕️  
+✔️ Soumettre des avis ⭐  
 
-### Problem Description
+Cette documentation couvre :  
+📂 **L’architecture générale** (diagramme de packages)  
+🛠 **Le modèle métier** (diagramme de classes détaillé)  
+🔄 **Les interactions API** (diagrammes de séquence)  
 
-You are tasked with documenting the architecture and design of a simplified version of an AirBnB-like application, named HBnB Evolution. The application will allow users to perform the following primary operations:
+---
 
-1. User Management: Users can register, update their profiles, and be identified as either regular users or administrators.
-2. Place Management: Users can list properties (places) they own, specifying details such as name, description, price, and location (latitude and longitude). Each place can also have a list of amenities.
-3. Review Management: Users can leave reviews for places they have visited, including a rating and a comment.
-4. Amenity Management: The application will manage amenities that can be associated with places.
-### Business Rules and Requirements
-1. **User Entity**
+## 🏗️ Architecture Générale  
 
-- Each user has a `first name`, `last name`, `email`, and `password`.
-- Users can be identified as administrators through a `boolean` attribute.
-- Users should be able to register, update their profile information, and be deleted.
-2. **Place Entity**
+### 🔍 **Diagramme de Packages**  
+L’architecture suit un **modèle en couches**, intégrant le **facade pattern** pour simplifier les interactions entre les composants.  
 
-- Each place has a `title`, `description`, `price`, `latitude`, and `longitude`.
-- Places are associated with the user who created them (owner).
-- Places can have a list of amenities.
-- Places can be created, updated, deleted, and listed.
-3. **Review Entity**
+````mermaid
+classDiagram
+class Presentation {
+    +Services
+    +API endpoints
+}
+class BusinessLogic {
+    <<Core Models>>
+    +User
+    +Place
+    +Review
+    +Amenity
+}
+class Persistence {
+    +Database
+    +Repository
+    +data_save()
+    +data_fetch()
+}
 
-- Each review is associated with a specific `place` and `user`, and includes a `rating` and `comment`.
-- Reviews can be created, updated, deleted, and listed by place.
-4. **Amenity Entity**
+Presentation --> BusinessLogic : Facade Pattern
+BusinessLogic --> Persistence : Database Access
+````
 
-- Each amenity has a `name`, and `description`.
-Amenities can be created, updated, deleted, and listed.
+📌 **Les 3 couches principales** :  
 
-#### Each object should be uniquely identified by a ID.
-#### For audit reasons, the creation and update datetime should be registered for all entities.
+1️⃣ **Presentation Layer** 🎨  
+- Gère l’interface utilisateur et les interactions.  
+- Reçoit les requêtes et renvoie les réponses après traitement.  
 
-### Architecture and Layers
-- The application follows a layered architecture divided into:
-    - **Presentation Layer**: This includes the services and API through which users interact with the system.
-    - **Business Logic Layer:** This contains the models and the core logic of the application.
-    - **Persistence Layer**: This is responsible for storing and retrieving data from the database.
-### Persistence
-- All data will be persisted in a database, which will be specified and implemented in Part 3 of the project.
-#### Tasks
-1. **High-Level Package Diagram**
+2️⃣ **Business Logic Layer** ⚙️  
+- Contient les modèles clés (**User, Place, Review, Amenity**).  
+- Implémente les règles métier et orchestre les opérations.  
+- Sert de **facade** pour la communication avec la couche persistance.  
 
-    - Create a high-level package diagram that illustrates the three-layer architecture of the application and the communication between these layers via the facade pattern.
-2. **Detailed Class Diagram for Business Logic Layer**
+3️⃣ **Persistence Layer** 🗄️  
+- Gère la base de données et les opérations CRUD.  
+- Structure les données pour assurer intégrité et cohérence.  
 
-    -Design a detailed class diagram for the Business Logic layer, focusing on the User, Place, Review, and Amenity entities, including their attributes, methods, and relationships. Ensure to include the relationships between Places and Amenities.
-3. **Sequence Diagrams for API Calls**
+### High-Level Architecture - classDiagram
 
-    - Develop sequence diagrams for at least four different API calls to show the interaction between the layers and the flow of information. Suggested API calls include user registration, place creation, review submission, and fetching a list of places.
-4. **Documentation Compilation**
+Presentation --> BusinessLogic : Facade Pattern
+BusinessLogic --> Persistence : Database Access
 
-    - Compile all diagrams and explanatory notes into a comprehensive technical document.
+Le **facade pattern** permet à la **Presentation Layer** de ne jamais interagir directement avec la base de données, assurant une meilleure modularité et maintenabilité.  
 
-### Conditions and Constraints
-- The documentation must clearly represent the interactions and flow of data between the different layers of the application.
-- Use UML notation for all diagrams to ensure consistency and clarity.
-- The business rules and requirements outlined above must be reflected accurately in the diagrams.
-- Ensure that the diagrams are detailed enough to guide the implementation phase in the next parts of the project.
+---
+
+## 🛠️ Business Logic Layer  
+
+
+### 📌 **Diagramme de Classes**  
+Le cœur de l’application repose sur plusieurs **entités clés** :  
+
+### High-Level Architecture - classDiagram
+
+```mermaid
+classDiagram
+class User {
+    #UID: String
+    +user_first_name: String
+    +user_last_name: String
+    +user_email: String
+    -user_password: String
+    -user_administrator: boolean
+    +user_register()
+    +user_update()
+    +user_delete()
+}
+class Place {
+    #UID: String
+    +place_title: String
+    +place_description: String
+    +place_price: int
+    -place_latitude: float
+    -place_longitude: float
+    #place_owner: String
+    +place_create()
+    +place_update()
+    +place_delete()
+    +place_fetch()
+}
+class Review {
+    #UID: String
+    +review_rating: int
+    +review_comment: String
+    +review_create()
+    +review_delete()
+    +review_listed_by_place()
+}
+class Amenity {
+    #UID: String
+    +amenity_name: String
+    +amenity_description: String
+    +amenity_create()
+    +amenity_delete()
+    +amenity_listed()
+}
+Place --> Amenity : has
+User --> Place : owns
+User --> Place : searchs
+User --> Review : makes
+Place --> Review : has
+
+```
+
+- **User** 👤  
+  📌 `id`, `first_name`, `last_name`, `email`, `password`  
+  🛠 `register()`, `update_profile()`, `delete_account()`  
+
+- **Place** 🏡  
+  📌 `id`, `title`, `description`, `price`, `latitude`, `longitude`, `createdAt`, `updatedAt`  
+  🛠 `create()`, `update()`, `delete()`  
+
+- **Review** ⭐  
+  📌 `id`, `user_id`, `place_id`, `rating`, `comment`, `createdAt`, `updatedAt`  
+  🛠 `submit()`, `update()`, `delete()`  
+
+- **Amenity** 🏕️  
+  📌 `id`, `name`, `description`, `createdAt`, `updatedAt`  
+  🛠 `add()`, `update()`, `delete()`  
+
+### 🔗 **Relations entre les Entités**  
+✔️ **Un utilisateur** peut posséder plusieurs **places** et laisser plusieurs **avis**.  
+✔️ **Un lieu** peut recevoir plusieurs **avis** et être associé à plusieurs **commodités**.  
+
+L’architecture de la couche métier garantit **cohérence, évolutivité et modularité**.  
+
+---
+
+## 🔄 API Interaction Flow  
+
+### 📊 **Diagrammes de Séquence pour les appels API**  
+
+````mermaid
+sequenceDiagram
+    participant User
+    participant PresentationLayer
+    participant BusinessLogicLayer
+    participant PersistenceLayer
+
+    User->>PresentationLayer: Register User
+    PresentationLayer->>BusinessLogicLayer: Validate and transform data
+    BusinessLogicLayer->>PersistenceLayer: Store user data
+    PersistenceLayer-->>BusinessLogicLayer: Confirmation
+    BusinessLogicLayer-->>PresentationLayer: Response
+    PresentationLayer-->>User: Registration success msg/error msg
+
+    User->>PresentationLayer: Create Place
+    PresentationLayer->>BusinessLogicLayer: Validate place data
+    BusinessLogicLayer->>PersistenceLayer: Insert place data
+    PersistenceLayer-->>BusinessLogicLayer: Confirmation
+    BusinessLogicLayer-->>PresentationLayer: Response
+    PresentationLayer-->>User: Place creation success/failed
+
+    User->>PresentationLayer: Submit Review
+    PresentationLayer->>BusinessLogicLayer: Validate review data
+    BusinessLogicLayer->>PersistenceLayer: Save review data
+    PersistenceLayer-->>BusinessLogicLayer: Confirmation
+    BusinessLogicLayer-->>PresentationLayer: Response
+    PresentationLayer-->>User: Review submitted/failed
+
+    User->>PresentationLayer: Request List of Places
+    PresentationLayer->>BusinessLogicLayer: Fetch places
+    BusinessLogicLayer->>PersistenceLayer: Retrieve place data
+    PersistenceLayer-->>BusinessLogicLayer: Places data
+    BusinessLogicLayer-->>PresentationLayer: List of Places
+    PresentationLayer-->>User: Display list of places
+````
+
+#### 📝 **1. Inscription de l’Utilisateur**  
+1️⃣ L’utilisateur envoie ses informations (**nom, email, mot de passe**) à la **Presentation Layer**.  
+2️⃣ Celle-ci les valide et les transmet à la **Business Logic Layer**.  
+3️⃣ Après validation, les données sont enregistrées via la **Persistence Layer**.  
+4️⃣ Une réponse de succès ou d’échec est renvoyée.  
+
+#### 🏡 **2. Création d’un Lieu**  
+1️⃣ L’utilisateur soumet une demande de création (**titre, description, etc.**).  
+2️⃣ La **Presentation Layer** transmet la requête à la **Business Logic Layer**.  
+3️⃣ Après validation, les données sont insérées via la **Persistence Layer**.  
+4️⃣ Une confirmation est retournée.  
+
+#### ⭐ **3. Soumission d’un Avis**  
+1️⃣ L’utilisateur veut laisser un avis sur un lieu.  
+2️⃣ La **Presentation Layer** envoie les détails (**note, commentaire, etc.**) à la **Business Logic Layer**.  
+3️⃣ L’avis est enregistré via la **Persistence Layer**, puis une réponse est renvoyée.  
+
+#### 📍 **4. Récupération des Lieux Disponibles**  
+1️⃣ L’utilisateur demande la liste des lieux disponibles.  
+2️⃣ La **Presentation Layer** interroge la **Business Logic Layer**, qui consulte la **Persistence Layer**.  
+3️⃣ Les résultats sont renvoyés et affichés à l’utilisateur.  
+
+---
+
+## 📌 Conclusion  
+
+Ce document est un **guide technique complet** pour **HBnB Evolution**. Il fournit :  
+
+📂 **Un aperçu de l’architecture** et du **facade pattern** 🏗️  
+📊 **Un modèle métier structuré** avec un diagramme de classes 🔍  
+🔄 **Un schéma d’interaction API** détaillant les principales opérations  
+
+🔹 **Lisibilité et professionnalisme** assurent une compréhension claire pour les développeurs tout au long de l’implémentation.  
+🔹 Ce document évoluera pour refléter les mises à jour du projet.  
+
+📌 **HBnB Evolution : Construisons ensemble un Airbnb simplifié et efficace !** 🚀🏡  
+
