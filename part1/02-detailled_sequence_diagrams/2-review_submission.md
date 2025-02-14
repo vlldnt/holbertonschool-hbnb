@@ -18,12 +18,14 @@ alt If review does not exist
 
 else If user has already reviewed
     Database-->>BusinessLogic: User review already exists
-    BusinessLogic-->>API: Return Failure (Already Exists)
+    BusinessLogic-->>API: Return Failure (Already Exists, ask want update ?)
     API-->>User: Return Failure Message (Review Already Exists)
 
 else If user wants to update
-    Database-->>BusinessLogic: User review already exists
+    API->>BusinessLogic: method: review_update()
     BusinessLogic->>Database: Update review
     Database-->>BusinessLogic: Confirm
+    BusinessLogic-->>API: Return Succes (Review Updated)
+    API-->>User: Return Success Message (Review Updated)
 end 
 ```
