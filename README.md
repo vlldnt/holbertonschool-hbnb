@@ -1,4 +1,4 @@
-# <img src="https://cdn.prod.website-files.com/6105315644a26f77912a1ada/63eea844ae4e3022154e2878_Holberton-p-800.png" width="150" /> - C#25 - HbnB like
+# <img src="https://cdn.prod.website-files.com/6105315644a26f77912a1ada/63eea844ae4e3022154e2878_Holberton-p-800.png" width="150" /> - HbnB Project - C#25
 The HBnB project in Holberton is a simplified full-stack clone of Airbnb, designed to cover backend development, database management, front-end integration, and deployment.
 
 ### 📘 [Part 1: UML Diagrams](https://github.com/vlldnt/holbertonschool-hbnb/blob/main/part1)
