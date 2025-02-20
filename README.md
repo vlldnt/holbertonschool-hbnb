@@ -15,6 +15,16 @@ We launched the development of the HBnB Evolution application by creating a deta
     - [review submission](https://github.com/vlldnt/holbertonschool-hbnb/blob/main/part1/02-detailed_sequence_diagrams/2-review_submission.md)
     - [fetching places](https://github.com/vlldnt/holbertonschool-hbnb/blob/main/part1/02-detailed_sequence_diagrams/2-place_fetching.md)
 
+### [Part 2](https://github.com/vlldnt/holbertonschool-hbnb/blob/main/part2)
+
+This part is focused on creating a functional and scalable foundation for the application. You will be working on:
+
+Business Logic Layer: Building the core models and logic that drive the application's functionality. This includes defining relationships, handling data validation, and managing interactions between different components.
+
+Presentation Layer: Defining the services and API endpoints using Flask and flask-restx. You will structure the endpoints logically, ensuring clear paths and parameters for each operation.
+
+
+
 
 ### 👤 Authors:
 - [@Madjiguene Elodie Mbaye](https://github.com/Elodie-mbaye)
