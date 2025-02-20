@@ -5,6 +5,9 @@
 
 our project is organized into the following structure:
 
+# Project Structure
+
+```plaintext
 hbnb/
 ├── app/
 │   ├── __init__.py
@@ -32,6 +35,9 @@ hbnb/
 ├── config.py
 ├── requirements.txt
 ├── README.md
+
+
+
 Explanation:
 
 - The app/ directory contains the core application code.
