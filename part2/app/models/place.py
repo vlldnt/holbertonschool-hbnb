@@ -1,8 +1,7 @@
 #!/usr/bin/python3
 '''Place Class'''
 
-import uuid
-from datetime import datetime
+from basemodel import BaseModel
 
 class Place(BaseModel):
     def __init__(self, title, description, price, latitude, longitude, owner):

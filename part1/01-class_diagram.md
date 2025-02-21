@@ -2,51 +2,62 @@
 
 ```mermaid
 classDiagram
+
+class BaseModel {
+    +UUID4 id
+    +datetime created_at
+    +datetime updated_at
+    +create()
+    +update()
+    +delete()
+}
+
 class User {
-    #UID: String
-    +user_first_name: String
-    +user_last_name: String
-    +user_email: String
-    -user_password: String
-    -user_administrator: boolean
-    +user_register()
-    +user_update()
-    +user_delete()
+    +String first_name
+    +String last_name
+    +String email
+    -String password
+    +bool isAdmin
 }
+
 class Place {
-    #UID: String
-    +place_title: String
-    +place_description: String
-    +place_price: int
-    -place_latitude: float
-    -place_longitude: float
-    #place_owner: String
-    +place_create()
-    +place_update()
-    +place_delete()
-    +place_fetch()
+    +UUID4 owner_id
+    +String title
+    +String description
+    +float price
+    +float latitude
+    +float longitude
+    +list_amenities()
+    +list_places()
 }
+
 class Review {
-    #UID: String
-    +review_rating: int
-    +review_comment: String
-    +review_create()
-    +review_delete()
-    +review_listed_by_place()
+    +UUID4 place_id
+    +UUID4 user_id
+    +int rate
+    +String comment
+    +list_reviews_by_place(place_id)
 }
+
 class Amenity {
-    #UID: String
-    +amenity_name: String
-    +amenity_description: String
-    +amenity_create()
-    +amenity_delete()
-    +amenity_listed()
+    +String name
+    +String description
+    +list_amenities()
 }
-Place --> Amenity : has
+
+class PlaceAmenity {
+    +UUID4 place_id
+    +UUID4 amenity_id
+}
+
+BaseModel <-- User
 User --> Place : owns
-User --> Place : searchs
-User --> Review : makes
+Place --> PlaceAmenity : 
 Place --> Review : has
+BaseModel <-- Place
+BaseModel <-- Review
+BaseModel <-- Amenity
+Amenity --> PlaceAmenity
 
 ```
 
