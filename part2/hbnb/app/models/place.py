@@ -6,6 +6,7 @@ from datetime import datetime
 from .basemodel import BaseModel
 from .user import User
 
+
 class Place(BaseModel):
     def __init__(self, title, description, price, latitude, longitude, owner):
         super().__init__()
