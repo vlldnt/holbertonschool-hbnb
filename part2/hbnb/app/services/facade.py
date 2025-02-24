@@ -48,3 +48,6 @@ class HBnBFacade:
             return amenity
         else:
             raise ValueError("Amenity not found")
+    
+    def get_amenity_by_name(self, name):
+        return self.user_repo.get_by_attribute('name', name)

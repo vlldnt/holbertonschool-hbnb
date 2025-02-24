@@ -11,7 +11,7 @@ class Amenity(BaseModel):
         self.name = name
         self.restrictions()
 
-    def restrictions(self, name):
+    def restrictions(self):
         '''Amenity must exist and must be a string of 50 characters maximum'''
-        if len(name) > 50 or not self.name:
+        if len(self.name) > 50 or not self.name:
             raise ValueError("Amenity must be a string with a maximum of 50 characters.")
