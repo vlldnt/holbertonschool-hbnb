@@ -37,7 +37,6 @@ hbnb/
 ├── README.md
 ```
 
-
 Explanation:
 
 - The app/ directory contains the core application code.
@@ -50,9 +49,79 @@ Explanation:
 - requirements.txt will list all the Python packages needed for the project.
 - README.md will contain a brief overview of the project.
 
+## Business Logic Layer
 
+The Business Logic layer is responsible for implementing the core functionality of the application. It includes the following key entities:
 
+- **User**: Represents a user of the application.
+- **Place**: Represents a place listed by a user.
+- **Review**: Represents a review of a place by a user.
+- **Amenity**: Represents an amenity available at a place.
 
+### Entities and Responsibilities
 
+#### User
+- **Attributes**: `id`, `name`, `email`, `password`
+- **Methods**:
+  - `create_user(name, email, password)`: Creates a new user.
+  - `get_user_by_id(user_id)`: Retrieves a user by their ID.
+  - `update_user(user_id, **kwargs)`: Updates user attributes.
+  - `delete_user(user_id)`: Deletes a user.
 
+#### Place
+- **Attributes**: `id`, `name`, `description`, `user_id`
+- **Methods**:
+  - `create_place(name, description, user_id)`: Creates a new place.
+  - `get_place_by_id(place_id)`: Retrieves a place by its ID.
+  - `update_place(place_id, **kwargs)`: Updates place attributes.
+  - `delete_place(place_id)`: Deletes a place.
 
+#### Review
+- **Attributes**: `id`, `text`, `user_id`, `place_id`
+- **Methods**:
+  - `create_review(text, user_id, place_id)`: Creates a new review.
+  - `get_review_by_id(review_id)`: Retrieves a review by its ID.
+  - `update_review(review_id, **kwargs)`: Updates review attributes.
+  - `delete_review(review_id)`: Deletes a review.
+
+#### Amenity
+- **Attributes**: `id`, `name`
+- **Methods**:
+  - `create_amenity(name)`: Creates a new amenity.
+  - `get_amenity_by_id(amenity_id)`: Retrieves an amenity by its ID.
+  - `update_amenity(amenity_id, **kwargs)`: Updates amenity attributes.
+  - `delete_amenity(amenity_id)`: Deletes an amenity.
+
+### Examples
+
+#### Creating a User
+```python
+from app.models.user import User
+
+user = User.create_user(name="John Doe", email="john@example.com", password="securepassword")
+print(user.id)  # Output: User ID
+```
+
+#### Creating a Place
+```python
+from app.models.place import Place
+
+place = Place.create_place(name="Beach House", description="A lovely beach house.", user_id=user.id)
+print(place.id)  # Output: Place ID
+```
+
+#### Creating a Review
+```python
+from app.models.review import Review
+
+review = Review.create_review(text="Great place!", user_id=user.id, place_id=place.id)
+print(review.id)  # Output: Review ID
+```
+
+#### Creating an Amenity
+```python
+from app.models.amenity import Amenity
+
+amenity = Amenity.create_amenity(name="WiFi")
+print(amenity.id)  # Output: Amenity ID
+```
