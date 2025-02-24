@@ -15,13 +15,23 @@ We launched the development of the HBnB Evolution application by creating a deta
     - [review submission](https://github.com/vlldnt/holbertonschool-hbnb/blob/main/part1/02-detailed_sequence_diagrams/2-review_submission.md)
     - [fetching places](https://github.com/vlldnt/holbertonschool-hbnb/blob/main/part1/02-detailed_sequence_diagrams/2-place_fetching.md)
 
-### [Part 2](https://github.com/vlldnt/holbertonschool-hbnb/blob/main/part2/hbnb)
+### ⚙️ [Part 2: Implementation of Business Logic and API Endpoints](https://github.com/vlldnt/holbertonschool-hbnb/blob/main/part2/hbnb)
 
 This part is focused on creating a functional and scalable foundation for the application. You will be working on:
 
-Business Logic Layer: Building the core models and logic that drive the application's functionality. This includes defining relationships, handling data validation, and managing interactions between different components.
+**Business Logic Layer:** Building the core models and logic that drive the application's functionality. This includes defining relationships, handling data validation, and managing interactions between different components.
 
-Presentation Layer: Defining the services and API endpoints using Flask and flask-restx. You will structure the endpoints logically, ensuring clear paths and parameters for each operation.
+**Presentation Layer:** Defining the services and API endpoints using Flask and flask-restx. You will structure the endpoints logically, ensuring clear paths and parameters for each operation.
+
+0. _**Project Setup and Package Initialization:**_ Set up the project structure with the Presentation, Business Logic, and Persistence layers, integrating in-memory storage and the Facade pattern
+1. _**Core Business Logic Classes:**_ Implement the main classes (`User`, `Place`, `Review`, `Amenity`) with their attributes, relationships, and validations according to the design defined in the first part of the project
+2. _**User Endpoints:**_ Develop API endpoints for user management (`POST`, `GET`, `PUT`) and ensuring sensitive data security
+3. _**Amenity Endpoints:**_ Implement API endpoints for managing amenities, including `POST`, `GET`, `PUT`, while integrating the business logic layer via the Facade pattern
+4. _**Place Endpoints:**_ Create API endpoints for managing places(`POST`, `GET`, `PUT`), ensuring the validation of key attributes (price, coordinates) and integration with users and amenities
+5. _**Review Endpoints:**_ Develop API endpoints to manage reviews, including `POST`, `GET`, `PUT`, `DELETE` and deletion, while maintaining associations with users and places.
+6. _**Testing and Validation:**_ Ensure the API endpoints function correctly by implementing validation, performing manual and automated tests using cURL and unittest/pytest, and documenting the results
+
+
 
 
 
@@ -30,5 +40,4 @@ Presentation Layer: Defining the services and API endpoints using Flask and flas
 - [@Madjiguene Elodie Mbaye](https://github.com/Elodie-mbaye)
 - [@Hamza Karkouch](https://github.com/SoliraZ)
 - [@Adrien Vieilledent](https://github.com/vlldnt)
-- [@Uyed Debara](http://github.com)
 
