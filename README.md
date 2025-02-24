@@ -15,7 +15,7 @@ We launched the development of the HBnB Evolution application by creating a deta
     - [review submission](https://github.com/vlldnt/holbertonschool-hbnb/blob/main/part1/02-detailed_sequence_diagrams/2-review_submission.md)
     - [fetching places](https://github.com/vlldnt/holbertonschool-hbnb/blob/main/part1/02-detailed_sequence_diagrams/2-place_fetching.md)
 
-### [Part 2](https://github.com/vlldnt/holbertonschool-hbnb/blob/main/part2)
+### [Part 2](https://github.com/vlldnt/holbertonschool-hbnb/blob/main/part2/hbnb)
 
 This part is focused on creating a functional and scalable foundation for the application. You will be working on:
 
