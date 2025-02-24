@@ -1,11 +1,11 @@
-### HbnB Project - Implementation of Business Logic and API Endpoints
+# HbnB Project - Implementation of Business Logic and API Endpoints 🚀
 
-- This phase of the HBnB project focuses on implementing the application's core structure, including the Presentation and Business Logic layers using Python and Flask. 
-- It involves developing key classes (User, Place, Review, Amenity) and setting up RESTful API endpoints with flask-restx to manage CRUD operations. While authentication and access control will be handled later, the emphasis is on creating a scalable, modular, and well-structured foundation for future enhancements. 🚀
+- This phase of the HBnB project focuses on implementing the application's core structure, including the Presentation and Business Logic layers using Python and Flask.
+- It involves developing key classes (User, Place, Review, Amenity) and setting up RESTful API endpoints with flask-restx to manage CRUD operations. While authentication and access control will be handled later, the emphasis is on creating a scalable, modular, and well-structured foundation for future enhancements.
 
-our project is organized into the following structure:
+Our project is organized into the following structure:
 
-# Project Structure
+## Project Structure 📂
 
 ```plaintext
 hbnb/
@@ -37,19 +37,19 @@ hbnb/
 ├── README.md
 ```
 
-Explanation:
+### Explanation 📝
 
-- The app/ directory contains the core application code.
-- The api/ subdirectory houses the API endpoints, organized by version (v1/).
-- The models/ subdirectory contains the business logic classes (e.g., user.py, place.py).
-- The services/ subdirectory is where the Facade pattern is implemented, managing the interaction between layers.
-- The persistence/ subdirectory is where the in-memory repository is implemented. This will later be replaced by a database-backed solution using SQL Alchemy.
-- run.py is the entry point for running the Flask application.
-- config.py will be used for configuring environment variables and application settings.
-- requirements.txt will list all the Python packages needed for the project.
-- README.md will contain a brief overview of the project.
+- The `app/` directory contains the core application code.
+- The `api/` subdirectory houses the API endpoints, organized by version (`v1/`).
+- The `models/` subdirectory contains the business logic classes (e.g., `user.py`, `place.py`).
+- The `services/` subdirectory is where the Facade pattern is implemented, managing the interaction between layers.
+- The `persistence/` subdirectory is where the in-memory repository is implemented. This will later be replaced by a database-backed solution using SQL Alchemy.
+- `run.py` is the entry point for running the Flask application.
+- `config.py` will be used for configuring environment variables and application settings.
+- `requirements.txt` will list all the Python packages needed for the project.
+- `README.md` will contain a brief overview of the project.
 
-## Business Logic Layer
+## Business Logic Layer 🧠
 
 The Business Logic layer is responsible for implementing the core functionality of the application. It includes the following key entities:
 
@@ -58,41 +58,41 @@ The Business Logic layer is responsible for implementing the core functionality 
 - **Review**: Represents a review of a place by a user.
 - **Amenity**: Represents an amenity available at a place.
 
-### Entities and Responsibilities
+### Entities and Responsibilities 📋
 
-#### User
+#### User 👤
 - **Attributes**: `id`, `name`, `email`, `password`
 - **Methods**:
-  - `create_user(name, email, password)`: Creates a new user.
-  - `get_user_by_id(user_id)`: Retrieves a user by their ID.
-  - `update_user(user_id, **kwargs)`: Updates user attributes.
-  - `delete_user(user_id)`: Deletes a user.
+    - `create_user(name, email, password)`: Creates a new user.
+    - `get_user_by_id(user_id)`: Retrieves a user by their ID.
+    - `update_user(user_id, **kwargs)`: Updates user attributes.
+    - `delete_user(user_id)`: Deletes a user.
 
-#### Place
+#### Place 🏠
 - **Attributes**: `id`, `name`, `description`, `user_id`
 - **Methods**:
-  - `create_place(name, description, user_id)`: Creates a new place.
-  - `get_place_by_id(place_id)`: Retrieves a place by its ID.
-  - `update_place(place_id, **kwargs)`: Updates place attributes.
-  - `delete_place(place_id)`: Deletes a place.
+    - `create_place(name, description, user_id)`: Creates a new place.
+    - `get_place_by_id(place_id)`: Retrieves a place by its ID.
+    - `update_place(place_id, **kwargs)`: Updates place attributes.
+    - `delete_place(place_id)`: Deletes a place.
 
-#### Review
+#### Review 📝
 - **Attributes**: `id`, `text`, `user_id`, `place_id`
 - **Methods**:
-  - `create_review(text, user_id, place_id)`: Creates a new review.
-  - `get_review_by_id(review_id)`: Retrieves a review by its ID.
-  - `update_review(review_id, **kwargs)`: Updates review attributes.
-  - `delete_review(review_id)`: Deletes a review.
+    - `create_review(text, user_id, place_id)`: Creates a new review.
+    - `get_review_by_id(review_id)`: Retrieves a review by its ID.
+    - `update_review(review_id, **kwargs)`: Updates review attributes.
+    - `delete_review(review_id)`: Deletes a review.
 
-#### Amenity
+#### Amenity 🛠️
 - **Attributes**: `id`, `name`
 - **Methods**:
-  - `create_amenity(name)`: Creates a new amenity.
-  - `get_amenity_by_id(amenity_id)`: Retrieves an amenity by its ID.
-  - `update_amenity(amenity_id, **kwargs)`: Updates amenity attributes.
-  - `delete_amenity(amenity_id)`: Deletes an amenity.
+    - `create_amenity(name)`: Creates a new amenity.
+    - `get_amenity_by_id(amenity_id)`: Retrieves an amenity by its ID.
+    - `update_amenity(amenity_id, **kwargs)`: Updates amenity attributes.
+    - `delete_amenity(amenity_id)`: Deletes an amenity.
 
-### Examples
+### Examples 💡
 
 #### Creating a User
 ```python
