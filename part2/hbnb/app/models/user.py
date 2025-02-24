@@ -5,7 +5,7 @@ including attributes for user information and validation'''
 
 
 import re
-from basemodel import BaseModel
+from .basemodel import BaseModel
 
 
 class User(BaseModel):
