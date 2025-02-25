@@ -4,10 +4,11 @@
 from datetime import datetime
 from .basemodel import BaseModel
 from .user import User
+from .amenity import Amenity
 
 
 class Place(BaseModel):
-    def __init__(self, title, description, price, latitude, longitude, owner, owner_id):
+    def __init__(self, title, description, price, latitude, longitude, owner):
         super().__init__()
         self.title = title
         self.description = description
@@ -81,5 +82,21 @@ class Place(BaseModel):
 
     def add_amenity(self, amenity):
         """Add an amenity to the place."""
+        if not isinstance(amenity, Amenity):
+            raise TypeError("Amenity must be an Amenity instance.")
         self.amenities.append(amenity)
         self.save()
+
+    def to_dict(self):
+        """Convert the Place object to a dictionary."""
+        return {
+            "id": self.id,
+            "title": self.title,
+            "description": self.description,
+            "price": self.price,
+            "latitude": self.latitude,
+            "longitude": self.longitude,
+            "owner_id": self.owner.id,
+            "reviews": [review.to_dict() for review in self.reviews],
+            "amenities": [amenity.to_dict() for amenity in self.amenities if amenity]
+        }
