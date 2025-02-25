@@ -58,24 +58,22 @@ class HBnBFacade:
         if not owner:
             raise ValueError("Owner not found.")
         
-        place_data = {
-            "title": title,
-            "description": description,
-            "price": price,
-            "latitude": latitude,
-            "longitude": longitude,
-            "owner": owner,
-            "owner_id": owner_id
-        }
-        place = Place(**place_data)
+        place = Place(
+            title=title,
+            description=description,
+            price=price,
+            latitude=latitude,
+            longitude=longitude,
+            owner=owner
+        )
         self.place_repo.add(place)
         return place
 
     def get_place(self, place_id):
         place = self.place_repo.get(place_id)
         if place:
-            owner = self.get_user(place.owner_id)
-            amenities = [self.get_amenity(amenity_id) for amenity_id in place.amenity_ids]
+            owner = self.get_user(place.owner.id)
+            amenities = [self.get_amenity(amenity.id) for amenity in place.amenities if amenity is not None]
             place.owner = owner
             place.amenities = amenities
             return place
@@ -85,8 +83,8 @@ class HBnBFacade:
     def get_all_places(self):
         places = self.place_repo.get_all()
         for place in places:
-            owner = self.get_user(place.owner_id)
-            amenities = [self.get_amenity(amenity_id) for amenity_id in place.amenity_ids]
+            owner = self.get_user(place.owner.id)
+            amenities = [self.get_amenity(amenity.id) for amenity in place.amenities if amenity is not None]
             place.owner = owner
             place.amenities = amenities
         return places
@@ -100,6 +98,8 @@ class HBnBFacade:
                 raise ValueError("Latitude must be between -90 and 90")
             if 'longitude' in place_data and not (-180 <= place_data['longitude'] <= 180):
                 raise ValueError("Longitude must be between -180 and 180")
+            if 'amenities' in place_data:
+                place_data['amenities'] = [self.get_amenity(amenity_id) for amenity_id in place_data['amenities']]
             place.update(place_data)
             self.place_repo.save(place)
             return place
