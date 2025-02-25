@@ -51,7 +51,7 @@ class HBnBFacade:
             raise ValueError("Amenity not found")
 
     def get_amenity_by_name(self, name):
-        return self.user_repo.get_by_attribute('name', name)
+        return self.amenity_repo.get_by_attribute('name', name)
     
     def create_place(self, place_data):
         if 'price' in place_data and place_data['price'] < 0:
