@@ -15,13 +15,8 @@ class Place(BaseModel):
         self.latitude = latitude
         self.longitude = longitude
         self.owner = owner
-<<<<<<< HEAD
-        self.reviews = []
-        self.amenities = []
-=======
         self.reviews = []  # List to store related reviews
         self.amenities = []  # List to store related amenities
->>>>>>> main
         self.restrictions()
 
     def add_review(self, review):
