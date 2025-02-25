@@ -15,11 +15,14 @@ class AmenityList(Resource):
     def post(self):
         """Register a new amenity"""
         amenity_data = api.payload
-        existing_amenity = facade.get_amenity_by_name(amenity_data['name'])
-        if existing_amenity:
-            return {'error': 'Amenity already registered'}, 400
-        new_amenity = facade.create_amenity(amenity_data)
-        return {'id': new_amenity.id, 'name': new_amenity.name}, 201
+        try:
+            existing_amenity = facade.get_amenity_by_name(amenity_data['name'])
+            if existing_amenity:
+                return {'error': 'Amenity already registered'}, 400
+            new_amenity = facade.create_amenity(amenity_data)
+            return {'id': new_amenity.id, 'name': new_amenity.name}, 201
+        except Exception as e:
+            return {'error': str(e)}, 400
 
     @api.response(200, 'List of amenities retrieved successfully')
     def get(self):
@@ -50,4 +53,4 @@ class AmenityResource(Resource):
             updated_amenity = facade.update_amenity(amenity_id, amenity_data)
             return {'id': updated_amenity.id, 'name': updated_amenity.name}, 200
         except ValueError as e:
-            return {'error': str(e)}, 404
+            return {'error': str(e)}, 400
