@@ -1,4 +1,5 @@
 from flask_restx import Namespace, Resource, fields
+from flask import request
 from app.services import facade
 
 api = Namespace('places', description='Place operations')
@@ -34,9 +35,16 @@ class PlaceList(Resource):
     @api.response(400, 'Invalid input data')
     def post(self):
         """Register a new place"""
-        data = api.payload
+        data = request.json
+        title = data.get('title')
+        description = data.get('description')
+        price = data.get('price')
+        latitude = data.get('latitude')
+        longitude = data.get('longitude')
+        owner_id = data.get('owner_id')
+
         try:
-            new_place = facade.create_place(data)
+            new_place = facade.create_place(title, description, price, latitude, longitude, owner_id)
             return new_place, 201
         except ValueError as e:
             api.abort(400, str(e))
