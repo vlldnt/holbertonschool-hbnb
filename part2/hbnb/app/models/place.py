@@ -33,21 +33,21 @@ class Place(BaseModel):
         '''Validate the place's attributes restrictions'''
         if len(self.title) > 100 or not self.title:
             raise ValueError("The maximum title length is 100 characters.")
-        
+
         if not isinstance(self.price, int):
             raise TypeError("Price must be an integer.")
         if self.price <= 0:
             raise ValueError("The price must be greater than 0.")
-        
+
         if not isinstance(self.latitude, float):
             raise TypeError("Latitude must be a float.")
         if self.latitude < -90 or self.latitude > 90:
             raise ValueError("Latitude must be between -90.0 and 90.0")
-        
+
         if not isinstance(self.longitude, float):
             raise TypeError("Longitude must be a float.")
         if self.longitude < -180 or self.longitude > 180:
             raise ValueError("Longitude must be between -180.0 and 180.0")
-        
+
         if not isinstance(self.owner, User):
             raise TypeError("Owner must be a User instance.")
