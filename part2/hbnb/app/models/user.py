@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 '''User Class module
 Defines a User class that inherits from BaseModel
-including attributes for user information and validation'''
+including attributes for user information and restrictions'''
 
 
 import re
@@ -31,7 +31,7 @@ class User(BaseModel):
         if not isinstance(self.last_name, str):
             raise TypeError("Last name must be a string of characters")
         
-        if not re.fullmatch(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$', self.email):
+        if not self.email or not re.fullmatch(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$', self.email):
             raise ValueError("The email format is invalid.")
         
         if not isinstance(self.is_admin, bool):
