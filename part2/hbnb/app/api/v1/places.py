@@ -35,7 +35,7 @@ class PlaceList(Resource):
     @api.response(400, 'Invalid input data')
     def post(self):
         """Register a new place"""
-        data = request.json
+        data = api.payload
         title = data.get('title')
         description = data.get('description')
         price = data.get('price')
@@ -45,18 +45,18 @@ class PlaceList(Resource):
 
         try:
             new_place = facade.create_place(title, description, price, latitude, longitude, owner_id)
-            return new_place, 201
+            return new_place.to_dict(), 201
         except ValueError as e:
-            api.abort(400, str(e))
+            api.abort(400, 'Failed to create place: ' + str(e))
 
     @api.response(200, 'List of places retrieved successfully')
     def get(self):
         """Retrieve a list of all places"""
         try:
             places = facade.get_all_places()
-            return places, 200
+            return [place.to_dict() for place in places], 200
         except ValueError as e:
-            api.abort(404, str(e))
+            api.abort(404, 'Failed to retrieve places: ' + str(e))
 
 
 @api.route('/<place_id>')
@@ -67,9 +67,9 @@ class PlaceResource(Resource):
         """Get place details by ID"""
         try:
             place = facade.get_place(place_id)
-            return place, 200
+            return place.to_dict(), 200
         except ValueError as e:
-            api.abort(404, str(e))
+            api.abort(404, f'Place with ID {place_id} not found: ' + str(e))
 
     @api.expect(place_model)
     @api.response(200, 'Place updated successfully')
@@ -80,8 +80,8 @@ class PlaceResource(Resource):
         data = api.payload
         try:
             updated_place = facade.update_place(place_id, data)
-            return updated_place, 200
+            return updated_place.to_dict(), 200
         except ValueError as e:
-            api.abort(400, str(e))
+            api.abort(400, f'Failed to update place: {str(e)}')
         except KeyError as e:
-            api.abort(404, str(e))
+            api.abort(404, f'Place with ID {place_id} not found: {str(e)}')
