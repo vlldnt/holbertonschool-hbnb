@@ -17,6 +17,7 @@ class Place(BaseModel):
         self.owner = owner
         self.reviews = []  # List to store related reviews
         self.amenities = []  # List to store related amenities
+
         self.restrictions()
 
     def add_review(self, review):
@@ -42,10 +43,12 @@ class Place(BaseModel):
         if not isinstance(self.latitude, float):
             raise TypeError("Latitude must be a float.")
         if self.latitude < -90 or self.latitude > 90:
-            raise ValueError("Latitude must be between -90 and 90.")
+            raise ValueError("Latitude must be between -90.0 and 90.0")
+
         if not isinstance(self.longitude, float):
             raise TypeError("Longitude must be a float.")
         if self.longitude < -180 or self.longitude > 180:
-            raise ValueError("Longitude must be between -180 and 180.")
+            raise ValueError("Longitude must be between -180.0 and 180.0")
+
         if not isinstance(self.owner, User):
             raise TypeError("Owner must be a User instance.")
