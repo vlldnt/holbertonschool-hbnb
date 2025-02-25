@@ -20,11 +20,11 @@ class Review(BaseModel):
         and type restrictions
         '''
 
-        if not isinstance(self.user, str) or not self.user:
-            raise TypeError("User must be a non-empty string.")
+        if not isinstance(self.user, User) or not self.user:
+            raise TypeError("must be a instance of user")
 
-        if not isinstance(self.place, str) or not self.place:
-            raise TypeError("Place must be a non-empty string.")
+        if not isinstance(self.place, Place) or not self.place:
+            raise TypeError("must be a instance of place")
 
         if not isinstance(self.text, str) or len(self.text) > 500:
             raise ValueError(
