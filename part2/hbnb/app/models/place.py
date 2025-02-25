@@ -7,7 +7,7 @@ from .user import User
 
 
 class Place(BaseModel):
-    def __init__(self, title, description, price, latitude, longitude, owner):
+    def __init__(self, title, description, price, latitude, longitude, owner, owner_id):
         super().__init__()
         self.title = title
         self.description = description
@@ -18,7 +18,61 @@ class Place(BaseModel):
         self.reviews = []  # List to store related reviews
         self.amenities = []  # List to store related amenities
 
-        self.restrictions()
+    @property
+    def title(self):
+        return self._title
+
+    @title.setter
+    def title(self, value):
+        if len(value) > 100 or not value:
+            raise ValueError("The maximum title length is 100 characters.")
+        self._title = value
+
+    @property
+    def price(self):
+        return self._price
+
+    @price.setter
+    def price(self, value):
+        if not isinstance(value, int):
+            raise TypeError("Price must be an integer.")
+        if value <= 0:
+            raise ValueError("The price must be greater than 0.")
+        self._price = value
+
+    @property
+    def latitude(self):
+        return self._latitude
+
+    @latitude.setter
+    def latitude(self, value):
+        if not isinstance(value, float):
+            raise TypeError("Latitude must be a float.")
+        if value < -90 or value > 90:
+            raise ValueError("Latitude must be between -90.0 and 90.0")
+        self._latitude = value
+
+    @property
+    def longitude(self):
+        return self._longitude
+
+    @longitude.setter
+    def longitude(self, value):
+        if not isinstance(value, float):
+            raise TypeError("Longitude must be a float.")
+        if value < -180 or value > 180:
+            raise ValueError("Longitude must be between -180.0 and 180.0")
+        self._longitude = value
+
+    @property
+    def owner(self):
+        return self._owner
+
+    @owner.setter
+    def owner(self, value):
+        if not isinstance(value, User):
+            raise TypeError("Owner must be a User instance.")
+        self._owner = value
 
     def add_review(self, review):
         """Add a review to the place."""
@@ -29,26 +83,3 @@ class Place(BaseModel):
         """Add an amenity to the place."""
         self.amenities.append(amenity)
         self.save()
-
-    def restrictions(self):
-        '''Validate the place's attributes restrictions'''
-        if len(self.title) > 100 or not self.title:
-            raise ValueError("The maximum title length is 100 characters.")
-
-        if not isinstance(self.price, int):
-            raise TypeError("Price must be an integer.")
-        if self.price <= 0:
-            raise ValueError("The price must be greater than 0.")
-
-        if not isinstance(self.latitude, float):
-            raise TypeError("Latitude must be a float.")
-        if self.latitude < -90 or self.latitude > 90:
-            raise ValueError("Latitude must be between -90.0 and 90.0")
-
-        if not isinstance(self.longitude, float):
-            raise TypeError("Longitude must be a float.")
-        if self.longitude < -180 or self.longitude > 180:
-            raise ValueError("Longitude must be between -180.0 and 180.0")
-
-        if not isinstance(self.owner, User):
-            raise TypeError("Owner must be a User instance.")
