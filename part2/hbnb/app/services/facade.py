@@ -53,13 +53,20 @@ class HBnBFacade:
     def get_amenity_by_name(self, name):
         return self.amenity_repo.get_by_attribute('name', name)
     
-    def create_place(self, place_data):
-        if 'price' in place_data and place_data['price'] < 0:
-            raise ValueError("Price cannot be negative")
-        if 'latitude' in place_data and not (-90 <= place_data['latitude'] <= 90):
-            raise ValueError("Latitude must be between -90 and 90")
-        if 'longitude' in place_data and not (-180 <= place_data['longitude'] <= 180):
-            raise ValueError("Longitude must be between -180 and 180")
+    def create_place(self, title, description, price, latitude, longitude, owner_id):
+        owner = self.get_user(owner_id)
+        if not owner:
+            raise ValueError("Owner not found.")
+        
+        place_data = {
+            "title": title,
+            "description": description,
+            "price": price,
+            "latitude": latitude,
+            "longitude": longitude,
+            "owner": owner,
+            "owner_id": owner_id
+        }
         place = Place(**place_data)
         self.place_repo.add(place)
         return place
