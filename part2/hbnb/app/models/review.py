@@ -3,6 +3,8 @@
 
 import re
 from .basemodel import BaseModel
+from .user import User
+from .place import Place
 
 
 class Review(BaseModel):
