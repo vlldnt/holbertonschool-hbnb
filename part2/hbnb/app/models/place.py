@@ -42,20 +42,10 @@ class Place(BaseModel):
         if not isinstance(self.latitude, float):
             raise TypeError("Latitude must be a float.")
         if self.latitude < -90 or self.latitude > 90:
-<<<<<<< HEAD
-            raise ValueError("Latitude must be between -90.0 and 90.0")
-
-        if not isinstance(self.longitude, float):
-            raise TypeError("Longitude must be a float.")
-        if self.longitude < -180 or self.longitude > 180:
-            raise ValueError("Longitude must be between -180.0 and 180.0")
-
-=======
             raise ValueError("Latitude must be between -90 and 90.")
         if not isinstance(self.longitude, float):
             raise TypeError("Longitude must be a float.")
         if self.longitude < -180 or self.longitude > 180:
             raise ValueError("Longitude must be between -180 and 180.")
->>>>>>> main
         if not isinstance(self.owner, User):
             raise TypeError("Owner must be a User instance.")
