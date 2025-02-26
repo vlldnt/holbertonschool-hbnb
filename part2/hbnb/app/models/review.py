@@ -1,17 +1,17 @@
 #!/usr/bin/python3
 '''Review Class'''
 
-import re
+
 from .basemodel import BaseModel
 from .user import User
 from .place import Place
 
 
 class Review(BaseModel):
-    def __init__(self, text, user, place, rating):
+    def __init__(self, text, user_id, place_id, rating):
         super().__init__()
-        self.user = user
-        self.place = place
+        self.user_id = user_id
+        self.place_id = place_id
         self.text = text
         self.rating = rating
         self.validate_attributes()
@@ -22,10 +22,10 @@ class Review(BaseModel):
         and type restrictions
         '''
 
-        if not isinstance(self.user, User) or not self.user:
+        if not isinstance(self.user_id, User) or not self.user_id:
             raise TypeError("must be a instance of user")
 
-        if not isinstance(self.place, Place) or not self.place:
+        if not isinstance(self.place_id, Place) or not self.place_id:
             raise TypeError("must be a instance of place")
 
         if not isinstance(self.text, str) or len(self.text) > 500:

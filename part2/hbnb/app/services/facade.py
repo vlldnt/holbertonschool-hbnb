@@ -11,6 +11,7 @@ class HBnBFacade:
         self.review_repo = InMemoryRepository()
         self.amenity_repo = InMemoryRepository()
 
+#User Facade
     def create_user(self, user_data):
         user = User(**user_data)
         self.user_repo.add(user)
@@ -33,7 +34,8 @@ class HBnBFacade:
         
     def get_all_users(self):
         return self.user_repo.get_all()
-    
+
+#Amenity Facade    
     def create_amenity(self, amenity_data):
         amenity = Amenity(**amenity_data)
         self.amenity_repo.add(amenity)
@@ -56,7 +58,8 @@ class HBnBFacade:
 
     def get_amenity_by_name(self, name):
         return self.amenity_repo.get_by_attribute('name', name)
-    
+
+#Place facade    
     def create_place(self, title, description, price, latitude, longitude, owner_id):
         owner = self.get_user(owner_id)
         if not owner:
@@ -109,7 +112,8 @@ class HBnBFacade:
             return place
         else:
             raise ValueError("Place not found")
-
+        
+#Review Facade
     def create_review(self, review_data):
         review = Review(**review_data)
         self.review_repo.add(review)
@@ -118,7 +122,7 @@ class HBnBFacade:
     def get_review(self, review_id):
         review = self.review_repo.get(review_id)
         if not review:
-            raise ValueError("Review not found, please enter a valid review title")
+            raise ValueError("Review not found")
         return review
 
     def get_all_reviews(self):
@@ -127,13 +131,13 @@ class HBnBFacade:
     def get_reviews_by_place(self, place_id):
         place = self.place_repo.get(place_id)
         if not place:
-            return "Place not found, please enter a valid place"
+            return "Place not found"
         return [review for review in self.review_repo.get_all() if review.place == place_id]
 
     def update_review(self, review_id, review_update):
         review = self.review_repo.get(review_id)
         if not review:
-            return ("Review not found, please enter a valid review title")
+            raise ValueError("Review not found")
         for key, value in review_update.items():
             if hasattr(review, key):
                 setattr(review, key, value)
@@ -143,6 +147,6 @@ class HBnBFacade:
     def delete_review(self, review_id):
         review = self.review_repo.get(review_id)
         if not review:
-            return ("Review not found, please enter a valid review title")
+            return ("Review not found")
         self.review_repo.delete(review_id)
         return {'message': 'Review deleted succesessfully'}
