@@ -1,5 +1,4 @@
 from flask_restx import Namespace, Resource, fields
-from flask import request
 from app.services import facade
 
 api = Namespace('places', description='Place operations')
@@ -42,9 +41,10 @@ class PlaceList(Resource):
         latitude = data.get('latitude')
         longitude = data.get('longitude')
         owner_id = data.get('owner_id')
+        amenities = data.get('amenities', [])
 
         try:
-            new_place = facade.create_place(title, description, price, latitude, longitude, owner_id)
+            new_place = facade.create_place(title, description, price, latitude, longitude, owner_id, amenities)
             return new_place.to_dict(), 201
         except ValueError as e:
             api.abort(400, 'Failed to create place: ' + str(e))
@@ -58,7 +58,7 @@ class PlaceList(Resource):
             places = facade.get_all_places()
             return [place.to_dict() for place in places], 200
         except ValueError as e:
-            api.abort(404, 'Failed to retrieve places: ' + str(e))
+            api.abort(404, str(e))
 
 
 @api.route('/<place_id>')
@@ -71,7 +71,7 @@ class PlaceResource(Resource):
             place = facade.get_place(place_id)
             return place.to_dict(), 200
         except ValueError as e:
-            api.abort(404, f'Place with ID {place_id} not found: ' + str(e))
+            api.abort(404, str(e))
 
     @api.expect(place_model)
     @api.response(200, 'Place updated successfully')
@@ -84,6 +84,6 @@ class PlaceResource(Resource):
             updated_place = facade.update_place(place_id, data)
             return updated_place.to_dict(), 200
         except ValueError as e:
-            api.abort(400, f'Failed to update place: {str(e)}')
+            api.abort(400, str(e))
         except KeyError as e:
-            api.abort(404, f'Place with ID {place_id} not found: {str(e)}')
+            api.abort(404, str(e))
