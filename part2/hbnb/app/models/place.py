@@ -26,7 +26,7 @@ class Place(BaseModel):
     @title.setter
     def title(self, value):
         if len(value) > 100 or not value:
-            raise ValueError("The maximum title length is 100 characters.")
+            raise ValueError("Title must be present with max 100 characters.")
         self._title = value
 
     @property
@@ -98,5 +98,6 @@ class Place(BaseModel):
             "longitude": self.longitude,
             "owner_id": self.owner.id,
             "reviews": [review.to_dict() for review in self.reviews],
-            "amenities": [amenity.to_dict() for amenity in self.amenities if amenity]
+            "amenities": [amenity.to_dict() for
+                          amenity in self.amenities if amenity]
         }
