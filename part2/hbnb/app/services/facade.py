@@ -29,6 +29,9 @@ class HBnBFacade:
             return user
         else:
             raise ValueError("User not found")
+        
+    def get_all_users(self):
+        return self.user_repo.get_all()
     
     def create_amenity(self, amenity_data):
         amenity = Amenity(**amenity_data)
