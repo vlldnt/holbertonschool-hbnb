@@ -33,3 +33,10 @@ class Amenity(BaseModel):
         if not isinstance(value, str):
             raise TypeError("Amenity name must be a string of characters.")
         self._name = value
+
+    def to_dict(self):
+        """Convert the Amenity object to a dictionary."""
+        return {
+            "id": self.id,
+            "name": self.name
+        }
