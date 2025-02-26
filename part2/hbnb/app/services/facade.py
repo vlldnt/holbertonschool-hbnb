@@ -2,7 +2,6 @@ from app.persistence.repository import InMemoryRepository
 from app.models.user import User
 from app.models.amenity import Amenity
 from app.models.place import Place
-from app.models.review import Review
 
 class HBnBFacade:
     def __init__(self):
@@ -30,9 +29,6 @@ class HBnBFacade:
             return user
         else:
             raise ValueError("User not found")
-        
-    def get_all_users(self):
-        return self.user_repo.get_all()
     
     def create_amenity(self, amenity_data):
         amenity = Amenity(**amenity_data)
@@ -57,7 +53,7 @@ class HBnBFacade:
     def get_amenity_by_name(self, name):
         return self.amenity_repo.get_by_attribute('name', name)
     
-    def create_place(self, title, description, price, latitude, longitude, owner_id):
+    def create_place(self, title, description, price, latitude, longitude, owner_id, amenities):
         owner = self.get_user(owner_id)
         if not owner:
             raise ValueError("Owner not found.")
@@ -70,6 +66,12 @@ class HBnBFacade:
             longitude=longitude,
             owner=owner
         )
+        
+        for amenity_id in amenities:
+            amenity = self.get_amenity(amenity_id)
+            if amenity:
+                place.add_amenity(amenity)
+        
         self.place_repo.add(place)
         return place
 
@@ -109,40 +111,3 @@ class HBnBFacade:
             return place
         else:
             raise ValueError("Place not found")
-
-    def create_review(self, review_data):
-        review = Review(**review_data)
-        self.review_repo.add(review)
-        return review
-
-    def get_review(self, review_id):
-        review = self.review_repo.get(review_id)
-        if not review:
-            raise ValueError("Review not found, please enter a valid review title")
-        return review
-
-    def get_all_reviews(self):
-        return self.review_repo.get_all()
-
-    def get_reviews_by_place(self, place_id):
-        place = self.place_repo.get(place_id)
-        if not place:
-            return "Place not found, please enter a valid place"
-        return [review for review in self.review_repo.get_all() if review.place == place_id]
-
-    def update_review(self, review_id, review_update):
-        review = self.review_repo.get(review_id)
-        if not review:
-            return ("Review not found, please enter a valid review title")
-        for key, value in review_update.items():
-            if hasattr(review, key):
-                setattr(review, key, value)
-        self.review_repo.update(review_id, review.__dict__)
-        return review
-
-    def delete_review(self, review_id):
-        review = self.review_repo.get(review_id)
-        if not review:
-            return ("Review not found, please enter a valid review title")
-        self.review_repo.delete(review_id)
-        return {'message': 'Review deleted succesessfully'}
