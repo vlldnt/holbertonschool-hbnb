@@ -48,6 +48,8 @@ class PlaceList(Resource):
             return new_place.to_dict(), 201
         except ValueError as e:
             api.abort(400, 'Failed to create place: ' + str(e))
+        except TypeError as e:
+            api.abort(400, 'Invalid input data: ' + str(e))
 
     @api.response(200, 'List of places retrieved successfully')
     def get(self):
