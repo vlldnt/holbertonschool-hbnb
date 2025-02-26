@@ -2,6 +2,8 @@ from app.persistence.repository import InMemoryRepository
 from app.models.user import User
 from app.models.amenity import Amenity
 from app.models.place import Place
+from app.models.review import Review
+
 
 class HBnBFacade:
     def __init__(self):
@@ -20,7 +22,7 @@ class HBnBFacade:
 
     def get_user_by_email(self, email):
         return self.user_repo.get_by_attribute('email', email)
-    
+
     def update_user(self, user_id, user_data):
         user = self.get_user(user_id)
         if user:
@@ -32,7 +34,7 @@ class HBnBFacade:
 
     def get_all_users(self):
         return self.user_repo.get_all()
-    
+
     def create_amenity(self, amenity_data):
         amenity = Amenity(**amenity_data)
         self.amenity_repo.add(amenity)
@@ -40,9 +42,9 @@ class HBnBFacade:
 
     def get_amenity(self, amenity_id):
         return self.amenity_repo.get(amenity_id)
-        
+
     def get_all_amenities(self):
-        return self.amenity_repo.get_all() 
+        return self.amenity_repo.get_all()
 
     def update_amenity(self, amenity_id, amenity_data):
         amenity = self.get_amenity(amenity_id)
@@ -55,12 +57,12 @@ class HBnBFacade:
 
     def get_amenity_by_name(self, name):
         return self.amenity_repo.get_by_attribute('name', name)
-    
-    def create_place(self, title, description, price, latitude, longitude, owner_id, amenities):
+
+    def create_place(self, title, description, price, latitude, longitude, owner_id, amenities=None):
         owner = self.get_user(owner_id)
         if not owner:
             raise ValueError("Owner not found.")
-        
+
         place = Place(
             title=title,
             description=description,
@@ -69,12 +71,14 @@ class HBnBFacade:
             longitude=longitude,
             owner=owner
         )
-        
-        for amenity_id in amenities:
-            amenity = self.get_amenity(amenity_id)
-            if amenity:
+
+        if amenities:
+            for amenity_id in amenities:
+                amenity = self.get_amenity(amenity_id)
+                if not amenity:
+                    raise ValueError(f"Amenity with ID {amenity_id} not found.")
                 place.add_amenity(amenity)
-        
+
         self.place_repo.add(place)
         return place
 
@@ -108,7 +112,13 @@ class HBnBFacade:
             if 'longitude' in place_data and not (-180 <= place_data['longitude'] <= 180):
                 raise ValueError("Longitude must be between -180 and 180")
             if 'amenities' in place_data:
-                place_data['amenities'] = [self.get_amenity(amenity_id) for amenity_id in place_data['amenities']]
+                amenities = []
+                for amenity_id in place_data['amenities']:
+                    amenity = self.get_amenity(amenity_id)
+                    if not amenity:
+                        raise ValueError(f"Amenity with ID {amenity_id} not found.")
+                    amenities.append(amenity)
+                place_data['amenities'] = amenities
             place.update(place_data)
             self.place_repo.save(place)
             return place
