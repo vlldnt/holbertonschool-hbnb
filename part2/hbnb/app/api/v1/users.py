@@ -28,6 +28,11 @@ class UserList(Resource):
         """Register a new user"""
         user_data = api.payload
         try:
+            if user_data['first_name'].startswith(' '):
+                return {'error': 'First name cannot start with a space'}, 400
+            if user_data['last_name'].startswith(' '):
+                return {'error': 'Last name cannot start with a space'}, 400
+
             existing_user = facade.get_user_by_email(user_data['email'])
             if existing_user:
                 return {'error': 'Email already registered'}, 400
@@ -81,6 +86,11 @@ class UserResource(Resource):
         """Update user details with ID"""
         user_data = api.payload
         try:
+            if user_data['first_name'].startswith(' '):
+                return {'error': 'First name cannot start with a space'}, 400
+            if user_data['last_name'].startswith(' '):
+                return {'error': 'Last name cannot start with a space'}, 400
+
             updated_user = facade.update_user(user_id, user_data)
             return {
                 'id': updated_user.id,
