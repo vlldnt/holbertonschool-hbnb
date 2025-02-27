@@ -121,6 +121,8 @@ class HBnBFacade:
     def update_place(self, place_id, place_data):
         place = self.get_place(place_id)
         if place:
+            if 'title' in place_data and len(place_data['title']) > 100:
+                raise ValueError("Title must be less than 100 characters")
             if 'price' in place_data and place_data['price'] < 0:
                 raise ValueError("Price cannot be negative")
             if 'latitude' in place_data and not (-90 <= place_data['latitude'] <= 90):
