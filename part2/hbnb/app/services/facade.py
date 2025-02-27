@@ -3,7 +3,7 @@ from app.models.user import User
 from app.models.amenity import Amenity
 from app.models.place import Place
 from app.models.review import Review
-
+import re
 
 class HBnBFacade:
     def __init__(self):
@@ -27,6 +27,19 @@ class HBnBFacade:
     def update_user(self, user_id, user_data):
         user = self.get_user(user_id)
         if user:
+            if ('first_name' in user_data and len(user_data['first_name']) > 50) or not user_data['first_name']:
+                raise ValueError(
+                "Updated first name must be present with a maximum of 50 characters."
+            )
+            if ('last_name' in user_data and len(user_data['last_name']) > 50) or not user_data['last_name']:
+                raise ValueError(
+                "Updated last name must be present with a maximum of 50 characters."
+            )
+            if not 'email' in user_data or ('email' in user_data and not re.fullmatch(
+            r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$', user_data['email']
+            )):
+                raise ValueError("Email format for update is invalid")
+
             user.update(user_data)
             self.user_repo.save(user)
             return user
@@ -129,10 +142,25 @@ class HBnBFacade:
             raise ValueError("Place not found")
         
 #Review Facade
-    def create_review(self, review_data):
-        review = Review(**review_data)
+    def create_review(self, text, user_id, place_id, rating):
+        
+        user = self.get_user(user_id)
+        if not user:
+            raise ValueError("User not found.")
+        
+        place = self.get_place(place_id)
+        if not place:
+            raise ValueError("Place not found.")
+        
+        review = Review(
+            text = text,
+            user_id = user_id,
+            place_id = place_id,
+            rating = rating,
+        )
         self.review_repo.add(review)
         return review
+
 
     def get_review(self, review_id):
         review = self.review_repo.get(review_id)

@@ -14,26 +14,57 @@ class Review(BaseModel):
         self.place_id = place_id
         self.text = text
         self.rating = rating
-        self.validate_attributes()
 
-    def validate_attributes(self):
-        '''
-        Validate the review attributes for length, format,
-        and type restrictions
-        '''
+    @property
+    def text(self):
+        return self.text
 
-        if not isinstance(self.user_id, User) or not self.user_id:
-            raise TypeError("must be a instance of user")
-
-        if not isinstance(self.place_id, Place) or not self.place_id:
-            raise TypeError("must be a instance of place")
-
-        if not isinstance(self.text, str) or len(self.text) > 500:
+    @text.setter
+    def text(self, string):
+        if not string or len(string) > 500:
             raise ValueError(
-                "Text must be a string with a maximum of 500 characters."
+                "Text review must be present and with 500 characters maximum."
             )
+        self.text = string
 
-        if not isinstance(self.rating, (int, float)) or not (
-                1 <= self.rating <= 5
-                ):
-            raise ValueError("Rating must be a number between 1 and 5.")
+    @property
+    def user_id(self):
+        return self.user_id
+
+    @user_id.setter
+    def user_id(self, value):
+        if not value or not isinstance(value, User):
+            raise ValueError("User must be present and an instance of User.")
+        self.user_id = value
+
+    @property
+    def place_id(self):
+        return self.place_id
+
+    @place_id.setter
+    def place_id(self, value):
+        if not value or not isinstance(value, Place):
+            raise ValueError("Place must be present and an instanc of Place.")
+        self.place_id = value
+
+    @property
+    def rating(self):
+        return self.rating
+
+    @rating.setter
+    def rating(self, value):
+        if not (value > 0 and value <= 5):
+            raise ValueError("Rating must be between 0 and 5.")
+        if not isinstance(value, int):
+            raise TypeError("Rating must be an integer.")
+        self.rating = value
+
+    def to_dict(self):
+        '''Convert the Review object to a dictionary'''
+        return {
+            'id': self.id,
+            'text': self.text,
+            'user_id': self.user_id,
+            'place_id': self.place_id,
+            'rating': self.rating
+        }

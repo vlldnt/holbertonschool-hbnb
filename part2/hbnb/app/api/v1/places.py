@@ -21,11 +21,15 @@ place_model = api.model('Place', {
     'title': fields.String(required=True, description='Title of the place'),
     'description': fields.String(description='Description of the place'),
     'price': fields.Float(required=True, description='Price per night'),
-    'latitude': fields.Float(required=True, description='Latitude of the place'),
-    'longitude': fields.Float(required=True, description='Longitude of the place'),
+    'latitude': fields.Float(required=True,
+                             description='Latitude of the place'),
+    'longitude': fields.Float(required=True,
+                              description='Longitude of the place'),
     'owner_id': fields.String(required=True, description='ID of the owner'),
-    'amenities': fields.List(fields.String, required=True, description="List of amenities ID's")
+    'amenities': fields.List(fields.String, required=True,
+                             description="List of amenities ID's")
 })
+
 
 @api.route('/')
 class PlaceList(Resource):
@@ -44,7 +48,9 @@ class PlaceList(Resource):
         amenities = data.get('amenities', [])
 
         try:
-            new_place = facade.create_place(title, description, price, latitude, longitude, owner_id, amenities)
+            new_place = facade.create_place(title, description, price,
+                                            latitude,
+                                            longitude, owner_id, amenities)
             return new_place.to_dict(), 201
         except ValueError as e:
             api.abort(400, 'Failed to create place: ' + str(e))
