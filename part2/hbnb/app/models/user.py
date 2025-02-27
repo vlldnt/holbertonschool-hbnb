@@ -25,9 +25,9 @@ class User(BaseModel):
 
     @first_name.setter
     def first_name(self, value):
-        if len(value) > 50 or value.startswith(' '):
+        if len(value) > 50 or not re.fullmatch(r'^[A-Za-z ]+$', value):
             raise ValueError(
-                "First name must be present with a maximum of 50 characters and cannot start with a space."
+                "First name must be present with a maximum of 50 characters and can only contain letters and spaces."
             )
         if not isinstance(value, str):
             raise TypeError("First name must be a string of characters.")
@@ -39,9 +39,9 @@ class User(BaseModel):
 
     @last_name.setter
     def last_name(self, value):
-        if len(value) > 50 or value.startswith(' '):
+        if len(value) > 50 or not re.fullmatch(r'^[A-Za-z ]+$', value):
             raise ValueError(
-                "Last name must be present with a maximum of 50 characters and cannot start with a space."
+                "Last name must be present with a maximum of 50 characters and can only contain letters and spaces."
             )
         if not isinstance(value, str):
             raise TypeError("Last name must be a string of characters.")
