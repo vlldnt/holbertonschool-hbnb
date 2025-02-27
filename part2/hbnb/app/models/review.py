@@ -10,14 +10,14 @@ from .place import Place
 class Review(BaseModel):
     def __init__(self, text, user_id, place_id, rating):
         super().__init__()
-        self.user_id = user_id
-        self.place_id = place_id
+        self._user_id = user_id
+        self._place_id = place_id
         self.text = text
         self.rating = rating
 
     @property
     def text(self):
-        return self.text
+        return self._text
 
     @text.setter
     def text(self, string):
@@ -25,46 +25,46 @@ class Review(BaseModel):
             raise ValueError(
                 "Text review must be present and with 500 characters maximum."
             )
-        self.text = string
+        self._text = string
 
     @property
     def user_id(self):
-        return self.user_id
+        return self._user_id
 
     @user_id.setter
     def user_id(self, value):
-        if not value or not isinstance(value, User):
+        if not isinstance(value, User):
             raise ValueError("User must be present and an instance of User.")
-        self.user_id = value
+        self._user_id = value
 
     @property
     def place_id(self):
-        return self.place_id
+        return self._place_id
 
     @place_id.setter
     def place_id(self, value):
-        if not value or not isinstance(value, Place):
-            raise ValueError("Place must be present and an instanc of Place.")
-        self.place_id = value
+        if not isinstance(value, Place):
+            raise ValueError("Place must be present and an instance of Place.")
+        self._place_id = value
 
     @property
     def rating(self):
-        return self.rating
+        return self._rating
 
     @rating.setter
     def rating(self, value):
-        if not (value > 0 and value <= 5):
-            raise ValueError("Rating must be between 0 and 5.")
+        if value < 1 or value > 5:
+            raise ValueError("Rating must be between 1 and 5.")
         if not isinstance(value, int):
             raise TypeError("Rating must be an integer.")
-        self.rating = value
+        self._rating = value
 
     def to_dict(self):
         '''Convert the Review object to a dictionary'''
         return {
             'id': self.id,
-            'text': self.text,
-            'user_id': self.user_id,
-            'place_id': self.place_id,
-            'rating': self.rating
+            'text': self._text,
+            'user_id': self._user_id,
+            'place_id': self._place_id,
+            'rating': self._rating
         }
