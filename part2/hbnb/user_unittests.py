@@ -18,6 +18,7 @@ class TestUserEndpoints(unittest.TestCase):
             "email": "jane.doe@example.com"
         })
         self.assertEqual(response.status_code, 201)
+        self.assertEqual(response.json.get("error"), None)
 
     def test_create_user_invalid_first_name_none(self):
         """Test user creation with an empty first name"""
@@ -27,6 +28,8 @@ class TestUserEndpoints(unittest.TestCase):
             "email": "elo@elo.elo"
         })
         self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.json.get("error"),
+                         "First name can only contain letters and spaces")
 
     def test_create_user_invalid_first_name_out_of_range(self):
         """Test user creation with a first name that's too long"""
@@ -37,15 +40,20 @@ class TestUserEndpoints(unittest.TestCase):
             "email": "elo@elo.elo"
         })
         self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.json.get("error"),
+                         "First name must be present with a maximum"
+                         " of 50 characters and can only"
+                         " contain letters and spaces '-' and '''.")
 
     def test_create_user_invalid_first_name_bad_character(self):
         """Test user creation with invalid characters in the first name"""
         response = self.client.post('/api/v1/users/', json={
-            "first_name": "Elodi3@/%",  # Invalid characters
-            "last_name": "Elodie",
+            "first_name": "Elodi3@/%",
             "email": "elo@elo.elo"
         })
         self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.json.get("error"),
+                         "The email format is invalid.")
 
     def test_create_user_invalid_last_name_none(self):
         """Test user creation with an empty last name"""
@@ -55,6 +63,8 @@ class TestUserEndpoints(unittest.TestCase):
             "email": "elo@elo.elo"
         })
         self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.json.get("error"),
+                         "Last name can only contain letters and spaces")
 
     def test_create_user_invalid_last_name_out_of_range(self):
         """Test user creation with a first name that's too long"""
@@ -65,6 +75,10 @@ class TestUserEndpoints(unittest.TestCase):
             "email": "elo@elo.elo"
         })
         self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.json.get("error"),
+                         "Last name must be present with a maximum of 50"
+                         " characters and can only contain letters "
+                         "and spaces.")
 
     def test_create_user_invalid_first_name_bad_character(self):
         """Test user creation with invalid characters in the first name"""
@@ -74,6 +88,8 @@ class TestUserEndpoints(unittest.TestCase):
             "email": "elo@elo.elo"
         })
         self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.json.get("error"),
+                         "Last name can only contain letters and spaces")
 
     def test_create_user_invalid_email_format(self):
         """Test user creation with an invalid email format"""
@@ -83,6 +99,8 @@ class TestUserEndpoints(unittest.TestCase):
             "email": "elo@elo."
         })
         self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.json.get("error"),
+                         "The email format is invalid.")
 
     def test_create_user_invalid_email_none(self):
         """Test user creation with an invalid email format"""
@@ -92,6 +110,8 @@ class TestUserEndpoints(unittest.TestCase):
             "email": ""
         })
         self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.json.get("error"),
+                         "The email format is invalid.")
 
 
 # Code to run the tests with detailed output
