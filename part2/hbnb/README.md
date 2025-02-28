@@ -126,26 +126,34 @@ print(amenity.id)  # Output: Amenity ID
 ```
 
 #### Unittests
+We made 20 Unit tests to validate the creation of users, amenities, places, and reviews with various valid and invalid inputs.
+
 ```python
-def test_create_user_valid_data(): # Creating a user with valid data
-def test_create_user_invalid_first_name_none(): # Creating a user with an empty first name
-def test_create_user_invalid_first_name_out_of_range(): # Creating a user with a too long first name
-def test_create_user_invalid_first_name_bad_character(): # Creating a user with invalid characters in the first name
-def test_create_user_invalid_last_name_none(): # Creating a user with an empty last name
-def test_create_user_invalid_last_name_out_of_range(): # Creating a user with a too long last name
-def test_create_user_invalid_last_name_bad_character(): # Creating a user with invalid characters in the last name
-def test_create_user_invalid_email_format(): # Creating a user with an invalid email format
-def test_create_user_invalid_email_none(): # Creating a user with an empty email
-def test_amenity_create_valid(): # Creating an amenity with valid data
-def test_amenity_create_name_none(): # Creating an amenity with an empty name
-def test_amenity_create_name_out_of_range(): # Creating an amenity with a too long name
-def test_place_create_valid_data(): # Creating a place with valid data
-def test_place_create_invalid_price(): # Creating a place with a negative price
-def test_place_create_invalid_latitude(): # Creating a place with an invalid latitude
-def test_place_create_invalid_longitude(): # Creating a place with an invalid longitude
-def test_place_create_invalid_user_id(): # Creating a place with an invalid user ID
-def test_review_create_valid_data(): # Creating a review with valid data
-def test_review_create_no_text(): # Creating a review without text
-def test_review_create_invalid_user_id(): # Creating a review with an invalid user ID
-def test_review_create_invalid_place_id(): # Creating a review with an invalid place ID
+def test_create_user_valid_data(): # Creating a user with valid data ✅
+def test_create_user_invalid_first_name_none(): # Creating a user with an empty first name ✅
+def test_create_user_invalid_first_name_out_of_range(): # Creating a user with a too long first name ✅
+def test_create_user_invalid_first_name_bad_character(): # Creating a user with invalid characters in the first name ✅
+def test_create_user_invalid_last_name_none(): # Creating a user with an empty last name ✅
+def test_create_user_invalid_last_name_out_of_range(): # Creating a user with a too long last name ✅
+def test_create_user_invalid_last_name_bad_character(): # Creating a user with invalid characters in the last name ✅
+def test_create_user_invalid_email_format(): # Creating a user with an invalid email format ✅
+def test_create_user_invalid_email_none(): # Creating a user with an empty email ✅
+def test_amenity_create_valid(): # Creating an amenity with valid data ✅
+def test_amenity_create_name_none(): # Creating an amenity with an empty name ✅
+def test_amenity_create_name_out_of_range(): # Creating an amenity with a too long name ✅
+def test_place_create_valid_data(): # Creating a place with valid data ✅
+def test_place_create_invalid_price(): # Creating a place with a negative price ✅
+def test_place_create_invalid_latitude(): # Creating a place with an invalid latitude ✅
+def test_place_create_invalid_longitude(): # Creating a place with an invalid longitude ✅
+def test_place_create_invalid_user_id(): # Creating a place with an invalid user ID ✅
+def test_review_create_valid_data(): # Creating a review with valid data ✅
+def test_review_create_no_text(): # Creating a review without text ✅
+def test_review_create_invalid_user_id(): # Creating a review with an invalid user ID ✅
+def test_review_create_invalid_place_id(): # Creating a review with an invalid place ID ✅
+
+    ....................
+----------------------------------------------------------------------
+Ran 20 tests in 0.311s
+
+OK
 ```
