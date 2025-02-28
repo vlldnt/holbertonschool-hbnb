@@ -10,7 +10,7 @@ class Amenity(BaseModel):
     def __init__(self, name):
         '''Initialize a new Amenity instance with restrictions'''
         super().__init__()
-        self.name = name
+        self._name = name
 
     @property
     def name(self):
@@ -20,8 +20,8 @@ class Amenity(BaseModel):
     def name(self, value):
         if len(value) > 50 or not value:
             raise ValueError(
-                "Amenity name must be a string with max 50 characters"
-                )
+                "Amenity name must be a string of max 50 characters"
+            )
         if not isinstance(value, str):
             raise TypeError("Amenity name must be a string of characters.")
         self._name = value

@@ -1,39 +1,70 @@
 #!/usr/bin/python3
 '''Review Class'''
 
-import re
+
 from .basemodel import BaseModel
 from .user import User
 from .place import Place
 
 
 class Review(BaseModel):
-    def __init__(self, text, user, place, rating):
+    def __init__(self, text, user_id, place_id, rating):
         super().__init__()
-        self.user = user
-        self.place = place
+        self._user_id = user_id
+        self._place_id = place_id
         self.text = text
         self.rating = rating
-        self.validate_attributes()
 
-    def validate_attributes(self):
-        '''
-        Validate the review attributes for length, format,
-        and type restrictions
-        '''
+    @property
+    def text(self):
+        return self._text
 
-        if not isinstance(self.user, User) or not self.user:
-            raise TypeError("must be a instance of user")
-
-        if not isinstance(self.place, Place) or not self.place:
-            raise TypeError("must be a instance of place")
-
-        if not isinstance(self.text, str) or len(self.text) > 500:
+    @text.setter
+    def text(self, string):
+        if not string or len(string) > 500:
             raise ValueError(
-                "Text must be a string with a maximum of 500 characters."
+                "Text review must be present and with 500 characters maximum."
             )
+        self._text = string
 
-        if not isinstance(self.rating, (int, float)) or not (
-                1 <= self.rating <= 5
-                ):
-            raise ValueError("Rating must be a number between 1 and 5.")
+    @property
+    def user_id(self):
+        return self._user_id
+
+    @user_id.setter
+    def user_id(self, value):
+        if not isinstance(value, User):
+            raise ValueError("User must be present and an instance of User.")
+        self._user_id = value
+
+    @property
+    def place_id(self):
+        return self._place_id
+
+    @place_id.setter
+    def place_id(self, value):
+        if not isinstance(value, Place):
+            raise ValueError("Place must be present and an instance of Place.")
+        self._place_id = value
+
+    @property
+    def rating(self):
+        return self._rating
+
+    @rating.setter
+    def rating(self, value):
+        if value < 1 or value > 5:
+            raise ValueError("Rating must be between 1 and 5.")
+        if not isinstance(value, int):
+            raise TypeError("Rating must be an integer.")
+        self._rating = value
+
+    def to_dict(self):
+        '''Convert the Review object to a dictionary'''
+        return {
+            'id': self.id,
+            'text': self._text,
+            'user_id': self._user_id,
+            'place_id': self._place_id,
+            'rating': self._rating
+        }
