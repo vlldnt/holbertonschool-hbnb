@@ -19,9 +19,11 @@ class HBnBFacade:
     # User Facade
     def create_user(self, user_data):
         """Create a new user with validation."""
-        if not re.fullmatch(r'^[A-Za-z -]+$', user_data['first_name']):
+        if not re.fullmatch(r'^[A-Za-zÀ-ÖØ-öø-ÿ -\']+$',
+                            user_data['first_name']):
             raise ValueError("First name can only contain letters and spaces")
-        if not re.fullmatch(r'^[A-Za-z -]+$', user_data['last_name']):
+        if not re.fullmatch(r'^[A-Za-zÀ-ÖØ-öø-ÿ -\']+$',
+                            user_data['last_name']):
             raise ValueError("Last name can only contain letters and spaces")
 
         user = User(**user_data)
@@ -44,14 +46,16 @@ class HBnBFacade:
 
         if ('first_name' in user_data and
             (len(user_data['first_name']) > 50 or
-             not re.fullmatch(r'^[A-Za-z -]+$', user_data['first_name']))):
+             not re.fullmatch(r'^[A-Za-zÀ-ÖØ-öø-ÿ -\']+$',
+                              user_data['first_name']))):
             raise ValueError(
                 "Updated first name must be present with a maximum of 50 "
                 "characters and can only contain letters and spaces."
             )
         if ('last_name' in user_data and
             (len(user_data['last_name']) > 50 or
-             not re.fullmatch(r'^[A-Za-z -]+$', user_data['last_name']))):
+             not re.fullmatch(r'^[A-Za-zÀ-ÖØ-öø-ÿ -\']+$',
+                              user_data['last_name']))):
             raise ValueError(
                 "Updated last name must be present with a maximum of 50 "
                 "characters and can only contain letters and spaces."
