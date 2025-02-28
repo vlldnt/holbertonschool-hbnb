@@ -48,6 +48,9 @@ class PlaceList(Resource):
         amenities = data.get('amenities', [])
 
         try:
+            if place_data['price'] < 0:
+                return {'error': 'Price cannot be negative'}, 400
+            
             new_place = facade.create_place(title, description, price,
                                             latitude,
                                             longitude, owner_id, amenities)

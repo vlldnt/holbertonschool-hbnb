@@ -151,7 +151,56 @@ class TestAmenityEndpoints(unittest.TestCase):
                          "of 1 to 50 characters.")
 
 
-# Code to run the tests with detailed output
+class TestPlaceEndpoints(unittest.TestCase):
+    '''Unitest for AmenityEndPoints'''
+    def setUp(self):
+        """Initialize the app and client before each test"""
+        self.app = create_app()
+        self.client = self.app.test_client()
+    
+    def test_place_create_valid_data(self):
+        """Test place creation with valid data"""
+        user_response = self.client.post('/api/v1/users/', json={
+            "first_name": "John",
+            "last_name": "Doe",
+            "email": "john.doe@example.com"
+        })
+        self.assertEqual(user_response.status_code, 201)
+        owner_id = user_response.json['id']
+
+        response = self.client.post('/api/v1/places/', json={
+            "title": "Nice GuestHouse",
+            "description": "A very nice place",
+            "price": 200,
+            "latitude": 45.28,
+            "longitude": -54.60,
+            "owner_id": owner_id
+        })
+        self.assertEqual(response.status_code, 201)
+        self.assertIn("id", response.json)
+    
+    def test_place_create_invalid_price(self):
+        """Test place creation with valid data"""
+        user_response = self.client.post('/api/v1/users/', json={
+            "first_name": "John",
+            "last_name": "Doe",
+            "email": "john.doe@example.com"
+        })
+        self.assertEqual(user_response.status_code, 201)
+        owner_id = user_response.json['id']
+
+        response = self.client.post('/api/v1/places/', json={
+            "title": "Nice GuestHouse",
+            "description": "A very nice place",
+            "price": -200,
+            "latitude": 45.28,
+            "longitude": -54.60,
+            "owner_id": owner_id
+        })
+        self.assertEqual(response.status_code, 400)
+        self.assertIn("id", response.json.get('error'), "Error")
+
+
 if __name__ == "__main__":
     runner = unittest.TextTestRunner(verbosity=2)
     unittest.main(testRunner=runner)
