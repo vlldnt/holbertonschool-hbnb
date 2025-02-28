@@ -17,6 +17,10 @@ class AmenityList(Resource):
         """Register a new amenity"""
         amenity_data = api.payload
         try:
+            if not amenity_data['name'] or len(amenity_data['name']) > 50:
+                return {'error':
+                        'Amenity name must be a string of 1 to 50 characters.'
+                        }, 400
             existing_amenity = facade.get_amenity_by_name(
                 amenity_data['name'])
             if existing_amenity:

@@ -108,8 +108,15 @@ class HBnBFacade:
                      longitude, owner_id, amenities=None):
         """Create a new place with validation."""
         owner = self.get_user(owner_id)
+
         if not owner:
             raise ValueError("Owner not found.")
+        if price <= 0:
+            raise ValueError("Price must be a positive number.")
+        if not (-90 <= latitude <= 90):
+            raise ValueError("Latitude must be between -90.0 and 90.0")
+        if not (-180 <= longitude <= 180):
+            raise ValueError("Longitude must be between -180.0 and 180.0")
 
         place = Place(
             title=title,
