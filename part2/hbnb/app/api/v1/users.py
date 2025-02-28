@@ -29,10 +29,12 @@ class UserList(Resource):
         """Register a new user"""
         user_data = api.payload
         try:
-            if not re.fullmatch(r'^[A-Za-z ]+$', user_data['first_name']):
-                return {'error': 'First name can only contain letters and spaces'}, 400
-            if not re.fullmatch(r'^[A-Za-z ]+$', user_data['last_name']):
-                return {'error': 'Last name can only contain letters and spaces'}, 400
+            if not re.fullmatch(r'^[A-Za-z -]+$', user_data['first_name']):
+                return {'error':
+                        'First name can only contain letters and spaces'}, 400
+            if not re.fullmatch(r'^[A-Za-z -]+$', user_data['last_name']):
+                return {'error':
+                        'Last name can only contain letters and spaces'}, 400
 
             existing_user = facade.get_user_by_email(user_data['email'])
             if existing_user:
@@ -87,10 +89,12 @@ class UserResource(Resource):
         """Update user details with ID"""
         user_data = api.payload
         try:
-            if not re.fullmatch(r'^[A-Za-z ]+$', user_data['first_name']):
-                return {'error': 'First name can only contain letters and spaces'}, 400
-            if not re.fullmatch(r'^[A-Za-z ]+$', user_data['last_name']):
-                return {'error': 'Last name can only contain letters and spaces'}, 400
+            if not re.fullmatch(r'^[A-Za-z -]+$', user_data['first_name']):
+                return {'error':
+                        'First name can only contain letters and spaces'}, 400
+            if not re.fullmatch(r'^[A-Za-z -]+$', user_data['last_name']):
+                return {'error':
+                        'Last name can only contain letters and spaces'}, 400
 
             updated_user = facade.update_user(user_id, user_data)
             return {
