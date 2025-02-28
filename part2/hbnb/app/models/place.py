@@ -8,6 +8,7 @@ from .amenity import Amenity
 
 
 class Place(BaseModel):
+    """Place class that inherits from BaseModel."""
     def __init__(self, title, description, price, latitude, longitude, owner):
         super().__init__()
         self.title = title
