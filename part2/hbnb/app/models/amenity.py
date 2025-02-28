@@ -18,12 +18,12 @@ class Amenity(BaseModel):
 
     @name.setter
     def name(self, value):
-        if len(value) > 50 or not value:
-            raise ValueError(
-                "Amenity name must be a string of max 50 characters"
-            )
         if not isinstance(value, str):
             raise TypeError("Amenity name must be a string of characters.")
+        if not value or len(value) > 50:
+            raise ValueError(
+                "Amenity name must be a string of 1 to 50 characters."
+            )
         self._name = value
 
     def to_dict(self):

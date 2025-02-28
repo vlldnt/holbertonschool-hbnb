@@ -114,6 +114,43 @@ class TestUserEndpoints(unittest.TestCase):
                          "The email format is invalid.")
 
 
+class TestAmenityEndpoints(unittest.TestCase):
+    '''Unitest for AmenityEndPoints'''
+    def setUp(self):
+        """Initialize the app and client before each test"""
+        self.app = create_app()
+        self.client = self.app.test_client()
+
+    def test_amenity_create_valid(self):
+        """Test amenity creation with valid data"""
+        response = self.client.post('/api/v1/amenities/', json={
+            "name": "Piscine"
+        })
+        self.assertEqual(response.status_code, 201)
+        self.assertEqual(response.json.get("error"), None)
+
+    def test_amenity_create_name_none(self):
+        """Test amenity creation with valid data"""
+        response = self.client.post('/api/v1/amenities/', json={
+            "name": ""
+        })
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.json.get("error"),
+                         "Amenity name must be a string "
+                         "of 1 to 50 characters.")
+
+    def test_amenity_create_name_oput_of_range(self):
+        """Test amenity creation with valid data"""
+        response = self.client.post('/api/v1/amenities/', json={
+            "name": "stringstringstringstringstri"
+            "ngstringstringstringstringstringstring"
+        })
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.json.get("error"),
+                         "Amenity name must be a string "
+                         "of 1 to 50 characters.")
+
+
 # Code to run the tests with detailed output
 if __name__ == "__main__":
     runner = unittest.TextTestRunner(verbosity=2)
