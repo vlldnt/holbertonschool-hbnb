@@ -48,8 +48,14 @@ class PlaceList(Resource):
         amenities = data.get('amenities', [])
 
         try:
-            if place_data['price'] < 0:
+            if price <= 0:
                 return {'error': 'Price cannot be negative'}, 400
+            if not (-90.0 <= latitude <= 90.0):
+                return {'error': 'Latitude must be between -90.0 and 90.0'
+                        }, 400
+            if not (-180.0 <= longitude <= 180.0):
+                return {'error':'Longitude must be between -180.0 and 180.0'
+                        }, 400
             
             new_place = facade.create_place(title, description, price,
                                             latitude,
