@@ -113,9 +113,9 @@ class HBnBFacade:
             raise ValueError("Owner not found.")
         if price <= 0:
             raise ValueError("Price must be a positive number.")
-        if not (-90 <= latitude <= 90):
+        if not (-90 <= latitude <= 90) or not isinstance(latitude, float):
             raise ValueError("Latitude must be between -90.0 and 90.0")
-        if not (-180 <= longitude <= 180):
+        if not (-180 <= longitude <= 180) or not isinstance(longitude, float):
             raise ValueError("Longitude must be between -180.0 and 180.0")
 
         place = Place(
@@ -149,6 +149,55 @@ class HBnBFacade:
     def get_all_places(self):
         """Retrieve all places."""
         return self.place_repo.get_all()
+    
+    
+    def update_place(self, place_id, place_data):
+        """the function will update a place with new data"""
+        place = self.place_repo.get(place_id)
+       
+        if not place:
+            raise KeyError("Place not found")
+
+        if 'title' in place_data and len(place_data['title']) > 100 \
+                or not place_data['title']:
+            raise ValueError("Title is required with max 100 characters.")
+
+        if 'description' in place_data and \
+                len(place_data['description']) > 1000:
+            raise ValueError("Description must be less than 1000 characters.")
+
+        if ('price' in place_data and place_data['price'] <= 0):
+            raise ValueError("Price must be greater than 0.")
+
+        if 'latitude' in place_data and \
+                not (90.0 >= place_data['latitude'] >= -90.0) \
+                    or not isinstance(place_data['latitude'], float):
+            raise ValueError("Latitude must be between 90 and -90.")
+
+        if 'longitude' in place_data and \
+                not (180.0 >= place_data['longitude'] >= -180.0) \
+                    or not isinstance(place_data['longitude'], float):
+            raise ValueError("Longitude must be between 180 and -180.")
+
+        if 'owner_id' in place_data and \
+                not self.user_repo.get(place_data['owner_id']):
+            raise ValueError("Owner not found, please enter a valid owner")
+
+        if 'amenities' in place_data:
+            amenities = []
+            for amenity_id in place_data['amenities']:
+                amenity = self.get_amenity(amenity_id)
+                if not amenity:
+                    raise ValueError(f"Amenity with ID {amenity_id} not found.")
+                amenities.append(amenity)
+            place.amenities = amenities
+
+        for key, value in place_data.items():
+            if hasattr(place, key) and key != 'amenities':
+                setattr(place, key, value)
+
+        self.place_repo.save(place)
+        return place
 
     # Review Facade
     def create_review(self, text, user_id, place_id, rating):
