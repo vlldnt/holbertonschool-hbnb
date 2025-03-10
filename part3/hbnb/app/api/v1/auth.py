@@ -10,7 +10,6 @@ login_model = api.model('Login', {
     'password': fields.String(required=True, description='User password')
 })
 
-
 @api.route('/login')
 class Login(Resource):
     @api.expect(login_model)
@@ -30,7 +29,6 @@ class Login(Resource):
         
         # Step 4: Return the JWT token to the client
         return {'access_token': access_token}, 200
-
 
 @api.route('/protected')
 class ProtectedResource(Resource):
