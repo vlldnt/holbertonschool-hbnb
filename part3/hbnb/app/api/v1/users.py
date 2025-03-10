@@ -40,9 +40,7 @@ class UserList(Resource):
 
             return {
                 'id': new_user.id,
-                'first_name': new_user.first_name,
-                'last_name': new_user.last_name,
-                'email': new_user.email,
+                'message': 'User successfully created'
             }, 201
         except ValueError as e:
             return {'error': str(e)}, 400
@@ -89,9 +87,7 @@ class UserResource(Resource):
             updated_user = facade.update_user(user_id, user_data)
             return {
                 'id': updated_user.id,
-                'first_name': updated_user.first_name,
-                'last_name': updated_user.last_name,
-                'email': updated_user.email
+                'message': 'User successfully updated',
             }, 200
         except ValueError as e:
             return {'error': str(e)}, 404
