@@ -6,7 +6,7 @@ including attributes for user information and validation'''
 
 import re
 from .basemodel import BaseModel
-from flask_bcrypt import Bcrypt
+from flask_bcrypt import Bcrypt, generate_password_hash, check_password_hash
 
 bcrypt = Bcrypt()
 
