@@ -3,18 +3,24 @@
 Defines a User class that inherits from BaseModel
 including attributes for user information and validation'''
 
-
 import re
+from sqlalchemy.orm import validates
 from .basemodel import BaseModel
-from flask_bcrypt import Bcrypt
-
-bcrypt = Bcrypt()
+from app import bcrypt, db
 
 
 class User(BaseModel):
     '''Represents a user with various attributes and restrictions'''
+    __tablename__ = 'users'
 
-    def __init__(self, first_name, last_name, email, password, is_admin=False):
+    first_name = db.Column(db.String(50), nullable=False)
+    last_name = db.Column(db.String(50), nullable=False)
+    email = db.Column(db.String(120), nullable=False, unique=True)
+    password = db.Column(db.String(128), nullable=False)
+    is_admin = db.Column(db.Boolean, default=False)
+
+    def __init__(self, first_name, last_name, email, password,
+                 is_admin=False):
         '''Initialize a new User instance with validation'''
         super().__init__()
         self.first_name = first_name
@@ -23,65 +29,48 @@ class User(BaseModel):
         self.is_admin = is_admin
         self.password = password
 
-    @property
-    def first_name(self):
-        return self._first_name
-
-    @first_name.setter
-    def first_name(self, value):
-        if len(value) > 50 or not re.fullmatch(r'^[A-Za-zÀ-ÖØ-öø-ÿ -\']+$',
-                                               value):
+    @validates('first_name', 'last_name')
+    def validate_names(self, key, value):
+        """Validation for first_name and last_name"""
+        if len(value) > 50 or not re.fullmatch(
+            r'^[A-Za-zÀ-ÖØ-öø-ÿ -\']+$', value):
             raise ValueError(
-                "First name must be present with a maximum of"
-                " 50 characters and can only contain letters and "
-                "spaces '-' and '\''."
-            )
+                "{} must be present with a maximum of 50 characters"
+                " and can only contain letters, spaces '-' and '".format(
+                    key.replace('_', ' ').title()))
+
         if not isinstance(value, str):
-            raise TypeError("First name must be a string of characters.")
-        self._first_name = value
+            raise TypeError("{} must be a string of characters.".format(
+                key.replace('_', ' ').title()))
 
-    @property
-    def last_name(self):
-        return self._last_name
-
-    @last_name.setter
-    def last_name(self, value):
-        if len(value) > 50 or not re.fullmatch(r'^[A-Za-zÀ-ÖØ-öø-ÿ -\']+$',
-                                               value):
-            raise ValueError(
-                "Last name must be present with a maximum of 50 "
-                "characters and can only contain letters and spaces."
-            )
+    @validates('email')
+    def validate_email(self, key, value):
+        """Validates the email format before saving it"""
         if not isinstance(value, str):
-            raise TypeError("Last name must be a string of characters.")
-        self._last_name = value
+            raise TypeError("{} must be a string.".format(
+                key.replace('_', ' ').title()))
 
-    @property
-    def email(self):
-        return self._email
+        value = value.strip()  # delete spaces before and after the email
+        email_regex = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+        if not re.fullmatch(email_regex, value):
+            raise TypeError("{} must be a valid email.".format(
+                key.replace('_', ' ').title()))
 
-    @email.setter
-    def email(self, value):
-        if not re.fullmatch(
-            r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$', value
-        ):
-            raise ValueError("The email format is invalid.")
-        self._email = value
+        return value
 
-    @property
-    def is_admin(self):
-        return self._is_admin
-
-    @is_admin.setter
-    def is_admin(self, value):
+    @validates('is_admin')
+    def validate_is_admin(self, key, value):
+        """Validates if is_admin is a boolean"""
         if not isinstance(value, bool):
-            raise TypeError("Admin must be a boolean.")
-        self._is_admin = value
+            raise TypeError("{} must be a boolean.".format(
+                key.replace('_', ' ').title()))
+        return value
 
     def hash_password(self, password):
-        """Hashes the password before storing it."""
-        self.password = bcrypt.generate_password_hash(password).decode('utf-8')
+        """Hashes the password before storing it"""
+        self.password = bcrypt.generate_password_hash(password) \
+            .decode('utf-8')
 
     def verify_password(self, password):
-        """Verifies if the provided password matches the hashed password."""
+        """Verifies if the provided password matches the hashed password"""
         return bcrypt.check_password_hash(self.password, password)
