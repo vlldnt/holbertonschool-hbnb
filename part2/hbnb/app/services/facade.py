@@ -19,13 +19,6 @@ class HBnBFacade:
     # User Facade
     def create_user(self, user_data):
         """Create a new user with validation."""
-        if not re.fullmatch(r'^[A-Za-zÀ-ÖØ-öø-ÿ -\']+$',
-                            user_data['first_name']):
-            raise ValueError("First name can only contain letters and spaces")
-        if not re.fullmatch(r'^[A-Za-zÀ-ÖØ-öø-ÿ -\']+$',
-                            user_data['last_name']):
-            raise ValueError("Last name can only contain letters and spaces")
-
         user = User(**user_data)
         self.user_repo.add(user)
         return user
