@@ -36,29 +36,6 @@ class HBnBFacade:
         user = self.get_user(user_id)
         if not user:
             raise ValueError("User not found")
-
-        if ('first_name' in user_data and
-            (len(user_data['first_name']) > 50 or
-             not re.fullmatch(r'^[A-Za-zÀ-ÖØ-öø-ÿ -\']+$',
-                              user_data['first_name']))):
-            raise ValueError(
-                "Updated first name must be present with a maximum of 50 "
-                "characters and can only contain letters and spaces."
-            )
-        if ('last_name' in user_data and
-            (len(user_data['last_name']) > 50 or
-             not re.fullmatch(r'^[A-Za-zÀ-ÖØ-öø-ÿ -\']+$',
-                              user_data['last_name']))):
-            raise ValueError(
-                "Updated last name must be present with a maximum of 50 "
-                "characters and can only contain letters and spaces."
-            )
-        if ('email' not in user_data or
-            ('email' in user_data and not re.fullmatch(
-                r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$',
-                user_data['email']))):
-            raise ValueError("Email format for update is invalid")
-
         user.update(user_data)
         self.user_repo.save(user)
         return user
