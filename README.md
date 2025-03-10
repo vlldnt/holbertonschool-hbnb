@@ -32,6 +32,24 @@ This part is focused on creating a functional and scalable foundation for the ap
 6. _**Testing and Validation:**_ Perform validation, manual and automated testing using cURL and unittest/pytest, and document the results.
 
 
+### 🔒 [Part 3: Authentification and Database](https://github.com/vlldnt/holbertonschool-hbnb/blob/main/part2/hbnb)
+
+This part of the project will extend the backend of the application by introducing user authentication, authorization, and database integration using `SQLAlchemy` and `SQLite` for development. We'll configure `MySQL` for production environments and will secure the backend, introduce persistent storage, and prepare the application for a scalable, real-world deployment.
+
+
+#### Main Tasks of the HBnB - Auth & DB Project
+0. **Modify the Application Factory to Include the Configuration:** Update the `create_app()` method to include the configuration object.
+1. **Modify the User Model to Include Password Hashing:** Add password hashing with bcrypt to the User model and update the registration endpoint.
+2. **Implement JWT Authentication with flask-jwt-extended:** Configure the API to generate and verify JWT tokens for securing endpoints.
+3. **Implement Authenticated User Access Endpoints:** Secure endpoints to allow only authenticated users to create and modify resources.
+4. **Implement Administrator Access Endpoints:** Restrict access to specific endpoints for users with administrative privileges.
+5. **Implement SQLAlchemy Repository:** Replace the in-memory repository with a SQLAlchemy-based repository for data persistence.
+6. **Map the User Entity to SQLAlchemy Model:** Map the User entity to a SQLAlchemy model and implement CRUD operations.
+7. **Map the Place, Review, and Amenity Entities:** Map these entities to SQLAlchemy models, ensuring basic CRUD functionality.
+8. **Map Relationships Between Entities Using SQLAlchemy:** Define one-to-many and many-to-many relationships between entities.
+9. **SQL Scripts for Table Generation and Initial Data:** Create SQL scripts to generate the database schema and populate it with initial data.
+10. **Generate Database Diagrams:** Create ER diagrams using Mermaid.js to visualize the database schema.
+
 
 
 
