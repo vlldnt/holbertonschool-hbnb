@@ -4,6 +4,9 @@ from app.models.user import User
 from app.models.amenity import Amenity
 from app.models.place import Place
 from app.models.review import Review
+from flask_bcrypt import Bcrypt
+
+bcrypt = Bcrypt()
 
 
 class HBnBFacade:
@@ -18,14 +21,6 @@ class HBnBFacade:
 
     # User Facade
     def create_user(self, user_data):
-        """Create a new user with validation."""
-        if not re.fullmatch(r'^[A-Za-zÀ-ÖØ-öø-ÿ -\']+$',
-                            user_data['first_name']):
-            raise ValueError("First name can only contain letters and spaces")
-        if not re.fullmatch(r'^[A-Za-zÀ-ÖØ-öø-ÿ -\']+$',
-                            user_data['last_name']):
-            raise ValueError("Last name can only contain letters and spaces")
-
         user = User(**user_data)
         self.user_repo.add(user)
         return user
@@ -73,6 +68,14 @@ class HBnBFacade:
     def get_all_users(self):
         """Retrieve all users."""
         return self.user_repo.get_all()
+    
+    def hash_password(self, password):
+        """Hashes the password before storing it."""
+        self.password = bcrypt.generate_password_hash(password).decode('utf-8')
+    
+    def verify_password(self, password):
+        """Verifies if the provided password matches the hashed password."""
+        return bcrypt.check_password_hash(self.password, password)
 
     # Amenity Facade
     def create_amenity(self, amenity_data):

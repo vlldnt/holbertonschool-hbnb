@@ -1,7 +1,5 @@
 from flask_restx import Namespace, Resource, fields
 from app.services import facade
-from app.models import user
-import re
 
 api = Namespace('users', description='User operations')
 
@@ -22,7 +20,6 @@ user_model = api.model(
     }
 )
 
-
 @api.route('/')
 class UserList(Resource):
     @api.expect(user_model, validate=True)
@@ -33,27 +30,14 @@ class UserList(Resource):
         """Register a new user"""
         user_data = api.payload
         try:
-            if not re.fullmatch(
-                r'^[A-Za-zÀ-ÖØ-öø-ÿ -\']+$', user_data['first_name']
-            ):
-                return {
-                    'error': 'First name can only contain letters and spaces'
-                    }, 400
-            if not re.fullmatch(
-                r'^[A-Za-zÀ-ÖØ-öø-ÿ -\']+$', user_data['last_name']
-            ):
-                return {
-                    'error': 'Last name can only contain letters and spaces'
-                    }, 400
-
             existing_user = facade.get_user_by_email(user_data['email'])
             if existing_user:
                 return {'error': 'Email already registered'}, 400
             
-            hash_password = user.hash_password(user_data)
-            user_data['password'] = hash_password
+            user_data['password'] = facade.hash_password(user_data['password'])
 
             new_user = facade.create_user(user_data)
+
             return {
                 'id': new_user.id,
                 'first_name': new_user.first_name,
@@ -102,19 +86,6 @@ class UserResource(Resource):
         """Update user details with ID"""
         user_data = api.payload
         try:
-            if not re.fullmatch(
-                r'^[A-Za-zÀ-ÖØ-öø-ÿ -\']+$', user_data['first_name']
-            ):
-                return {
-                    'error': 'First name can only contain letters and spaces'
-                    }, 400
-            if not re.fullmatch(
-                r'^[A-Za-zÀ-ÖØ-öø-ÿ -\']+$', user_data['last_name']
-            ):
-                return {
-                    'error': 'Last name can only contain letters and spaces'
-                    }, 400
-
             updated_user = facade.update_user(user_id, user_data)
             return {
                 'id': updated_user.id,
