@@ -1,5 +1,5 @@
 import re
-from app.persistence.repository import InMemoryRepository
+from app.persistence.repository import SQLAlchemyRepository
 from app.models.user import User
 from app.models.amenity import Amenity
 from app.models.place import Place
@@ -13,11 +13,11 @@ class HBnBFacade:
     """Facade for managing users, places, amenities, and reviews."""
 
     def __init__(self):
-        """Initialize repositories for different models."""
-        self.user_repo = InMemoryRepository()
-        self.place_repo = InMemoryRepository()
-        self.review_repo = InMemoryRepository()
-        self.amenity_repo = InMemoryRepository()
+        """Initialize repositories for different models with SQLalchemy"""
+        self.user_repo = SQLAlchemyRepository(User)
+        self.place_repo = SQLAlchemyRepository(Place)
+        self.review_repo = SQLAlchemyRepository(Review)
+        self.amenity_repo = SQLAlchemyRepository(Amenity)
 
     # User Facade
     def create_user(self, user_data):
