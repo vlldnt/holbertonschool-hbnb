@@ -66,4 +66,6 @@ class User(BaseModel):
             raise ValueError("Password is not set.")
         if not password:
             raise ValueError("Password is empty.")
+        if not self.password.startswith('$2b$'):
+            raise ValueError("Invalid password hash.")
         return bcrypt.check_password_hash(self.password, password)
