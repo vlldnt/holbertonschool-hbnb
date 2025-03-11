@@ -5,7 +5,7 @@ from app.models.amenity import Amenity
 from app.models.place import Place
 from app.models.review import Review
 from flask_bcrypt import Bcrypt
-from app.services.user_repository import UserRepository
+from app.services.repositories.user_repository import UserRepository
 
 bcrypt = Bcrypt()
 
@@ -23,6 +23,7 @@ class HBnBFacade:
     # User Facade
     def create_user(self, user_data):
         user = User(**user_data)
+        user.hash_password(user_data['password'])
         self.user_repo.add(user)
         return user
 

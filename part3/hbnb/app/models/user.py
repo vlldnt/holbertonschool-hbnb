@@ -6,8 +6,10 @@ including attributes for user information and validation'''
 import re
 from sqlalchemy.orm import validates
 from .basemodel import BaseModel
-from app import bcrypt, db
+from app import bcrypt
+from flask_sqlalchemy import SQLAlchemy
 
+db = SQLAlchemy()
 
 class User(BaseModel):
     '''Represents a user with various attributes and restrictions'''
