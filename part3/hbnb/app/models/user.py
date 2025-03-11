@@ -37,14 +37,13 @@ class User(BaseModel):
     def validate_email(self, key, value):
         """Validates the email format before saving it"""
         if not isinstance(value, str):
-            raise TypeError("{} must be a string.".format(
-                key.replace('_', ' ').title()))
+            raise TypeError("Email must be a string.")
 
-        value = value.strip()  # delete spaces before and after the email
+        value = value.strip()
         email_regex = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+
         if not re.fullmatch(email_regex, value):
-            raise TypeError("{} must be a valid email.".format(
-                key.replace('_', ' ').title()))
+            raise ValueError("Email must be a valid email.")
 
         return value
 
@@ -58,7 +57,8 @@ class User(BaseModel):
 
     def hash_password(self, password):
         """Hashes the password before storing it"""
-        self.password = bcrypt.generate_password_hash(password).decode('utf-8')
+        self.password = bcrypt.generate_password_hash(password)\
+            .decode('utf-8')
 
     def verify_password(self, password):
         """Verifies if the provided password matches the hashed password"""
