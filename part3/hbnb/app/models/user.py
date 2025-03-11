@@ -84,4 +84,8 @@ class User(BaseModel):
 
     def verify_password(self, password):
         """Verifies if the provided password matches the hashed password."""
+        if not self.password:
+            raise ValueError("Password is not set.")
+        if not password:
+            raise ValueError("Password is empty.")
         return bcrypt.check_password_hash(self.password, password)
