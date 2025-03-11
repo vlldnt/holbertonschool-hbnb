@@ -18,16 +18,6 @@ class User(BaseModel):
     password = db.Column(db.String(128), nullable=False)
     is_admin = db.Column(db.Boolean, default=False)
 
-    def __init__(self, first_name, last_name, email, password,
-                 is_admin=False):
-        '''Initialize a new User instance with validation'''
-        super().__init__()
-        self.first_name = first_name
-        self.last_name = last_name
-        self.email = email
-        self.is_admin = is_admin
-        self.password = password
-
     @validates('first_name', 'last_name')
     def validate_names(self, key, value):
         """Validation for first_name and last_name"""
@@ -41,6 +31,7 @@ class User(BaseModel):
         if not isinstance(value, str):
             raise TypeError("{} must be a string of characters.".format(
                 key.replace('_', ' ').title()))
+        return value
 
     @validates('email')
     def validate_email(self, key, value):
@@ -67,8 +58,7 @@ class User(BaseModel):
 
     def hash_password(self, password):
         """Hashes the password before storing it"""
-        self.password = bcrypt.generate_password_hash(password) \
-            .decode('utf-8')
+        self.password = bcrypt.generate_password_hash(password).decode('utf-8')
 
     def verify_password(self, password):
         """Verifies if the provided password matches the hashed password"""

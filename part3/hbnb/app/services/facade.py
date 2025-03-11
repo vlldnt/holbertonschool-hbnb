@@ -15,7 +15,7 @@ class HBnBFacade:
 
     def __init__(self):
         """Initialize repositories for different models with SQLalchemy"""
-        self.user_repo = UserRepository(User)
+        self.user_repo = UserRepository()
         self.place_repo = SQLAlchemyRepository(Place)
         self.review_repo = SQLAlchemyRepository(Review)
         self.amenity_repo = SQLAlchemyRepository(Amenity)
@@ -23,7 +23,7 @@ class HBnBFacade:
     # User Facade
     def create_user(self, user_data):
         user = User(**user_data)
-        user.hash_password(user_data['password'])
+        # user.hash_password(user_data['password'])
         self.user_repo.add(user)
         return user
 
