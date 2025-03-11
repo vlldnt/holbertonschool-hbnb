@@ -5,6 +5,7 @@ from app.models.amenity import Amenity
 from app.models.place import Place
 from app.models.review import Review
 from flask_bcrypt import Bcrypt
+from app.services.user_repository import UserRepository
 
 bcrypt = Bcrypt()
 
@@ -14,7 +15,7 @@ class HBnBFacade:
 
     def __init__(self):
         """Initialize repositories for different models with SQLalchemy"""
-        self.user_repo = SQLAlchemyRepository(User)
+        self.user_repo = UserRepository(User)
         self.place_repo = SQLAlchemyRepository(Place)
         self.review_repo = SQLAlchemyRepository(Review)
         self.amenity_repo = SQLAlchemyRepository(Amenity)
