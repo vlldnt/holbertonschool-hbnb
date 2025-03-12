@@ -3,15 +3,11 @@
 
 from app.models.basemodel import BaseModel
 from app.models.amenity import Amenity
+from app.models.review import Review
+from app.models.place_amenity import place_amenity
 from app import db
-from sqlalchemy.orm import validates
+from sqlalchemy.orm import validates, relationship
 
-
-# Define the association table
-place_amenity = db.Table('place_amenity',
-    db.Column('place_id', db.String(36), db.ForeignKey('places.id'), primary_key=True),
-    db.Column('amenity_id', db.String(36), db.ForeignKey('amenities.id'), primary_key=True)
-)
 
 class Place(BaseModel):
     """Place class that inherits from BaseModel."""
@@ -23,8 +19,8 @@ class Place(BaseModel):
     latitude = db.Column(db.Float, nullable=False)
     longitude = db.Column(db.Float, nullable=False)
     owner_id = db.Column(db.String, db.ForeignKey('users.id'), nullable=False)
-    reviews = db.relationship('Review', backref='place', cascade='all, delete-orphan')
-    amenities = db.relationship('Amenity', secondary='place_amenity', backref='places')
+
+
 
     
     @validates('title')

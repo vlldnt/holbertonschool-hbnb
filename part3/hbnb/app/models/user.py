@@ -6,7 +6,7 @@ including attributes for user information and validation'''
 import re
 from .basemodel import BaseModel
 from app import bcrypt, db
-from sqlalchemy.orm import validates
+from sqlalchemy.orm import validates, relationship
 
 
 class User(BaseModel):
@@ -18,6 +18,7 @@ class User(BaseModel):
     email = db.Column(db.String(120), nullable=False, unique=True)
     password = db.Column(db.String(128), nullable=False)
     is_admin = db.Column(db.Boolean, default=False)
+
 
     @validates('first_name', 'last_name')
     def validate_names(self, key, value):

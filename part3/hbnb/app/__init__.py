@@ -26,7 +26,7 @@ def create_app(config_class="config.DevelopmentConfig"):
 
     bcrypt.init_app(app)
     db.init_app(app)
-    
+
     from app.models.user import User
     from app.models.amenity import Amenity
     from app.models.place import Place

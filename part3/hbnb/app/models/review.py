@@ -4,7 +4,7 @@
 
 from .basemodel import BaseModel
 from app import db
-from sqlalchemy.orm import validates
+from sqlalchemy.orm import validates, relationship
 
 
 class Review(BaseModel):
@@ -14,6 +14,7 @@ class Review(BaseModel):
     user_id = db.Column(db.String(36), db.ForeignKey('users.id'), nullable=False)
     place_id = db.Column(db.String(36), db.ForeignKey('places.id'), nullable=False)
     rating = db.Column(db.Integer, nullable=False)
+
 
 
     @validates('text')
