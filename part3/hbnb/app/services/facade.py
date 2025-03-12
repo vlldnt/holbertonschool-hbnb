@@ -4,8 +4,8 @@ from app.models.place import Place
 from app.models.review import Review
 
 from flask_bcrypt import Bcrypt
-from app.persistence.repository import SQLAlchemyRepository
-from app.services.repositories.user_repository import UserRepository
+from app.persistence.repository import UserRepository, PlaceRepository
+from app.persistence.repository import ReviewRepository, AmenityRepository
 
 bcrypt = Bcrypt()
 
@@ -16,9 +16,9 @@ class HBnBFacade:
     def __init__(self):
         """Initialize repositories for different models with SQLalchemy"""
         self.user_repo = UserRepository()
-        self.place_repo = SQLAlchemyRepository(Place)
-        self.review_repo = SQLAlchemyRepository(Review)
-        self.amenity_repo = SQLAlchemyRepository(Amenity)
+        self.place_repo = PlaceRepository()
+        self.review_repo = ReviewRepository()
+        self.amenity_repo = AmenityRepository()
 
     # User Facade
     def create_user(self, user_data):
@@ -110,34 +110,13 @@ class HBnBFacade:
     def update_place(self, place_id, place_data):
         """the function will update a place with new data"""
         place = self.place_repo.get(place_id)
-       
         if not place:
             raise KeyError("Place not found")
+        
+        owner = self.get_user(place_data['owner_id'])
+        if not owner:
+            raise ValueError("Owner not found.")
 
-        if 'title' in place_data and len(place_data['title']) > 100 \
-                or not place_data['title']:
-            raise ValueError("Title is required with max 100 characters.")
-
-        if 'description' in place_data and \
-                len(place_data['description']) > 1000:
-            raise ValueError("Description must be less than 1000 characters.")
-
-        if ('price' in place_data and place_data['price'] <= 0):
-            raise ValueError("Price must be greater than 0.")
-
-        if 'latitude' in place_data and \
-                not (90.0 >= place_data['latitude'] >= -90.0) \
-                    or not isinstance(place_data['latitude'], float):
-            raise ValueError("Latitude must be between 90 and -90.")
-
-        if 'longitude' in place_data and \
-                not (180.0 >= place_data['longitude'] >= -180.0) \
-                    or not isinstance(place_data['longitude'], float):
-            raise ValueError("Longitude must be between 180 and -180.")
-
-        if 'owner_id' in place_data and \
-                not self.user_repo.get(place_data['owner_id']):
-            raise ValueError("Owner not found, please enter a valid owner")
 
         if 'amenities' in place_data:
             amenities = []

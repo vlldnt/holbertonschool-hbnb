@@ -40,8 +40,8 @@ class Place(BaseModel):
     def validate_price(self, key, value):
         if not isinstance(value, int):
             raise TypeError("Price must be an integer.")
-        if value <= 0:
-            raise ValueError("The price must be greater than 0.")
+        if value <= 0 or not value:
+            raise ValueError("The price must be present and greater than 0.")
         return value
 
     @validates('latitude')
