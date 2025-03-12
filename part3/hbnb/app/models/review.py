@@ -3,61 +3,51 @@
 
 
 from .basemodel import BaseModel
-from .user import User
-from .place import Place
+from app import db
+from sqlalchemy.orm import validates, relationship
 
 
 class Review(BaseModel):
-    def __init__(self, text, user_id, place_id, rating):
-        super().__init__()
-        self._user_id = user_id
-        self._place_id = place_id
-        self.text = text
-        self.rating = rating
+    __tablename__ = 'reviews'
+    
+    text = db.Column(db.String(500), nullable=False)
+    user_id = db.Column(db.String(36), db.ForeignKey('users.id'), nullable=False)
+    place_id = db.Column(db.String(36), db.ForeignKey('places.id'), nullable=False)
+    rating = db.Column(db.Integer, nullable=False)
 
-    @property
-    def text(self):
-        return self._text
 
-    @text.setter
-    def text(self, string):
-        if not string or len(string) > 500:
+
+    @validates('text')
+    def validate_text(self, key, value):
+        '''Validate the text attribute'''
+        if not value or len(value) > 500:
             raise ValueError(
                 "Text review must be present and with 500 characters maximum."
             )
-        self._text = string
+        return value
 
-    @property
-    def user_id(self):
-        return self._user_id
-
-    @user_id.setter
-    def user_id(self, value):
-        if not isinstance(value, User):
+    @validates('user_id')
+    def validate_user_id(self, key, value):
+        '''Validate the user_id attribute'''
+        if not value or not isinstance(value, str):
             raise ValueError("User must be present and an instance of User.")
-        self._user_id = value
+        return value
 
-    @property
-    def place_id(self):
-        return self._place_id
-
-    @place_id.setter
-    def place_id(self, value):
-        if not isinstance(value, Place):
+    @validates('place_id')
+    def validate_place_id(self, key, value):
+        '''Validate the place_id attribute'''
+        if not value or not isinstance(value, str):
             raise ValueError("Place must be present and an instance of Place.")
-        self._place_id = value
+        return value
 
-    @property
-    def rating(self):
-        return self._rating
-
-    @rating.setter
-    def rating(self, value):
-        if value < 1 or value > 5:
+    @validates('rating')
+    def validate_rating(self, key, value):
+        '''Validate the rating attribute'''
+        if not (1 <= value <= 5):
             raise ValueError("Rating must be between 1 and 5.")
         if not isinstance(value, int):
             raise TypeError("Rating must be an integer.")
-        self._rating = value
+        return value
 
     def to_dict(self):
         '''Convert the Review object to a dictionary'''

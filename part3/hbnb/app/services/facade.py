@@ -4,8 +4,8 @@ from app.models.place import Place
 from app.models.review import Review
 
 from flask_bcrypt import Bcrypt
-from app.persistence.repository import SQLAlchemyRepository
-from app.services.repositories.user_repository import UserRepository
+from app.persistence.repository import UserRepository, PlaceRepository
+from app.persistence.repository import ReviewRepository, AmenityRepository
 
 bcrypt = Bcrypt()
 
@@ -16,9 +16,9 @@ class HBnBFacade:
     def __init__(self):
         """Initialize repositories for different models with SQLalchemy"""
         self.user_repo = UserRepository()
-        self.place_repo = SQLAlchemyRepository(Place)
-        self.review_repo = SQLAlchemyRepository(Review)
-        self.amenity_repo = SQLAlchemyRepository(Amenity)
+        self.place_repo = PlaceRepository()
+        self.review_repo = ReviewRepository()
+        self.amenity_repo = AmenityRepository()
 
     # User Facade
     def create_user(self, user_data):
@@ -86,39 +86,14 @@ class HBnBFacade:
         return self.amenity_repo.get_by_attribute('name', name)
 
     # Place Facade
-    def create_place(self, title, description, price, latitude,
-                     longitude, owner_id, amenities=None):
+    def create_place(self, place_data):
         """Create a new place with validation."""
-        owner = self.get_user(owner_id)
-
+        owner = self.get_user(place_data['owner_id'])
         if not owner:
             raise ValueError("Owner not found.")
-        if price <= 0:
-            raise ValueError("Price must be a positive number.")
-        if not (-90 <= latitude <= 90) or not isinstance(latitude, float):
-            raise ValueError("Latitude must be between -90.0 and 90.0")
-        if not (-180 <= longitude <= 180) or not isinstance(longitude, float):
-            raise ValueError("Longitude must be between -180.0 and 180.0")
-
-        place = Place(
-            title=title,
-            description=description,
-            price=price,
-            latitude=latitude,
-            longitude=longitude,
-            owner=owner
-        )
-
-        if amenities:
-            for amenity_id in amenities:
-                amenity = self.get_amenity(amenity_id)
-                if not amenity:
-                    raise ValueError(
-                        f"Amenity with ID {amenity_id} not found."
-                    )
-                place.add_amenity(amenity)
-
-        self.place_repo.add(place)
+        
+        place = Place(**place_data)
+        self.user_repo.add(place)
         return place
 
     def get_place(self, place_id):
@@ -136,34 +111,13 @@ class HBnBFacade:
     def update_place(self, place_id, place_data):
         """the function will update a place with new data"""
         place = self.place_repo.get(place_id)
-       
         if not place:
             raise KeyError("Place not found")
+        
+        owner = self.get_user(place_data['owner_id'])
+        if not owner:
+            raise ValueError("Owner not found.")
 
-        if 'title' in place_data and len(place_data['title']) > 100 \
-                or not place_data['title']:
-            raise ValueError("Title is required with max 100 characters.")
-
-        if 'description' in place_data and \
-                len(place_data['description']) > 1000:
-            raise ValueError("Description must be less than 1000 characters.")
-
-        if ('price' in place_data and place_data['price'] <= 0):
-            raise ValueError("Price must be greater than 0.")
-
-        if 'latitude' in place_data and \
-                not (90.0 >= place_data['latitude'] >= -90.0) \
-                    or not isinstance(place_data['latitude'], float):
-            raise ValueError("Latitude must be between 90 and -90.")
-
-        if 'longitude' in place_data and \
-                not (180.0 >= place_data['longitude'] >= -180.0) \
-                    or not isinstance(place_data['longitude'], float):
-            raise ValueError("Longitude must be between 180 and -180.")
-
-        if 'owner_id' in place_data and \
-                not self.user_repo.get(place_data['owner_id']):
-            raise ValueError("Owner not found, please enter a valid owner")
 
         if 'amenities' in place_data:
             amenities = []
@@ -182,22 +136,17 @@ class HBnBFacade:
         return place
 
     # Review Facade
-    def create_review(self, text, user_id, place_id, rating):
+    def create_review(self, review_data):
         """Create a new review."""
-        user = self.get_user(user_id)
+        user = self.get_user(review_data['user_id'])
         if not user:
             raise ValueError("User not found.")
 
-        place = self.get_place(place_id)
+        place = self.get_place(review_data['place_id'])
         if not place:
             raise ValueError("Place not found.")
-
-        review = Review(
-            text=text,
-            user_id=user.id,
-            place_id=place.id,
-            rating=rating,
-        )
+        
+        review = Review(**review_data)
         self.review_repo.add(review)
         return review
 
@@ -221,6 +170,7 @@ class HBnBFacade:
         review = self.review_repo.get(review_id)
         if not review:
             raise ValueError("Review not found")
+        
         for key, value in review_update.items():
             if hasattr(review, key):
                 setattr(review, key, value)

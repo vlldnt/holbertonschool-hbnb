@@ -3,28 +3,24 @@
 
 
 from .basemodel import BaseModel
+from sqlalchemy.orm import validates
+from app import db
 
 
 class Amenity(BaseModel):
     '''Represents an amenity with attributes and restrictions'''
-    def __init__(self, name):
-        '''Initialize a new Amenity instance with restrictions'''
-        super().__init__()
-        self._name = name
+    __tablename__ = 'amenities'
 
-    @property
-    def name(self):
-        return self._name
+    name = db.Column(db.String(50), nullable=False)
 
-    @name.setter
-    def name(self, value):
-        if not isinstance(value, str):
-            raise TypeError("Amenity name must be a string of characters.")
-        if not value or len(value) > 50:
+    @validates('name')
+    def validate_name(self, key, value):
+        '''Validate the name attribute'''
+        if not value or len(value) > 50 or not isinstance(value, str):
             raise ValueError(
                 "Amenity name must be a string of 1 to 50 characters."
             )
-        self._name = value
+        return value
 
     def to_dict(self):
         """Convert the Amenity object to a dictionary."""
