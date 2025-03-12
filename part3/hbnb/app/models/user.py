@@ -4,9 +4,10 @@ Defines a User class that inherits from BaseModel
 including attributes for user information and validation'''
 
 import re
-from sqlalchemy.orm import validates
 from .basemodel import BaseModel
 from app import bcrypt, db
+from sqlalchemy.orm import validates
+
 
 class User(BaseModel):
     '''Represents a user with various attributes and restrictions'''

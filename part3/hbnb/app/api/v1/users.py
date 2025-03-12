@@ -6,17 +6,13 @@ api = Namespace('users', description='User operations')
 user_model = api.model(
     'User', {
         'first_name': fields.String(
-            required=True, description='First name of the user'
-        ),
+            required=True, description='First name of the user'),
         'last_name': fields.String(
-            required=True, description='Last name of the user'
-        ),
+            required=True, description='Last name of the user'),
         'password': fields.String(
-            required=True, description='User\'s password'
-        ),
+            required=True, description='User\'s password'),
         'email': fields.String(
-            required=True, description='Email of the user'
-        )
+            required=True, description='Email of the user')
     }
 )
 
@@ -41,6 +37,8 @@ class UserList(Resource):
                 'message': 'User successfully created'
             }, 201
         except ValueError as e:
+            return {'error': str(e)}, 400
+        except TypeError as e:
             return {'error': str(e)}, 400
 
     @api.response(200, 'List of users retrieved successfully')
@@ -89,3 +87,5 @@ class UserResource(Resource):
             }, 200
         except ValueError as e:
             return {'error': str(e)}, 404
+        except TypeError as e:
+            return {'error': str(e)}, 400
