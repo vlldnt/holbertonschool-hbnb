@@ -30,34 +30,6 @@ place_model = api.model('Place', {
                              description="List of amenities ID's")
 })
 
-def validate_place_data(data):
-    """Validate place data."""
-    if 'price' in data:
-        try:
-            price = float(data['price'])
-            if price <= 0:
-                return {'error': 'Price must be a positive number'}, 400
-        except ValueError:
-            return {'error': 'Price must be a float'}, 400
-
-    if 'latitude' in data:
-        try:
-            latitude = float(data['latitude'])
-            if not (-90.0 <= latitude <= 90.0):
-                return {'error': 'Latitude must be between -90.0 and 90.0'}, 400
-        except ValueError:
-            return {'error': 'Latitude must be a float'}, 400
-
-    if 'longitude' in data:
-        try:
-            longitude = float(data['longitude'])
-            if not (-180.0 <= longitude <= 180.0):
-                return {'error': 'Longitude must be between -180.0 and 180.0'}, 400
-        except ValueError:
-            return {'error': 'Longitude must be a float'}, 400
-
-    return None
-
 @api.route('/')
 class PlaceList(Resource):
     @api.expect(place_model)
@@ -66,22 +38,8 @@ class PlaceList(Resource):
     def post(self):
         """Register a new place"""
         data = api.payload
-        validation_error = validate_place_data(data)
-        if validation_error:
-            return validation_error
-
-        title = data.get('title')
-        description = data.get('description')
-        price = data.get('price')
-        latitude = data.get('latitude')
-        longitude = data.get('longitude')
-        owner_id = data.get('owner_id')
-        amenities = data.get('amenities', [])
-
         try:
-            new_place = facade.create_place(title, description, price,
-                                            latitude,
-                                            longitude, owner_id, amenities)
+            new_place = facade.create_place(data)
             return new_place.to_dict(), 201
         except ValueError as e:
             api.abort(400, 'Failed to create place: ' + str(e))

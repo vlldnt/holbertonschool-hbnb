@@ -31,7 +31,6 @@ class UserList(Resource):
                 return {'error': 'Email already registered'}, 400
                         
             new_user = facade.create_user(user_data)
-
             return {
                 'id': new_user.id,
                 'message': 'User successfully created'

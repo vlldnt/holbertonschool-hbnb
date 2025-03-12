@@ -78,8 +78,5 @@ class Place(BaseModel):
             "price": self.price,
             "latitude": self.latitude,
             "longitude": self.longitude,
-            "owner_id": self.owner.id,
-            "reviews": [review.to_dict() for review in self.reviews],
-            "amenities": [amenity.to_dict() for
-                          amenity in self.amenities if amenity]
+            "owner_id": self.owner_id
         }

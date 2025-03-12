@@ -86,38 +86,15 @@ class HBnBFacade:
         return self.amenity_repo.get_by_attribute('name', name)
 
     # Place Facade
-    def create_place(self, title, description, price, latitude,
-                     longitude, owner_id, amenities=None):
+    def create_place(self, place_data):
         """Create a new place with validation."""
-        owner = self.get_user(owner_id)
-
+        owner = self.get_user(place_data['owner_id'])
         if not owner:
             raise ValueError("Owner not found.")
-        if price <= 0:
-            raise ValueError("Price must be a positive number.")
-        if not (-90 <= latitude <= 90) or not isinstance(latitude, float):
-            raise ValueError("Latitude must be between -90.0 and 90.0")
-        if not (-180 <= longitude <= 180) or not isinstance(longitude, float):
-            raise ValueError("Longitude must be between -180.0 and 180.0")
-
-        place = Place(
-            title=title,
-            description=description,
-            price=price,
-            latitude=latitude,
-            longitude=longitude,
-            owner=owner
-        )
-
-        if amenities:
-            for amenity_id in amenities:
-                amenity = self.get_amenity(amenity_id)
-                if not amenity:
-                    raise ValueError(
-                        f"Amenity with ID {amenity_id} not found."
-                    )
-                place.add_amenity(amenity)
-
+        user = Place(**place_data)
+        self.user_repo.add(user)
+        return user
+        
         self.place_repo.add(place)
         return place
 
