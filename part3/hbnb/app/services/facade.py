@@ -91,11 +91,8 @@ class HBnBFacade:
         owner = self.get_user(place_data['owner_id'])
         if not owner:
             raise ValueError("Owner not found.")
-        user = Place(**place_data)
-        self.user_repo.add(user)
-        return user
-        
-        self.place_repo.add(place)
+        place = Place(**place_data)
+        self.user_repo.add(place)
         return place
 
     def get_place(self, place_id):

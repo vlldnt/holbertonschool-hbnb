@@ -2,7 +2,6 @@
 '''Place Class'''
 
 from app.models.basemodel import BaseModel
-from app.models.user import User
 from app.models.amenity import Amenity
 from app import db
 from sqlalchemy.orm import validates
@@ -13,7 +12,7 @@ class Place(BaseModel):
     __tablename__ = 'places'
 
     title = db.Column(db.String(100), nullable=False)
-    description = db.Column(db.String(1000), nullable=True)
+    description = db.Column(db.String(1000), nullable=False)
     price = db.Column(db.Integer, nullable=False)
     latitude = db.Column(db.Float, nullable=False)
     longitude = db.Column(db.Float, nullable=False)
@@ -22,9 +21,19 @@ class Place(BaseModel):
     @validates('title')
     def validate_title(self, key, value):
         """Validation for title"""
+        if not value:
+            raise TypeError("Title must be present.")
         if len(value) > 100:
             raise ValueError(
                 "Title must be present with a maximum of 100 characters.")
+        return value
+    
+    @validates('description')
+    def validate_description(self, key, value):
+        """Validation for description"""
+        if len(value) > 1000:
+            raise ValueError(
+                "Description must be less than 1000 characters.")
         return value
 
     @validates('price')
@@ -59,6 +68,8 @@ class Place(BaseModel):
 
     def add_review(self, review):
         """Add a review to the place."""
+        if not isinstance(review, Review):
+            raise TypeError("Review must be a Review instance.")
         self.reviews.append(review)
         self.save()
 
