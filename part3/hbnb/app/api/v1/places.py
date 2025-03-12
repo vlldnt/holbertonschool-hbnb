@@ -1,4 +1,5 @@
 from flask_restx import Namespace, Resource, fields
+from flask_jwt_extended import jwt_required, get_jwt_identity
 from app.services import facade
 
 api = Namespace('places', description='Place operations')
@@ -63,8 +64,10 @@ class PlaceList(Resource):
     @api.expect(place_model)
     @api.response(201, 'Place successfully created')
     @api.response(400, 'Invalid input data')
+    @jwt_required()
     def post(self):
         """Register a new place"""
+        current_user = get_jwt_identity()
         data = api.payload
         validation_error = validate_place_data(data)
         if validation_error:
@@ -102,8 +105,13 @@ class PlaceList(Resource):
 class PlaceResource(Resource):
     @api.response(200, 'Place details retrieved successfully')
     @api.response(404, 'Place not found')
+    @jwt_required()
     def get(self, place_id):
         """Get place details by ID"""
+        current_user = get_jwt_identity()
+        place = facade.get_place(place_id)
+        if place.owner_id != current_user:
+            return {'error': 'Unauthorized action'}, 403
         try:
             place = facade.get_place(place_id)
             return place.to_dict(), 200
@@ -114,8 +122,13 @@ class PlaceResource(Resource):
     @api.response(200, 'Place updated successfully')
     @api.response(404, 'Place not found')
     @api.response(400, 'Invalid input data')
+    @jwt_required()
     def put(self, place_id):
         """Update a place's information"""
+        current_user = get_jwt_identity()
+        place = facade.get_place(place_id)
+        if place.owner_id != current_user:
+            return {'error': 'Unauthorized action'}, 403
         data = api.payload
         validation_error = validate_place_data(data)
         if validation_error:
