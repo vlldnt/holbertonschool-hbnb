@@ -91,6 +91,7 @@ class HBnBFacade:
         owner = self.get_user(place_data['owner_id'])
         if not owner:
             raise ValueError("Owner not found.")
+        
         place = Place(**place_data)
         self.user_repo.add(place)
         return place
@@ -135,22 +136,17 @@ class HBnBFacade:
         return place
 
     # Review Facade
-    def create_review(self, text, user_id, place_id, rating):
+    def create_review(self, review_data):
         """Create a new review."""
-        user = self.get_user(user_id)
+        user = self.get_user(review_data['user_id'])
         if not user:
             raise ValueError("User not found.")
 
-        place = self.get_place(place_id)
+        place = self.get_place(review_data['place_id'])
         if not place:
             raise ValueError("Place not found.")
-
-        review = Review(
-            text=text,
-            user_id=user.id,
-            place_id=place.id,
-            rating=rating,
-        )
+        
+        review = Review(**review_data)
         self.review_repo.add(review)
         return review
 
@@ -174,6 +170,7 @@ class HBnBFacade:
         review = self.review_repo.get(review_id)
         if not review:
             raise ValueError("Review not found")
+        
         for key, value in review_update.items():
             if hasattr(review, key):
                 setattr(review, key, value)

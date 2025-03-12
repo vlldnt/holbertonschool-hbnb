@@ -81,13 +81,6 @@ class ReviewRepository(SQLAlchemyRepository):
 
     def get_reviews_by_place(self, place_id):
         return self.model.query.filter_by(place_id=place_id).all()
-
-class UserRepository(SQLAlchemyRepository):
-    def __init__(self):
-        super().__init__(User)
-
-    def get_user_by_email(self, email):
-        return self.model.query.filter_by(email=email).first()
     
 class AmenityRepository(SQLAlchemyRepository):
     def __init__(self):

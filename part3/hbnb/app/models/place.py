@@ -7,6 +7,12 @@ from app import db
 from sqlalchemy.orm import validates
 
 
+# Define the association table
+place_amenity = db.Table('place_amenity',
+    db.Column('place_id', db.String(36), db.ForeignKey('places.id'), primary_key=True),
+    db.Column('amenity_id', db.String(36), db.ForeignKey('amenities.id'), primary_key=True)
+)
+
 class Place(BaseModel):
     """Place class that inherits from BaseModel."""
     __tablename__ = 'places'
@@ -17,6 +23,9 @@ class Place(BaseModel):
     latitude = db.Column(db.Float, nullable=False)
     longitude = db.Column(db.Float, nullable=False)
     owner_id = db.Column(db.String, db.ForeignKey('users.id'), nullable=False)
+    reviews = db.relationship('Review', backref='place', cascade='all, delete-orphan')
+    amenities = db.relationship('Amenity', secondary='place_amenity', backref='places')
+
     
     @validates('title')
     def validate_title(self, key, value):
