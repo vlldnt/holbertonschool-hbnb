@@ -18,6 +18,7 @@ class Place(BaseModel):
     price = db.Column(db.Integer, nullable=False)
     latitude = db.Column(db.Float, nullable=False)
     longitude = db.Column(db.Float, nullable=False)
+
     owner_id = db.Column(db.String, db.ForeignKey('users.id'), nullable=False)
 
 
@@ -64,7 +65,7 @@ class Place(BaseModel):
         if value < -180 or value > 180:
             raise ValueError("Longitude must be between -180.0 and 180.0")
         return value
-
+    
     @validates('owner_id')
     def validate_owner_id(self, key, value):
         if not isinstance(value, str):
