@@ -21,6 +21,7 @@ class ReviewList(Resource):
     @api.expect(review_model)
     @api.response(201, 'Review successfully created')
     @api.response(400, 'Invalid input data')
+    @api.doc(security="token")    
     @jwt_required()
     def post(self):
         """Register a new review"""

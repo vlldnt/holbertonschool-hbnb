@@ -60,6 +60,7 @@ class UserList(Resource):
 class UserResource(Resource):
     @api.response(200, 'User details retrieved successfully')
     @api.response(404, 'User not found')
+    @api.doc(security="token")
     def get(self, user_id):
         """Get user details with ID"""
         user = facade.get_user(user_id)
@@ -76,6 +77,7 @@ class UserResource(Resource):
     @api.response(200, 'User successfully updated')
     @api.response(404, 'User not found')
     @api.response(400, 'Invalid input data')
+    @api.doc(security="token")
     @jwt_required()
     def put(self, user_id):
         """Update user details with ID"""
