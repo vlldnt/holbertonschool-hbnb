@@ -1,4 +1,5 @@
 from flask_restx import Namespace, Resource, fields
+from flask_jwt_extended import jwt_required, get_jwt_identity
 from app.services import facade
 
 api = Namespace('places', description='Place operations')
@@ -20,8 +21,10 @@ class PlaceList(Resource):
     @api.expect(place_model)
     @api.response(201, 'Place successfully created')
     @api.response(400, 'Invalid input data')
+    @jwt_required()
     def post(self):
         """Register a new place"""
+        current_user = get_jwt_identity()
         data = api.payload
         try:
             new_place = facade.create_place(data)
@@ -48,8 +51,13 @@ class PlaceList(Resource):
 class PlaceResource(Resource):
     @api.response(200, 'Place details retrieved successfully')
     @api.response(404, 'Place not found')
+    @jwt_required()
     def get(self, place_id):
         """Get place details by ID"""
+        current_user = get_jwt_identity()
+        place = facade.get_place(place_id)
+        if place.owner_id != current_user:
+            return {'error': 'Unauthorized action'}, 403
         try:
             place = facade.get_place(place_id)
             return place.to_dict(), 200
@@ -60,8 +68,13 @@ class PlaceResource(Resource):
     @api.response(200, 'Place updated successfully')
     @api.response(404, 'Place not found')
     @api.response(400, 'Invalid input data')
+    @jwt_required()
     def put(self, place_id):
         """Update a place's information"""
+        current_user = get_jwt_identity()
+        place = facade.get_place(place_id)
+        if place.owner_id != current_user:
+            return {'error': 'Unauthorized action'}, 403
         data = api.payload
         try:
             updated_place = facade.update_place(place_id, data)
@@ -70,6 +83,6 @@ class PlaceResource(Resource):
                 'message': 'Place successfully updated'
             }, 200
         except ValueError as e:
-            return {'error': str(e)}, 404
-        except TypeError as e:
-            return {'error': str(e)}, 400
+            api.abort(400, str(e))
+        except KeyError as e:
+            api.abort(404, str(e))
