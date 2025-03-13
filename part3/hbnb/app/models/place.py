@@ -7,7 +7,6 @@ from app.models.review import Review
 from app.models.place_amenity import place_amenity
 from app import db
 from sqlalchemy.orm import validates, relationship
-from sqlalchemy import Table, Column, Integer, ForeignKey
 
 
 
@@ -20,9 +19,8 @@ class Place(BaseModel):
     price = db.Column(db.Integer, nullable=False)
     latitude = db.Column(db.Float, nullable=False)
     longitude = db.Column(db.Float, nullable=False)
-
     owner_id = db.Column(db.String, db.ForeignKey('users.id'), nullable=False)
-    user_id = db.Column(Integer, ForeignKey('users.id'), nullable=False)
+  
     amenities = relationship('amenity', secondary=place_amenity, lazy='subquery',
                            backref=db.backref('places', lazy=True))
     reviews = relationship('review', backref='place', lazy=True)
