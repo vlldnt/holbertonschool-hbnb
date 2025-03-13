@@ -18,9 +18,9 @@ class User(BaseModel):
     email = db.Column(db.String(120), nullable=False, unique=True)
     password = db.Column(db.String(128), nullable=False)
     is_admin = db.Column(db.Boolean, default=False)
-    places = relationship('place', backref='user', lazy=True)
-    reviews = relationship('review', backref='user', lazy=True)
 
+    places = relationship('Place', backref='owner', lazy=True)
+    reviews = relationship('Review', backref='author', lazy=True)
 
     @validates('first_name', 'last_name')
     def validate_names(self, key, value):
