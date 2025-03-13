@@ -25,6 +25,7 @@ class Login(Resource):
 
 @api.route('/protected')
 class ProtectedResource(Resource):
+    @api.doc(security="token")   
     @jwt_required()
     def get(self):
         """A protected endpoint that requires a valid JWT token"""
