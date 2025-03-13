@@ -13,8 +13,8 @@ class Review(BaseModel):
     text = db.Column(db.String(500), nullable=False) 
     rating = db.Column(db.Integer, nullable=False)
 
-    # user_id = db.Column(db.String(36), db.ForeignKey('users.id'), nullable=False)
-    # place_id = db.Column(db.String(36), db.ForeignKey('places.id'), nullable=False)
+    user_id = db.Column(db.String(36), db.ForeignKey('users.id'), nullable=False)
+    place_id = db.Column(db.String(36), db.ForeignKey('places.id'), nullable=False)
 
     @validates('text')
     def validate_text(self, key, value):
@@ -25,19 +25,19 @@ class Review(BaseModel):
             )
         return value
 
-    # @validates('user_id')
-    # def validate_user_id(self, key, value):
-        # '''Validate the user_id attribute'''
-        # if not value or not isinstance(value, str):
-            # raise ValueError("User must be present and an instance of User.")
-        # return value
-# 
-    # @validates('place_id')
-    # def validate_place_id(self, key, value):
-        # '''Validate the place_id attribute'''
-        # if not value or not isinstance(value, str):
-            # raise ValueError("Place must be present and an instance of Place.")
-        # return value 
+    @validates('user_id')
+    def validate_user_id(self, key, value):
+        '''Validate the user_id attribute'''
+        if not value or not isinstance(value, str):
+            raise ValueError("User must be present and an instance of User.")
+        return value
+ 
+    @validates('place_id')
+    def validate_place_id(self, key, value):
+        '''Validate the place_id attribute'''
+        if not value or not isinstance(value, str):
+            raise ValueError("Place must be present and an instance of Place.")
+        return value 
 
     @validates('rating')
     def validate_rating(self, key, value):
