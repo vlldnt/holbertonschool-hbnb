@@ -10,8 +10,14 @@ review_model = api.model(
         'text': fields.String(required=True, description='Text of the review'),
         'rating': fields.Integer(required=True,
                                  description='Rating of the place (1-5)'),
-        'user_id': fields.String(required=True, description='ID of the user'),
         'place_id': fields.String(required=True, description='ID of the place')
+    }
+)
+
+updated_review_model = api.model(
+    'UpdatedReview', {
+        'text': fields.String(description='Update th text of the review'),
+        'rating': fields.Integer(description='Update the rating of the place (1-5)'),
     }
 )
 
@@ -27,27 +33,23 @@ class ReviewList(Resource):
         """Register a new review"""
         current_user = get_jwt_identity()
         review_data = api.payload
-        # Check if the user is trying to review their own place
-        place = facade.get_place(review_data['place_id'])
-        if place.owner_id == current_user:
-            return {'message': 'You cannot review your own place'}, 400
-        
-        # Check if the user is trying to review the same place twice
-        current_user_id = current_user['id']
-        existing_review = facade.get_review_by_user_and_place(current_user_id, review_data['place_id'])
-        if existing_review:
-            return {'message': 'You already reviewed this place'}, 400
         try:
+
+            place = facade.get_place(review_data['place_id'])
+            review_data['user_id'] = current_user['id']
+            if place.owner_id == current_user:
+                return {'message': 'You cannot review your own place'}, 400
+            
+            current_user_id = current_user['id']
+            existing_review = facade.get_review_by_user_and_place(current_user_id, review_data['place_id'])
+            if existing_review:
+                return {'message': 'You already reviewed this place'}, 400
+        
             required_fields = {'text', 'rating', 'user_id', 'place_id'}
             if not required_fields.issubset(review_data):
                 return {'message': 'Missing required fields'}, 400
 
-            new_review = facade.create_review(
-                review_data['text'],
-                review_data['user_id'],
-                review_data['place_id'],
-                review_data['rating']
-            )
+            new_review = facade.create_review(review_data)
 
             return {
                 'id': new_review.id,
@@ -95,17 +97,21 @@ class ReviewResource(Resource):
         except ValueError as e:
             return {'error': str(e)}, 400
 
-    @api.expect(review_model)
+    @api.expect(updated_review_model)
     @api.response(200, 'Review updated successfully')
     @api.response(404, 'Review not found')
     @api.response(400, 'Invalid input data')
+    @api.doc(security="token")
     @jwt_required()
     def put(self, review_id):
         """Update a review's information"""
         review_data = api.payload
         current_user = get_jwt_identity()
+        review_data['user_id'] = current_user['id']
+
         review = facade.get_review(review_id)
-        if not review.user_id != current_user['id']:
+        
+        if review.user_id != current_user['id']:
             return {'error': 'Unauthorized action'}, 403
         try:
             if not review:

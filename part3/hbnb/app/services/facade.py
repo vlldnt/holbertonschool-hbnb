@@ -164,7 +164,7 @@ class HBnBFacade:
 
     def get_all_reviews(self):
         return self.review_repo.get_all()
-
+    
     def get_reviews_by_place(self, place_id):
         place = self.place_repo.get(place_id)
         if not place:
@@ -189,3 +189,13 @@ class HBnBFacade:
             raise ValueError("Review not found")
         self.review_repo.delete(review_id)
         return {'message': 'Review deleted succesessfully'}
+    
+    def get_review_by_user_and_place(self, user_id, place_id):
+        place = self.place_repo.get(place_id)
+        if not place:
+            raise ValueError("Place not found")
+        user = self.user_repo.get(user_id)
+        if not user:
+            raise ValueError("User not found")
+        return [review for review in
+                self.review_repo.get_all() if review.user_id == user_id and review.place_id == place_id]
