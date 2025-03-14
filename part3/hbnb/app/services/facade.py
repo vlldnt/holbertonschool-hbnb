@@ -141,6 +141,7 @@ class HBnBFacade:
     
 
     def add_amenity_to_place(self, place_id, amenity_id):
+        """ Add an amenity to a place."""
         place = self.get_place(place_id)
         if not place:
             raise ValueError('Place not found')
@@ -148,7 +149,7 @@ class HBnBFacade:
         if not amenity:
             raise ValueError('Amenity not found')
         place.amenities.append(amenity)
-        self.place_repo.save()
+        self.place_repo.save(place)  # Pass the place object to the save method
         return place
 
 
