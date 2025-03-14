@@ -9,15 +9,15 @@
     git clone https://github.com/vlldnt/holbertonschool-hbnb.git
     ```
 2. Install Requirements:
-    ```
+    ```shell
     pip install -r requirements.txt
     ```
 3. Go to part3 folder:
-    ```
+    ```shell
     cd part3/hbnb/
     ```
 4. Run the Application:
-    ```
+    ```shell
     python run.py
     ```
 
