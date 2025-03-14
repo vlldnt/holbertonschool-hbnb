@@ -53,7 +53,6 @@ class PlaceResource(Resource):
     @api.response(200, 'Place details retrieved successfully')
     @api.response(404, 'Place not found')
     @jwt_required()
-    @api.doc(security="token")
     def get(self, place_id):
         """Get place details by ID"""
         try:

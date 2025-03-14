@@ -6,7 +6,3 @@ CREATE TABLE IF NOT EXISTS users (
     password VARCHAR(255),
     is_admin BOOLEAN DEFAULT FALSE
 );
-
-CREATE TABLE IF NOT EXISTS places (
-
-);
