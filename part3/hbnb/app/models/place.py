@@ -74,17 +74,25 @@ class Place(BaseModel):
 
     def add_review(self, review):
         """Add a review to the place."""
-        if not isinstance(review, Review):
-            raise TypeError("Review must be a Review instance.")
         self.reviews.append(review)
         self.save()
+    
+    def delete_review(self, review):
+        """Delete a review from the place."""
+        if review in self.reviews:
+            self.reviews.remove(review)
+            self.save()
 
     def add_amenity(self, amenity):
         """Add an amenity to the place."""
-        if not isinstance(amenity, Amenity):
-            raise TypeError("Amenity must be an Amenity instance.")
         self.amenities.append(amenity)
         self.save()
+
+    def delete_amenity(self, amenity):
+        """Delete a review from the place."""
+        if amenity in self.amenities:
+            self.reviews.remove(amenity)
+            self.save()
 
     def to_dict(self):
         """Convert the Place object to a dictionary."""

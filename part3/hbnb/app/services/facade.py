@@ -113,7 +113,6 @@ class HBnBFacade:
         """Retrieve all places."""
         return self.place_repo.get_all()
     
-    
     def update_place(self, place_id, place_data):
         """the function will update a place with new data"""
         place = self.place_repo.get(place_id)
@@ -123,8 +122,7 @@ class HBnBFacade:
         owner = self.get_user(place_data['owner_id'])
         if not owner:
             raise ValueError("Owner not found.")
-
-
+        
         if 'amenities' in place_data:
             amenities = []
             for amenity_id in place_data['amenities']:
@@ -140,6 +138,29 @@ class HBnBFacade:
 
         self.place_repo.save(place)
         return place
+    
+
+    def add_amenity_to_place(self, place_id, amenity_id):
+        place = self.get_place(place_id)
+        if not place:
+            raise ValueError('Place not found')
+        amenity = self.get_amenity(amenity_id)
+        if not amenity:
+            raise ValueError('Amenity not found')
+        
+        if hasattr(place, 'amenities'):
+            place.amenities.append(amenity)
+        else:
+            place.amenities = [amenity]
+
+    # def delete_amenity_from_place(self, place_id, amenity_id):
+        # place = self.get_place(place_id)
+        # if not place:
+            # return {'error': 'Place not found'}
+        # amenity = self.get_amenity(amenity_id)
+        # if not amenity:
+            # return {'error': 'Amenity not found'}
+        # .delete_amenity(amenity)
 
     # Review Facade
     def create_review(self, review_data):
