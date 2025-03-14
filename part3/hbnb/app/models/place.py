@@ -103,5 +103,6 @@ class Place(BaseModel):
             "price": self.price,
             "latitude": self.latitude,
             "longitude": self.longitude,
-            "owner_id": self.owner_id
+            "owner_id": self.owner_id,
+            "amenities": [{'id': amenity.id, 'name': amenity.name} for amenity in self.amenities]
         }
