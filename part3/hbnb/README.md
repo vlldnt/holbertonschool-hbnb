@@ -41,16 +41,20 @@ By the end of this part, you should be able to:
 1. Clone the repository:
     ```python
     git clone https://github.com/vlldnt/holbertonschool-hbnb.git
-    ```
-2. Install Requirements:
+2. Go to part3 folder:
+    ```shell
+    cd part3/hbnb/
+    ```    
+3. Install Requirements:
     ```shell
     pip install -r requirements.txt
     ```
-3. Go to part3 folder:
+4. Create and launch venv:
     ```shell
-    cd part3/hbnb/
+    python3 -m venv venv
+    source venv/bin/activate
     ```
-4. Run the Application:
+5. Run the Application:
     ```shell
     python run.py
     ```
