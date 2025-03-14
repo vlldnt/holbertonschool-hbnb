@@ -147,11 +147,10 @@ class HBnBFacade:
         amenity = self.get_amenity(amenity_id)
         if not amenity:
             raise ValueError('Amenity not found')
-        
-        if hasattr(place, 'amenities'):
-            place.amenities.append(amenity)
-        else:
-            place.amenities = [amenity]
+        place.amenities.append(amenity)
+        self.place_repo.save()
+        return place
+
 
     # def delete_amenity_from_place(self, place_id, amenity_id):
         # place = self.get_place(place_id)
