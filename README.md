@@ -32,7 +32,7 @@ This part is focused on creating a functional and scalable foundation for the ap
 6. _**Testing and Validation:**_ Perform validation, manual and automated testing using cURL and unittest/pytest, and document the results.
 
 
-### 🔒 [Part 3: Authentification and Database](https://github.com/vlldnt/holbertonschool-hbnb/blob/main/part2/hbnb)
+### 🔒 [Part 3: Authentification and Database](https://github.com/vlldnt/holbertonschool-hbnb/blob/main/part3/hbnb)
 
 This part of the project will extend the backend of the application by introducing user authentication, authorization, and database integration using `SQLAlchemy` and `SQLite` for development. We'll configure `MySQL` for production environments and will secure the backend, introduce persistent storage, and prepare the application for a scalable, real-world deployment.
 
