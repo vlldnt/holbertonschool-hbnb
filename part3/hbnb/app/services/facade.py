@@ -148,19 +148,24 @@ class HBnBFacade:
         amenity = self.get_amenity(amenity_id)
         if not amenity:
             raise ValueError('Amenity not found')
+        if amenity in place.amenities:
+            return place
         place.amenities.append(amenity)
-        self.place_repo.save(place)  # Pass the place object to the save method
+        self.place_repo.save(place)
         return place
 
 
-    # def delete_amenity_from_place(self, place_id, amenity_id):
-        # place = self.get_place(place_id)
-        # if not place:
-            # return {'error': 'Place not found'}
-        # amenity = self.get_amenity(amenity_id)
-        # if not amenity:
-            # return {'error': 'Amenity not found'}
-        # .delete_amenity(amenity)
+    def delete_amenity_from_place(self, place_id, amenity_id):
+        place = self.get_place(place_id)
+        if not place:
+            return {'error': 'Place not found'}
+        amenity = self.get_amenity(amenity_id)
+        if not amenity:
+            return {'error': 'Amenity not found'}
+        if amenity in place.amenities:
+            place.amenities.remove(amenity)
+            self.place_repo.save(place)
+            return place
 
     # Review Facade
     def create_review(self, review_data):

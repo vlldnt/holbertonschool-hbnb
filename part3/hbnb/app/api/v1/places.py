@@ -128,3 +128,31 @@ class PlaceAmenity(Resource):
 
         except ValueError as e:
             return {'error': str(e)}, 400
+
+    @api.response(200, 'Amenity successfully removed from place.')
+    @api.response(400, 'Invalid input data')
+    @api.response(403, 'Unauthorized action')
+    @api.doc(security='token')
+    @jwt_required()
+    def delete(self, place_id, amenity_id):
+        try:
+            place = facade.get_place(place_id)
+            if not place:
+                return {'error': 'Place not found'}, 400 
+            
+            current_user = get_jwt_identity()
+            if current_user['id'] != place.owner_id:
+                return {'error': 'Unauthorized action'}, 403
+            
+            amenity = facade.get_amenity(amenity_id)
+            if not amenity:
+                return {'error': 'Amenity not found'}, 400
+            
+            if amenity_id not in [amen.id for amen in place.amenities]:
+                return {'error': 'Amenity not in this place.'}, 400
+            
+            facade.delete_amenity_from_place(place_id, amenity_id)
+            return {'message': 'Amenity successfully removed from place'}, 200
+
+        except ValueError as e:
+            return {'error': str(e)}, 400

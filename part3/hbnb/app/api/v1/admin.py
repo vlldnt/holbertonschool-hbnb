@@ -90,7 +90,6 @@ class AdminUserModify(Resource):
         data = request.json
         email = data.get('email')
 
-        # Ensure email uniqueness
         if email:
             existing_user = facade.get_user_by_email(email)
             if existing_user and existing_user.id != user_id:
