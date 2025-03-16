@@ -9,7 +9,6 @@ from app import db
 from sqlalchemy.orm import validates, relationship
 
 
-
 class Place(BaseModel):
     """Place class that inherits from BaseModel."""
     __tablename__ = 'places'
@@ -19,11 +18,13 @@ class Place(BaseModel):
     price = db.Column(db.Integer, nullable=False)
     latitude = db.Column(db.Float, nullable=False)
     longitude = db.Column(db.Float, nullable=False)
-    owner_id = db.Column(db.String(36), db.ForeignKey('users.id'), nullable=False)
+    owner_id = db.Column(db.String(36), db.ForeignKey('users.id'),
+                         nullable=False)
     reviews = db.relationship('Review', backref='place', lazy=True)
-    amenities = db.relationship('Amenity', secondary=place_amenity, lazy='subquery', backref=db.backref('places', lazy=True))
+    amenities = db.relationship('Amenity', secondary=place_amenity,
+                                lazy='subquery',
+                                backref=db.backref('places', lazy=True))
 
-    
     @validates('title')
     def validate_title(self, key, value):
         """Validation for title"""
@@ -33,7 +34,7 @@ class Place(BaseModel):
             raise ValueError(
                 "Title must be present with a maximum of 100 characters.")
         return value
-    
+
     @validates('description')
     def validate_description(self, key, value):
         """Validation for description"""
@@ -65,7 +66,7 @@ class Place(BaseModel):
         if value < -180 or value > 180:
             raise ValueError("Longitude must be between -180.0 and 180.0")
         return value
-    
+
     @validates('owner_id')
     def validate_owner_id(self, key, value):
         if not isinstance(value, str):
@@ -76,7 +77,7 @@ class Place(BaseModel):
         """Add a review to the place."""
         self.reviews.append(review)
         self.save()
-    
+
     def delete_review(self, review):
         """Delete a review from the place."""
         if review in self.reviews:
@@ -104,5 +105,6 @@ class Place(BaseModel):
             "latitude": self.latitude,
             "longitude": self.longitude,
             "owner_id": self.owner_id,
-            "amenities": [{'id': amenity.id, 'name': amenity.name} for amenity in self.amenities]
+            "amenities": [{'id': amenity.id, 'name': amenity.name}
+                          for amenity in self.amenities]
         }

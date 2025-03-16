@@ -25,8 +25,8 @@ class User(BaseModel):
     @validates('first_name', 'last_name')
     def validate_names(self, key, value):
         """Validation for first_name and last_name"""
-        if len(value) > 50 or not re.fullmatch(
-            r'^[A-Za-zÀ-ÖØ-öø-ÿ -\']+$', value):
+        if len(value) > 50 or not re.fullmatch(r'^[A-Za-zÀ-ÖØ-öø-ÿ -\']+$',
+                                               value):
             raise ValueError(
                 "{} must be present with a maximum of 50 characters"
                 " and can only contain letters, spaces '-' and '".format(
