@@ -17,7 +17,9 @@ review_model = api.model(
 updated_review_model = api.model(
     'UpdatedReview', {
         'text': fields.String(description='Update th text of the review'),
-        'rating': fields.Integer(description='Update the rating of the place (1-5)'),
+        'rating': fields.Integer(
+            description='Update the rating of the place (1-5)'
+            ),
     }
 )
 
@@ -27,7 +29,7 @@ class ReviewList(Resource):
     @api.expect(review_model)
     @api.response(201, 'Review successfully created')
     @api.response(400, 'Invalid input data')
-    @api.doc(security="token")    
+    @api.doc(security="token")
     @jwt_required()
     def post(self):
         """Register a new review"""
@@ -39,14 +41,14 @@ class ReviewList(Resource):
             review_data['user_id'] = current_user['id']
             if place.owner_id == current_user:
                 return {'message': 'You cannot review your own place'}, 400
-            
+
             current_user_id = current_user['id']
             existing_review = facade.get_review_by_user_and_place(
                 current_user_id, review_data['place_id']
                 )
             if existing_review:
                 return {'message': 'You already reviewed this place'}, 400
-        
+
             required_fields = {'text', 'rating', 'user_id', 'place_id'}
             if not required_fields.issubset(review_data):
                 return {'message': 'Missing required fields'}, 400
@@ -112,7 +114,7 @@ class ReviewResource(Resource):
         review_data['user_id'] = current_user['id']
 
         review = facade.get_review(review_id)
-        
+
         if review.user_id != current_user['id']:
             return {'error': 'Unauthorized action'}, 403
         try:
@@ -136,7 +138,7 @@ class ReviewResource(Resource):
     def delete(self, review_id):
         """Delete a review"""
         review = facade.get_review(review_id)
-        current_user = get_jwt_identity()  
+        current_user = get_jwt_identity()
         if review.user_id != current_user['id']:
             return {'error': 'Unauthorized action'}, 403
         try:

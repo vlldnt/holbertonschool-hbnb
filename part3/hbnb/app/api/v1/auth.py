@@ -1,5 +1,6 @@
 from flask_restx import Namespace, Resource, fields
-from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
+from flask_jwt_extended import create_access_token
+from flask_jwt_extended import jwt_required, get_jwt_identity
 from app.services import facade
 from app.models.user import User
 
@@ -11,6 +12,7 @@ login_model = api.model('Login', {
     'password': fields.String(required=True, description='User password')
 })
 
+
 @api.route('/login')
 class Login(Resource):
     @api.expect(login_model)
@@ -20,12 +22,16 @@ class Login(Resource):
         user = facade.get_user_by_email(credentials['email'])
         if not user or not user.verify_password(credentials['password']):
             return {'error': 'Invalid credentials'}, 401
-        access_token = create_access_token(identity={'id': str(user.id), 'is_admin': user.is_admin})
+        access_token = create_access_token(identity={
+            'id': str(user.id),
+            'is_admin': user.is_admin
+            })
         return {'access_token': access_token}, 200
+
 
 @api.route('/protected')
 class ProtectedResource(Resource):
-    @api.doc(security="token")   
+    @api.doc(security="token")
     @jwt_required()
     def get(self):
         """A protected endpoint that requires a valid JWT token"""

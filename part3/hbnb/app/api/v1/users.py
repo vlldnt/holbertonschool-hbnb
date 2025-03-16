@@ -26,6 +26,7 @@ user_update_model = api.model(
     }
 )
 
+
 @api.route('/')
 class UserList(Resource):
     @api.expect(user_model, validate=True)
@@ -39,7 +40,7 @@ class UserList(Resource):
             existing_user = facade.get_user_by_email(user_data['email'])
             if existing_user:
                 return {'error': 'Email already registered'}, 400
-                        
+
             new_user = facade.create_user(user_data)
             return {
                 'id': new_user.id,
@@ -92,15 +93,13 @@ class UserResource(Resource):
         """Update user details with ID"""
         user_data = api.payload
         current_user = get_jwt_identity()
-        
-        # Check if the user is trying to modify another user's data
+
         if current_user['id'] != user_id:
             return {'error': 'Unauthorized action'}, 403
-        
-        # Prevent the user from modifying their email and password
+
         if 'email' in user_data or 'password' in user_data:
             return {'error': 'You cannot modify email or password.'}, 400
-        
+
         try:
             updated_user = facade.update_user(user_id, user_data)
             return {

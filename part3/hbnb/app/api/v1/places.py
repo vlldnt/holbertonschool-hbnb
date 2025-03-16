@@ -15,6 +15,7 @@ place_model = api.model('Place', {
                               description='Longitude of the place')
 })
 
+
 @api.route('/')
 class PlaceList(Resource):
     @api.expect(place_model)
@@ -58,18 +59,18 @@ class PlaceResource(Resource):
         try:
             place_data = facade.get_place(place_id)
             return {
-            'id': place_data.id,
-            'title': place_data.title,
-            'description': place_data.description,
-            'price': place_data.price,
-            'latitude': place_data.latitude,
-            'longitude': place_data.longitude,
-            'owner_id': place_data.owner_id,
-            'amenities': [{
-                'id': amenity.id,
-                'name': amenity.name
-            } for amenity in place_data.amenities],
-        }, 200
+                'id': place_data.id,
+                'title': place_data.title,
+                'description': place_data.description,
+                'price': place_data.price,
+                'latitude': place_data.latitude,
+                'longitude': place_data.longitude,
+                'owner_id': place_data.owner_id,
+                'amenities': [{
+                    'id': amenity.id,
+                    'name': amenity.name
+                    } for amenity in place_data.amenities],
+                    }, 200
         except ValueError as e:
             return {'error': str(e)}, 400
 
@@ -86,14 +87,14 @@ class PlaceResource(Resource):
         if not place:
             return {'message': 'Invalid input data'}, 400
         if current_user['id'] != place.owner_id:
-            return{'error': 'Unauthorized action'}, 403
+            return {'error': 'Unauthorized action'}, 403
         try:
             updated_data = api.payload
             updated_data['owner_id'] = current_user['id']
             updated_place = facade.update_place(place_id, updated_data)
             if not updated_place:
                 return {'message': 'Place not found'}, 404
-            
+
             return {
                     'id': updated_place.id,
                     'message': 'Place successfully updated'
@@ -103,6 +104,7 @@ class PlaceResource(Resource):
         except KeyError as e:
             return {'error': str(e)}, 400
 
+
 @api.route('/<place_id>/amenities/<amenity_id>')
 class PlaceAmenity(Resource):
     @api.response(201, 'Amenity sucessfully added to place.')
@@ -110,21 +112,21 @@ class PlaceAmenity(Resource):
     @api.doc(security='token')
     @jwt_required()
     def post(self, place_id, amenity_id):
-        try:        
+        try:
             place = facade.get_place(place_id)
             if not place:
                 return {'error': 'Place not found'}, 400
-            
+
             current_user = get_jwt_identity()
             if current_user['id'] != place.owner_id:
                 return {'error': 'Unauthorized action'}, 403
-            
+
             amenity = facade.get_amenity(amenity_id)
             if not amenity:
                 return {'error': 'Amenity not found'}, 400
-            
+
             facade.add_amenity_to_place(place_id, amenity_id)
-            return {'message':'Amenity sucessfully added to place'}
+            return {'message': 'Amenity sucessfully added to place'}
 
         except ValueError as e:
             return {'error': str(e)}, 400
@@ -138,19 +140,19 @@ class PlaceAmenity(Resource):
         try:
             place = facade.get_place(place_id)
             if not place:
-                return {'error': 'Place not found'}, 400 
-            
+                return {'error': 'Place not found'}, 400
+
             current_user = get_jwt_identity()
             if current_user['id'] != place.owner_id:
                 return {'error': 'Unauthorized action'}, 403
-            
+
             amenity = facade.get_amenity(amenity_id)
             if not amenity:
                 return {'error': 'Amenity not found'}, 400
-            
+
             if amenity_id not in [amen.id for amen in place.amenities]:
                 return {'error': 'Amenity not in this place.'}, 400
-            
+
             facade.delete_amenity_from_place(place_id, amenity_id)
             return {'message': 'Amenity successfully removed from place'}, 200
 

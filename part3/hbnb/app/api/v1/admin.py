@@ -1,5 +1,5 @@
 from flask_restx import Namespace, Resource, fields
-from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
+from flask_jwt_extended import jwt_required, get_jwt_identity
 from app.services import facade
 from flask import request
 
@@ -61,7 +61,7 @@ class AdminUserCreate(Resource):
             existing_user = facade.get_user_by_email(user_data['email'])
             if existing_user:
                 return {'error': 'Email already registered'}, 400
-                        
+
             new_user = facade.create_user(user_data)
             return {
                 'id': new_user.id,
