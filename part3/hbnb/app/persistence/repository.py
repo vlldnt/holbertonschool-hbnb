@@ -5,6 +5,7 @@ from app.models.review import Review
 from app.models.user import User
 from app.models.amenity import Amenity
 
+
 class Repository(ABC):
     @abstractmethod
     def add(self, obj):
@@ -29,6 +30,7 @@ class Repository(ABC):
     @abstractmethod
     def get_by_attribute(self, attr_name, attr_value):
         pass
+
 
 class SQLAlchemyRepository(Repository):
     def __init__(self, model):
@@ -59,10 +61,11 @@ class SQLAlchemyRepository(Repository):
 
     def get_by_attribute(self, attr_name, attr_value):
         return self.model.query.filter_by(**{attr_name: attr_value}).first()
-    
+
     def save(self, obj):
         db.session.add(obj)
         db.session.commit()
+
 
 class UserRepository(SQLAlchemyRepository):
     def __init__(self):
@@ -71,9 +74,11 @@ class UserRepository(SQLAlchemyRepository):
     def get_user_by_email(self, email):
         return self.model.query.filter_by(email=email).first()
 
+
 class PlaceRepository(SQLAlchemyRepository):
     def __init__(self):
         super().__init__(Place)
+
 
 class ReviewRepository(SQLAlchemyRepository):
     def __init__(self):
@@ -81,7 +86,8 @@ class ReviewRepository(SQLAlchemyRepository):
 
     def get_reviews_by_place(self, place_id):
         return self.model.query.filter_by(place_id=place_id).all()
-    
+
+
 class AmenityRepository(SQLAlchemyRepository):
     def __init__(self):
         super().__init__(Amenity)

@@ -47,11 +47,11 @@ class HBnBFacade:
     def get_all_users(self):
         """Retrieve all users."""
         return self.user_repo.get_all()
-    
+
     def hash_password(self, password):
         """Hashes the password before storing it."""
         self.password = bcrypt.generate_password_hash(password).decode('utf-8')
-    
+
     def verify_password(self, password):
         """Verifies if the provided password matches the hashed password."""
         if not self.password:
@@ -97,7 +97,6 @@ class HBnBFacade:
         owner = self.get_user(place_data['owner_id'])
         if not owner:
             raise ValueError("Owner not found.")
-        
         place = Place(**place_data)
         self.user_repo.add(place)
         return place
@@ -112,33 +111,30 @@ class HBnBFacade:
     def get_all_places(self):
         """Retrieve all places."""
         return self.place_repo.get_all()
-    
+
     def update_place(self, place_id, place_data):
         """the function will update a place with new data"""
         place = self.place_repo.get(place_id)
         if not place:
             raise KeyError("Place not found")
-        
         owner = self.get_user(place_data['owner_id'])
         if not owner:
             raise ValueError("Owner not found.")
-        
         if 'amenities' in place_data:
             amenities = []
             for amenity_id in place_data['amenities']:
                 amenity = self.get_amenity(amenity_id)
                 if not amenity:
-                    raise ValueError(f"Amenity with ID {amenity_id} not found.")
+                    raiseValueError(f"Amenity with ID"
+                                    "{amenity_id} not found.")
                 amenities.append(amenity)
             place.amenities = amenities
-
         for key, value in place_data.items():
             if hasattr(place, key) and key != 'amenities':
                 setattr(place, key, value)
 
         self.place_repo.save(place)
         return place
-    
 
     def add_amenity_to_place(self, place_id, amenity_id):
         """ Add an amenity to a place."""
@@ -153,7 +149,6 @@ class HBnBFacade:
         place.amenities.append(amenity)
         self.place_repo.save(place)
         return place
-
 
     def delete_amenity_from_place(self, place_id, amenity_id):
         place = self.get_place(place_id)
@@ -173,11 +168,9 @@ class HBnBFacade:
         user = self.get_user(review_data['user_id'])
         if not user:
             raise ValueError("User not found.")
-
         place = self.get_place(review_data['place_id'])
         if not place:
             raise ValueError("Place not found.")
-        
         review = Review(**review_data)
         self.review_repo.add(review)
         return review
@@ -190,7 +183,7 @@ class HBnBFacade:
 
     def get_all_reviews(self):
         return self.review_repo.get_all()
-    
+
     def get_reviews_by_place(self, place_id):
         place = self.place_repo.get(place_id)
         if not place:
@@ -202,7 +195,6 @@ class HBnBFacade:
         review = self.review_repo.get(review_id)
         if not review:
             raise ValueError("Review not found")
-        
         for key, value in review_update.items():
             if hasattr(review, key):
                 setattr(review, key, value)
@@ -215,7 +207,7 @@ class HBnBFacade:
             raise ValueError("Review not found")
         self.review_repo.delete(review_id)
         return {'message': 'Review deleted succesessfully'}
-    
+
     def get_review_by_user_and_place(self, user_id, place_id):
         place = self.place_repo.get(place_id)
         if not place:
@@ -223,5 +215,7 @@ class HBnBFacade:
         user = self.user_repo.get(user_id)
         if not user:
             raise ValueError("User not found")
-        return [review for review in
-                self.review_repo.get_all() if review.user_id == user_id and review.place_id == place_id]
+        return [
+            review for review in self.review_repo.get_all()
+            if review.user_id == user_id and review.place_id == place_id
+        ]
