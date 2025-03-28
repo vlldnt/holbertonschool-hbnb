@@ -8,16 +8,18 @@
 </head>
 <body>
     <header>
-        <img src="images/logo.png" alt="">
-        <button class="login-button">Login</button>
+        <div class="logo-login">
+            <img src="images/logo.png" alt="">
+            <button class="login-button">Login</button>
+        </div>
+    </header>
+    <main>
         <nav>
             <a href="index.html" id="">Index</a>
             <a href="login.html" id="login-link">Login</a>
             <a href="place.html">Place</a>
             <a href="add_review.html">Add Review</a>
         </nav>
-    </header>
-    <main>
         <section id="filter">
             <label for="price-filter">Max Price:</label>
             <select id="price-filter">
@@ -26,20 +28,55 @@
         </section>
         <section id="places-list">
             <!-- Places will be dynamically populated here -->
-            {% if places %}
-            <ul>
-                {% for place in places %}
-                    <li class="place-card">{{ place }}</li>
-                {% end for %}
-            </ul>
-            {% else %}
-            <p>No place found</p>
-            {% endif %}
+
+            <div class="place-card">
+                <h2>Hôtel</h2>
+                <p>Price per night: $168</p>
+                <button class="detail-button">View Details</button>
+            </div>
+            <div class="place-card">
+                <h2>Tentes</h2>
+                <p>Price per nigth: $15</p>
+                <button class="detail-button">View Details</button>
+            </div>
+            <div class="place-card">
+                <h2>Chambre d'hôtes</h2>
+                <p>Price per night: $89</p>
+                <button class="detail-button">View Details</button>
+            </div>
+            <div class="place-card">
+                <h2>Gîtes où c'est bien de Dormir Dedant</h2>
+                <p>Price per nigth: $95</p>
+                <button class="detail-button">View Details</button>
+            </div>
+            <div class="place-card">
+                <h2>Hôtel</h2>
+                <p>Price per night: $168</p>
+                <button class="detail-button">View Details</button>
+            </div>
+            <div class="place-card">
+                <h2>Tentes</h2>
+                <p>Price per nigth: $15</p>
+                <button class="detail-button">View Details</button>
+            </div>
+            <div class="place-card">
+                <h2>Chambre d'hôtes</h2>
+                <p>Price per night: $89</p>
+                <button class="detail-button">View Details</button>
+            </div>
+            <div class="place-card">
+                <h2>Gîtes</h2>
+                <p>Price per nigth: $95</p>
+                <button class="detail-button">View Details</button>
+            </div>
+
+
+
         </section>
     </main>
     <script src="scripts.js"></script>
     <footer>
-        <p>&copy; 2025 All rights reserved</p>
+        <p>&copy; HBNB C#25 - All rights reserved</p>
     </footer>
 </body>
 </html>
