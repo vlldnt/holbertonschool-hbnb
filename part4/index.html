@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>List of Places</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <img src="images/logo.png" alt="">
+        <button class="login-button">Login</button>
+        <nav>
+            <a href="index.html" id="">Index</a>
+            <a href="login.html" id="login-link">Login</a>
+            <a href="place.html">Place</a>
+            <a href="add_review.html">Add Review</a>
+        </nav>
+    </header>
+    <main>
+        <section id="filter">
+            <label for="price-filter">Max Price:</label>
+            <select id="price-filter">
+                <!-- Options will be populated dynamically -->
+            </select>
+        </section>
+        <section id="places-list">
+            <!-- Places will be dynamically populated here -->
+            {% if places %}
+            <ul>
+                {% for place in places %}
+                    <li class="place-card">{{ place }}</li>
+                {% end for %}
+            </ul>
+            {% else %}
+            <p>No place found</p>
+            {% endif %}
+        </section>
+    </main>
+    <script src="scripts.js"></script>
+    <footer>
+        <p>&copy; 2025 All rights reserved</p>
+    </footer>
+</body>
+</html>
