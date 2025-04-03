@@ -14,7 +14,7 @@ def create_app(config_class="config.DevelopmentConfig"):
     app.config.from_object(config_class)
 
     # Appliquer CORS à l'application Flask entière
-    CORS(app, resources={r"/*": {"origins": "http://127.0.0.1:5501"}})
+    CORS(app, resources={r"/*": {"origins": "http://127.0.0.1:5502"}})
 
     authorizations = {
         'token': {

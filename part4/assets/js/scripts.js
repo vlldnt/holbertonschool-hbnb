@@ -24,7 +24,6 @@ async function loginUser(email, password) {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({ email, password }),
-        mode: 'no-cors'
     });
 
     //Handle the API response
