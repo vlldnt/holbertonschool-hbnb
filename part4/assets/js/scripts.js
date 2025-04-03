@@ -1,25 +1,38 @@
-/* 
-  This is a SAMPLE FILE to get you started.
-  Please, follow the project instructions to complete the tasks.
-*/
-
 document.addEventListener('DOMContentLoaded', () => {
-    // Sélectionner tous les boutons "detail-button"
-    const detailButtons = document.querySelectorAll('.detail-button');
+    const loginForm = document.getElementById('login-form');
 
-    detailButtons.forEach(button => {
-        // Ajouter un événement "mouseover" pour changer la couleur du <h2>
-        button.addEventListener('mouseover', () => {
-            const placeCard = button.closest('.place-card'); // Trouver la carte parente
-            const title = placeCard.querySelector('h2'); // Trouver le <h2> dans la carte
-            title.style.color = 'red'; // Changer la couleur du texte
+    if (loginForm) {
+        loginForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            try {
+                await loginUser(email, password);
+            } catch (error) {
+                console.log('error:' + error)
+            }
         });
-
-        // Ajouter un événement "mouseout" pour restaurer la couleur originale
-        button.addEventListener('mouseout', () => {
-            const placeCard = button.closest('.place-card'); // Trouver la carte parente
-            const title = placeCard.querySelector('h2'); // Trouver le <h2> dans la carte
-            title.style.color = ''; // Restaurer la couleur originale (défaut CSS)
-        });
-    });
+    }
 });
+
+//AJAX request to the API
+async function loginUser(email, password) {
+    const response = await fetch('/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ email, password }),
+    });
+
+    //Handle the API response
+    if (response.ok) {
+        const data = await response.json();
+        document.cookie = `token=${data.access_token}; path=/`;
+        window.location.href = 'index.html';
+        console.log(`${data.access_token}`)
+    } else {
+        alert('Login failed: ' + response.statusText);
+    }
+}
