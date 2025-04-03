@@ -10,25 +10,24 @@
 <body>
     <header>
         <div class="logo-login">
-            <a href="index.html"><img src="assets/images/logo.png" alt=""></a>
-            <button class="login-button">Login</button>
+            <a href="index.html"><img src="assets/images/logo.png" alt="index"></a>
+            <a href="login.html" id="login-link"><button class="login-button">Login<img src="assets/images/login.png" alt="login-logo" class="icon-login"></button></a>
         </div>
     </header>
-    <nav>
-        <a href="index.html" id="">Index</a>
-        <a href="login.html" id="login-link">Login</a>
-        <a href="place.html">Place</a>
-        <a href="add_review.html">Add Review</a>
-    </nav>
     <main>
         <section id="place-details">
-            <!-- Place details will be populated dynamically -->
+            <div class="each-place">
+                <img src="assets/images/ecolodge.avif" alt="" class="detail-place-image">
+                <h2>EcoLodge des Cimes</h2>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum dignissimos minus dolor aliquam excepturi rerum ducimus fugiat deserunt enim quos molestiae, esse architecto eius aperiam eveniet ipsum? Ab architecto ad quos modi rem, autem molestiae et iusto reprehenderit voluptatibus itaque.</p>
+            </div>
         </section>
         <section id="reviews">
             <!-- Reviews will be populated dynamically -->
         </section>
         <section id="add-review">
-            <h2>Add a Review</h2>
+            <a href="add_review.html">    
+            <h2>Add a Review</h2></a>
             <form id="review-form">
                 <label for="review-text">Review:</label>
                 <textarea id="review-text" name="review-text" required></textarea>

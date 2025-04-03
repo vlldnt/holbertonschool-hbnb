@@ -104,6 +104,11 @@ footer {
     transition: box-shadow 0.2s ease-in-out;
 }
 
+.login-button a {
+    text-decoration: none;
+}
+
+
 .login-button:hover {
     box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.2)  ;
 }
@@ -114,6 +119,7 @@ footer {
     object-fit: contain;
     border-radius: 50%;
 }
+
 nav {
     width: 40%;
     margin: 30%;
@@ -173,6 +179,11 @@ nav a:hover {
     justify-content: center;
 }
 
+.place-card a {
+    text-decoration: none;
+    color: inherit;
+}
+
 .place-card img {
     width: 100%;
     height: auto;
@@ -230,4 +241,53 @@ select {
     border: 1px solid #ccc;
     background-color: white;
     cursor: pointer;
+}
+
+.each-place {
+    justify-content: center;
+    display: block;
+    align-items: center;
+    text-align: center;
+    width: 60%;
+
+}
+
+.each-place img {
+    width: 100%;
+    height: auto;
+}
+
+#login-form {
+    display: flex;
+    flex-direction: column;
+    width: 450px;
+    padding: 25px;
+    background-color: #dddddd46;
+    border-radius: 50px;
+    margin: auto;
+    margin-bottom: 80px;
+}
+
+#login-form input {
+    height: 30px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-weight: 600;
+    font-size: larger;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+#login-form label {
+    padding: 10px;
+    height: 30px;
+    font-size: x-large;
+    margin: 10px 0 10px 0;
+}
+
+#login-form button {
+    margin-top: 15px;
+    height: 30px;
+    width: 20%;
+    border-radius: 15px;
+    text-decoration: none;
 }
