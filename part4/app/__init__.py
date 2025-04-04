@@ -13,7 +13,7 @@ def create_app(config_class="config.DevelopmentConfig"):
     app = Flask(__name__)
     app.config.from_object(config_class)
 
-    CORS(app, resources={r"/*": {"origins": "http://127.0.0.1:5502"}})
+    CORS(app)
 
     authorizations = {
         'token': {
