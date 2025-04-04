@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
+    checkAuthentication();
     const loginForm = document.getElementById('login-form');
 
     if (loginForm) {
@@ -35,4 +36,24 @@ async function loginUser(email, password) {
     } else {
         alert('Login failed: ' + response.statusText);
     }
+}
+
+function checkAuthentication() {
+    const token = getCookie('token');
+    const loginLink = document.getElementById('login-link');
+
+    if (!token) {
+        loginLink.style.display = 'block';
+    } else {
+        loginLink.style.display = 'none';
+        // Fetch places data if the user is authenticated
+        fetchPlaces(token);
+    }
+}
+
+function getCookie(name) {
+    const cookieValue = document.cookie.split("; ")
+        .find((row) => row.startsWith(name))
+        ?.split("=")[1];
+    return cookieValue
 }
