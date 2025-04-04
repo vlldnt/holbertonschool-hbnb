@@ -46,7 +46,6 @@ function checkAuthentication() {
         loginLink.style.display = 'block';
     } else {
         loginLink.style.display = 'none';
-        // Fetch places data if the user is authenticated
         fetchPlaces(token);
     }
 }
@@ -57,3 +56,35 @@ function getCookie(name) {
         ?.split("=")[1];
     return cookieValue
 }
+
+async function fetchPlaces(token) {
+    try {
+        const response = await fetch('http://127.0.0.1:5000/api/v1/places/', {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        const places = await response.json();
+        displayPlaces(places);
+    } catch (error) {
+        console.error('Error fetching places:', error);
+    }
+}
+
+function displayPlaces(places) {
+    const placesList = document.getElementById('places-list');
+    placesList.innerHTML = '';
+    const price = document.getElementById('price-filter').value;
+  
+    places.forEach(place => {        
+        const placeCard = document.createElement('div');
+        placeCard.className = 'place-card';
+        placeCard.innerHTML = `
+            <img src="assets/images/ecolodge.avif" alt="git">
+            <h2>${place.title}</h2>
+            <p>Price €${place.price}</p>
+            <button class="detail-button">View details</button>
+        `;
+        placesList.appendChild(placeCard);
+    });
+  }
