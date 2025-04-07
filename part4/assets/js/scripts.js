@@ -17,7 +17,19 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-//AJAX request to the API
+document.addEventListener('DOMContentLoaded', () => {
+    const token = getCookie('token');
+    const urlParams = new URLSearchParams(window.location.search);
+    const placeId = urlParams.get('id');
+    try {
+        if (token && placeId) {
+          fetchDetailedPlace(token, placeId);
+        }
+    } catch (error) {
+        console.error(error);
+    }
+});
+
 async function loginUser(email, password) {
     const response = await fetch('http://127.0.0.1:5000/api/v1/auth/login', {
         method: 'POST',
@@ -27,7 +39,6 @@ async function loginUser(email, password) {
         body: JSON.stringify({ email, password }),
     });
 
-    //Handle the API response
     if (response.ok) {
         const data = await response.json();
         document.cookie = `token=${data.access_token}; path=/`;
@@ -74,20 +85,19 @@ async function fetchPlaces(token) {
 function displayPlaces(places) {
     const placesList = document.getElementById('places-list');
     placesList.innerHTML = '';
-    const price = document.getElementById('price-filter').value;
-  
+
     places.forEach(place => {        
-        const placeCard = document.createElement('div');
+        const placeCard = document.createElement('a');
         placeCard.className = 'place-card';
+        placeCard.href = `place.html?id=${place.id}`;
         placeCard.innerHTML = `
-            <img src="assets/images/ecolodge.avif" alt="git">
+            <img src="assets/images/ecolodge.avif" alt="${place.title}">
             <h2>${place.title}</h2>
             <p>Price per night €${place.price}</p>
-            <button class="detail-button">View details</button>
         `;
         placesList.appendChild(placeCard);
     });
-  }
+}
 
 document.getElementById('price-filter').addEventListener('change', () => {
     const selectedPrice = document.getElementById('price-filter').value;
@@ -102,3 +112,44 @@ document.getElementById('price-filter').addEventListener('change', () => {
         }
     });
 });
+
+async function fetchDetailedPlace(token, placeId) {
+    try {
+        const response = await fetch(`http://127.0.0.1:5000/api/v1/places/${placeId}`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        if (response.ok) {
+            const detailedPlace = await response.json();
+            displayDetailedPlaces(detailedPlace)
+        } else {
+            console.error('Failed to fetch detailed place.')
+        }
+    } catch (error) {
+        console.error('Error fetching place detail:', error);
+    }
+}
+
+function displayDetailedPlaces(place) {
+    document.getElementById('place-details').innerHTML = `
+        <h1>${place.title}</h1>
+        <p>Description: ${place.description}</p>
+        <p>Price: $${place.price} per night</p>
+        <p>Amenities: ${place.amenities.join(', ')}</p>
+    `;
+
+    const reviewsPlace = document.getElementById('reviews');
+    reviewsPlace.innerHTML = '<h2>Reviews</h2>';
+
+    place.reviews.forEach(review => {
+        const reviewCard = document.createElement('div')
+        reviewCard.classList.add('review-card')
+        reviewCard.innerHTML = `
+            <p>${review.text}</p>
+            <p>Rating = ${review.rating}</p>
+        `
+        reviewsPlace.appendChild(reviewCard);
+    })
+}
