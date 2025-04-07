@@ -73,28 +73,32 @@ async function fetchPlaces(token) {
 
 function displayPlaces(places) {
     const placesList = document.getElementById('places-list');
-    const priceFilter = document.getElementById('price-filter');
-
-    function placesDisplay(list) {
-        placesList.innerHTML = '';
-        list.forEach(place => {        
-            const placeCard = document.createElement('div');
-            placeCard.className = 'place-card';
-            placeCard.innerHTML = `
-                <img src="assets/images/ecolodge.avif" alt="git">
-                <h2>${place.title}</h2>
-                <p>Price €${place.price}</p>
-                <button class="detail-button">View details</button>
-            `;
-            placesList.appendChild(placeCard);
-        });
-    }
-
-    placesDisplay(places);
-
-    priceFilter.addEventListener('change', (event) => {
-        const selectedPrice = parseFloat(event.target.value);
-        const filteredPlaces = places.filter(place => place.price <= selectedPrice);
-        placesDisplay(filteredPlaces);
+    placesList.innerHTML = '';
+    const price = document.getElementById('price-filter').value;
+  
+    places.forEach(place => {        
+        const placeCard = document.createElement('div');
+        placeCard.className = 'place-card';
+        placeCard.innerHTML = `
+            <img src="assets/images/ecolodge.avif" alt="git">
+            <h2>${place.title}</h2>
+            <p>Price per night €${place.price}</p>
+            <button class="detail-button">View details</button>
+        `;
+        placesList.appendChild(placeCard);
     });
-}
+  }
+
+document.getElementById('price-filter').addEventListener('change', () => {
+    const selectedPrice = document.getElementById('price-filter').value;
+    const places = document.querySelectorAll('.place-card');
+
+    places.forEach(card => {
+        const price = parseInt(card.querySelector('p').textContent.replace('Price per night €', ''), 10)
+        if (selectedPrice === 'All' || price <= parseInt(selectedPrice, 10)) {
+            card.style.display = 'block'
+        } else {
+            card.style.display = 'none'
+        }
+    });
+});
