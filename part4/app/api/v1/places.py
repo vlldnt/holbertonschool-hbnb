@@ -70,6 +70,12 @@ class PlaceResource(Resource):
                     'id': amenity.id,
                     'name': amenity.name
                     } for amenity in place_data.amenities],
+                'reviews': [{
+                    'id': review.id,
+                    'user': review.user_id,
+                    'rating': review.rating,
+                    'text': review.text
+                    } for review in place_data.reviews]
                     }, 200
         except ValueError as e:
             return {'error': str(e)}, 400

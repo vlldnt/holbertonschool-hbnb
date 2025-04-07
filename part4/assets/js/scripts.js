@@ -137,19 +137,22 @@ function displayDetailedPlaces(place) {
         <h1>${place.title}</h1>
         <p>Description: ${place.description}</p>
         <p>Price: $${place.price} per night</p>
-        <p>Amenities: ${place.amenities.join(', ')}</p>
+        <p>Amenities: ${place.amenities.map(a => a.name).join(', ')}</p>
     `;
 
     const reviewsPlace = document.getElementById('reviews');
     reviewsPlace.innerHTML = '<h2>Reviews</h2>';
-
-    place.reviews.forEach(review => {
-        const reviewCard = document.createElement('div')
-        reviewCard.classList.add('review-card')
-        reviewCard.innerHTML = `
-            <p>${review.text}</p>
-            <p>Rating = ${review.rating}</p>
-        `
-        reviewsPlace.appendChild(reviewCard);
-    })
+    if (place.reviews && place.reviews.length > 0) {
+        place.reviews.forEach(review => {
+            const reviewCard = document.createElement('div');
+            reviewCard.classList.add('review-card');
+            reviewCard.innerHTML = `
+                <p>${review.text}</p>
+                <p>Rating: ${review.rating}</p>
+            `;
+            reviewsPlace.appendChild(reviewCard);
+        });
+    } else {
+        reviewsPlace.innerHTML += '<p>No reviews available for this place.</p>';
+    }
 }
