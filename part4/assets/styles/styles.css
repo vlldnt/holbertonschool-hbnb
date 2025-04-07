@@ -297,5 +297,40 @@ select {
     width: 50%;
     border-radius: 15px;
     text-decoration: none;
-    font-size: larger;
+    font-size: 18px;
 }
+#add-review button {
+    padding: 12px 24px;
+    background: linear-gradient(135deg, #6c63ff, #48c6ef);
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    position: relative;
+    overflow: hidden;
+}
+  
+#add-review button::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.2);
+    transform: skewX(-20deg);
+    transition: all 0.4s ease;
+}
+  
+#add-review button:hover::before {
+    left: 100%;
+}
+  
+#add-review button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+  
