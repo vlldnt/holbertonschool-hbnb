@@ -156,9 +156,9 @@ function displayDetailedPlaces(place) {
         reviewsPlace.innerHTML += '<p>No reviews available for this place.</p>';
     }
 
-    const addReviewContainer = document.getElementById('add-review');
-    const reviewLink = document.createElement('a');
-    reviewLink.href = `add_review.html?id=${place.id}`;
-    reviewLink.innerHTML = `<button>Add a review</button>`;
-    addReviewContainer.appendChild(reviewLink);
+    const addReview = document.getElementById('add-review');
+    const button = document.createElement('a');
+    button.href = `add_review.html?id=${place.id}`;
+    button.innerHTML = `<button>Add a review</button>`;
+    addReview.appendChild(button);
 };
