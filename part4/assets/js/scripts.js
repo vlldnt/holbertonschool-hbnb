@@ -148,7 +148,7 @@ function displayPlaces(places) {
     placeCard.className = "place-card";
     placeCard.href = `place.html?id=${place.id}`;
     placeCard.innerHTML = `
-            <img src="assets/images/ecolodge.avif" alt="${place.title}">
+            <img src="assets/images/places-images/${place.title}.avif" alt="${place.title}">
             <h2>${place.title}</h2>
             <p class=description>${place.description}</p>
             <p class=price-card><strong>€${place.price}</strong> per night</p>
@@ -200,7 +200,7 @@ async function fetchDetailedPlace(token, placeId) {
 function displayDetailedPlaces(place) {
   document.getElementById("place-details").innerHTML = `
         <h1>${place.title}</h1>
-        <img src="assets/images/hotel.avif" alt="git">
+        <img src="assets/images/places-images/${place.title}.avif" alt="git">
         <p>Description: ${place.description}</p>
         <p>Price: $${place.price} per night</p>
         <p>Amenities: ${place.amenities.map((a) => a.name).join(", ")}</p>

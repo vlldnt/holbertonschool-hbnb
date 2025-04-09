@@ -202,11 +202,14 @@ nav a:hover {
 .description {
     color: #aaa8a8;
     line-height: 1.4;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
     display: -webkit-box;
+    display: flex;
+    -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
+    -webkit-line-clamp: 3;
+    max-height: calc(1.4em * 3);
+    text-align: justify;
 }
 
 .place-card a {
@@ -275,16 +278,25 @@ select {
 }
 
 #place-details {
-    justify-content: center;
-    display: block;
+    display: flex;
+    flex-direction: column;
     align-items: center;
-    text-align: center;
+    justify-content: center;
     width: 100%;
+    text-align: center;
 }
 
 #place-details img {
     width: 900px;
     height: auto;
+    max-width: 100%;
+}
+
+#place-details p {
+    margin-top: 20px;
+    line-height: 1.9;
+    text-align: justify;
+    width: 900px;
     max-width: 100%;
 }
 
