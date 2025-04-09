@@ -150,7 +150,8 @@ function displayPlaces(places) {
     placeCard.innerHTML = `
             <img src="assets/images/ecolodge.avif" alt="${place.title}">
             <h2>${place.title}</h2>
-            <p>Price per night €${place.price}</p>
+            <p class=description>${place.description}</p>
+            <p class=price-card><strong>€${place.price}</strong> per night</p>
         `;
     placesList.appendChild(placeCard);
   });

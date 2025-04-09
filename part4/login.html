@@ -28,6 +28,9 @@
         </div>
     </header>
     <main>
+        <div class="separator-header">
+            <span></span>
+        </div>
         <form id="login-form">
             <label for="email">Email:</label>
             <input type="email" id="email" name="email" required>
@@ -37,6 +40,23 @@
             
             <button type="submit">Login</button>
         </form>
+        
+        <!-- Span with written "or" -->
+        <div class="separator-container">
+            <div class="separator">
+                <span>or</span>
+            </div>
+        </div>
+        
+        <div class="social-login-buttons">
+            <button class="social-login-btn google-btn">
+                <img src="/assets/images/logo-google.png" alt="logo-google">Continue with <strong>Google</strong></button>
+            <button class="social-login-btn facebook-btn">
+                <img src="assets/images/logo-facebook.png" alt="logo-facebook">Continue with <strong>Facebook</strong></button>
+                <button class="social-login-btn apple-btn">
+                    <img src="assets/images/apple-logo.png" alt="apple-button">Continue with <strong>Apple</strong></button>
+        </div>
+        
     </main>
     <script src="assets/js/scripts.js"></script>
 </body>
