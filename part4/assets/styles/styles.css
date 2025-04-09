@@ -72,7 +72,7 @@ header {
 }
 
 main {
-    margin-top: 170px;
+    margin-top: 120px;
     padding: 0 120px 0 120px;
 }
 
@@ -247,12 +247,13 @@ select {
     display: block;
     align-items: center;
     text-align: center;
-    width: 60%;
+    width: 100%;
 }
 
 #place-details img {
-    width: 100%;
+    width: 900px;
     height: auto;
+    max-width: 100%;
 }
 
 .review-card {
@@ -331,4 +332,4 @@ select {
     transform: scale(1.05);
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
 }
-  
+
