@@ -169,11 +169,6 @@ nav a:hover {
 
 }
 
-.price-card {
-    align-self: flex-end;
-    margin-right: 16px;
-    font-size: 16px;
-}
 
 .place-card {
     margin: 20px;
@@ -184,32 +179,15 @@ nav a:hover {
     background-color: #ffffff;
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    justify-content: center;
+    align-items: stretch;
     text-decoration: none;
     color: inherit;
     transition: scale 0.2s ease-in-out;
+    overflow: hidden;
 }
 
 .place-card:hover {
     scale: 1.05;
-}
-
-.place-card strong {
-    font-size: 19px;
-}
-
-.description {
-    color: #aaa8a8;
-    line-height: 1.4;
-    display: -webkit-box;
-    display: flex;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    -webkit-line-clamp: 3;
-    max-height: calc(1.6em * 3);
-    text-align: justify;
 }
 
 .place-card a {
@@ -217,13 +195,50 @@ nav a:hover {
     color: inherit;
 }
 
-.place-card img {
+.place-card-image {
     width: 100%;
-    height: 400px;
-    border-radius: 20px;
-    object-fit: contain;
+    height: 270px;
+    overflow: hidden;
 }
 
+.place-card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.place-card-content {
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex-grow: 1;
+}
+
+.place-card-content h2 {
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.description {
+    color: #aaa8a8;
+    line-height: 1.4;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 3;
+    max-height: calc(1.4em * 3);
+    text-align: justify;
+}
+
+.price-card {
+    font-size: 16px;
+    color: #333;
+    text-align: right;
+    margin-top: auto;
+}
 
 #places-list {
     display: flex;
@@ -237,6 +252,8 @@ nav a:hover {
     border: 1px solid #ddd;
     border-radius: 10px;
     text-align: center;
+    width: 800px;
+    max-width: 100%;
 }
 
 
@@ -285,7 +302,7 @@ select {
     text-align: center;
 }
 
-#place-details img {
+#place-details > img {
     width: 900px;
     height: auto;
     max-width: 100%;
@@ -299,12 +316,10 @@ select {
     max-width: 100%;
 }
 
-.review-card {
-    margin: 20px;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 10px;
+#place-details > .detailedPrice {
+    text-align: right;
 }
+
 /** Login Form **/
 #login-form {
     display: flex;
@@ -372,11 +387,11 @@ select {
 
 .separator-header {
     position: relative;
-    width: 120%; /* Augmente la largeur pour dépasser */
+    width: 120%;
     border-top: 1px solid #d3d3d3;
     margin-top: 10px;
     margin-bottom: 15px;
-    margin-left: -10%; /* Décale vers la gauche pour centrer */
+    margin-left: -10%;
 }
 
 .separator-header span {
@@ -469,3 +484,58 @@ select {
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
 }
 
+.detailedTitle {
+    font-size: 38px;
+    margin-bottom: 15px;
+}
+
+.detailedPrice {
+    font-size: 34px;
+    text-align: right;
+}
+
+.amenities {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+    font-size: 18px;
+    font-style: italic;
+}
+  
+.amenity {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    position: relative;
+}
+
+.amenity::after {
+    content: attr(data-alt);
+    position: absolute;
+    top: -50px;
+    left: -10px;
+    background-color: #1613db;
+    color: #fff;
+    padding: 5px 10px;
+    font-size: 18px;
+    border-radius: 5px;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.amenity:hover::after {
+    opacity: 1;
+}
+
+
+.amenity img {
+    width: 40px;
+    height: 40px;
+    fill: red;
+}
+
+
+  

@@ -144,15 +144,18 @@ function displayPlaces(places) {
   placesList.innerHTML = "";
 
   places.forEach((place) => {
-    const placeCard = document.createElement("a");
+    const placeCard = document.createElement("div");
     placeCard.className = "place-card";
-    placeCard.href = `place.html?id=${place.id}`;
     placeCard.innerHTML = `
-            <img src="assets/images/places-images/${place.title}.avif" alt="${place.title}">
-            <h2>${place.title}</h2>
-            <p class=description>${place.description}</p>
-            <p class=price-card><strong>€${place.price}</strong> per night</p>
-        `;
+      <a href="place.html?id=${place.id}" class="place-card-image">
+        <img src="assets/images/places-images/${place.title}.avif" alt="${place.title}">
+      </a>
+      <div class="place-card-content">
+        <h2>${place.title}</h2>
+        <p class="description">${place.description}</p>
+        <p class="price-card"><strong>${place.price} €</strong> per night</p>
+      </div>
+    `;
     placesList.appendChild(placeCard);
   });
 }
@@ -163,11 +166,11 @@ document.getElementById("price-filter").addEventListener("change", () => {
 
   places.forEach((card) => {
     const price = parseInt(
-      card.querySelector("p").textContent.replace("Price per night €", ""),
+      card.querySelector(".price-card strong").textContent.replace(" €", ""),
       10
     );
     if (selectedPrice === "All" || price <= parseInt(selectedPrice, 10)) {
-      card.style.display = "block";
+      card.style.display = "flex";
     } else {
       card.style.display = "none";
     }
@@ -199,15 +202,23 @@ async function fetchDetailedPlace(token, placeId) {
 
 function displayDetailedPlaces(place) {
   document.getElementById("place-details").innerHTML = `
-        <h1>${place.title}</h1>
+        <h1 class="detailedTitle">${place.title}</h1>
         <img src="assets/images/places-images/${place.title}.avif" alt="git">
-        <p>Description: ${place.description}</p>
-        <p>Price: $${place.price} per night</p>
-        <p>Amenities: ${place.amenities.map((a) => a.name).join(", ")}</p>
+        <p class="detailedDescription">Description: ${place.description}</p>
+        <p class="amenities">What this place offers: 
+        ${place.amenities
+          .map((a) => `
+          <span class="amenity" data-alt="${a.name}">
+          <img src="assets/images/amenities-logos/${a.name.toLowerCase()}.png" alt="${a.name}" />
+          </span>
+          `)
+          .join("")}
+          </p>
+        <p class="detailedPrice"><strong>${place.price} €</strong> per night</p>
     `;
 
   const reviewsPlace = document.getElementById("reviews");
-  reviewsPlace.innerHTML = "<h2>Reviews</h2>";
+
   if (place.reviews && place.reviews.length > 0) {
     place.reviews.forEach((review) => {
       const reviewCard = document.createElement("div");
@@ -249,6 +260,7 @@ async function submitReview(token, placeId, reviewText, rating) {
       body: JSON.stringify(body),
     });
     handleResponse(response, placeId);
+
   } catch (error) {
     console.error("Error:", error);
   }
