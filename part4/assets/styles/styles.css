@@ -78,7 +78,6 @@ main {
 }
 
 footer {
-    position: fixed;
     bottom: 0;
     left: 0;
     width: 100%;
@@ -320,7 +319,7 @@ select {
     text-align: right;
 }
 
-/** Login Form **/
+/**  Login Form **/
 #login-form {
     display: flex;
     flex-direction: column;
@@ -333,6 +332,15 @@ select {
     margin-top: 10px;
     font-size: 18px;
     font-weight: bold;
+}
+
+#login-form h2 {
+    text-align: center;
+    font-size: 44px;
+    font-weight: bolder;
+    color: #000000;
+    text-transform: uppercase;
+    letter-spacing: 2px;
 }
 
 #login-form input {
@@ -355,6 +363,53 @@ select {
 }
 
 #login-form button:hover {
+    background-color: #6cb9fdea;
+}
+
+/* Register form */
+#register-form {
+    display: flex;
+    flex-direction: column;
+    width: 400px;
+    margin: 0 auto;
+    margin-top: 50px;
+}
+
+#register-form label {
+    margin-top: 10px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+#register-form h2 {
+    text-align: center;
+    font-size: 44px;
+    font-weight: bolder;
+    color: #000000;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+#register-form input {
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 18px;
+}
+
+#register-form button {
+    margin-top: 15px;
+    padding: 10px;
+    background-color: #00ae48;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+#register-form button:hover {
     background-color: #6cb9fdea;
 }
 
@@ -408,7 +463,7 @@ select {
 .social-login-buttons {
     display: flex;
     flex-direction: column;
-    margin-top: 20px;
+    margin-top: 10px;
     width: 400px;
     margin: 0 auto;
 }
@@ -423,7 +478,7 @@ select {
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    margin: 15px 0 15px 0;
+    margin: 10px 0 10px 0;
     position: relative;
 }
 
@@ -446,6 +501,59 @@ select {
 .apple-btn:hover {
     background-color: #8f8d8d;
     color: rgb(255, 255, 255);
+}
+
+.flip-container {
+    perspective: 1000px;
+    width: 100%;
+    max-width: 500px;
+    margin: 50px auto;
+}
+
+.flipper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transition: transform 0.6s;
+}
+
+.front, .back {
+    position: absolute;
+    width: 100%;
+    backface-visibility: hidden;
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+}
+
+.front {
+    transform: rotateY(0deg);
+}
+
+.back {
+    transform: rotateY(180deg);
+}
+
+.flip-container.flipped .flipper {
+    transform: rotateY(180deg);
+}
+
+.switch-form {
+    margin-top: 20px;
+    font-size: 14px;
+    text-align: center;
+}
+
+.switch-form a {
+    color: #007BFF;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.switch-form a:hover {
+    text-decoration: underline;
 }
 
 /* Review section css */

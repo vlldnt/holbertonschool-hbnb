@@ -29,6 +29,20 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   }
+  // Flipping Login / Create account
+  const flipContainer = document.querySelector(".flip-container");
+  const showRegister = document.getElementById("show-register");
+  const showLogin = document.getElementById("show-login");
+
+  showRegister.addEventListener("click", (e) => {
+    e.preventDefault();
+    flipContainer.classList.add("flipped");
+  });
+
+  showLogin.addEventListener("click", (e) => {
+    e.preventDefault();
+    flipContainer.classList.remove("flipped");
+  });
 });
 
   // Ftech detailed place if token and place id identified
@@ -59,6 +73,38 @@ document.addEventListener("DOMContentLoaded", () => {
       try {
         if (text && rating) {
           submitReview(token, placeId, text, rating);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    });
+  }
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+  const registerForm = document.getElementById("register-form");
+
+  if (registerForm) {
+    registerForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
+
+      const firstName = document.getElementById("register-firstName").value;
+      const lastName = document.getElementById("register-lastName").value;
+      const email = document.getElementById("register-email").value;
+      const password = document.getElementById("register-password").value;
+      const confirmPassword = document.getElementById("confirm-password").value;
+
+      try {
+        if (password !== confirmPassword) {
+          console.error("Both password are not the same")
+        }
+        else {
+          if (firstName && lastName && email && password) {
+            register(firstName, lastName, email, password);
+          }
+          else {
+            console.error("Please fill all the fields.")
+          }
         }
       } catch (error) {
         console.error(error);
@@ -273,5 +319,39 @@ function handleResponse(response, placeId) {
     document.getElementById("review-form").reset();
   } else {
     alert("Failed to submit review");
+  }
+}
+
+async function register(firstName, lastName, email, password) {
+  try {
+    const body = {
+      first_name: firstName,
+      last_name: lastName,
+      email: email,
+      password: password
+    };
+    console.log("Request body:", body);
+
+    const response = await fetch(`http://127.0.0.1:5000/api/v1/users/`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(body),
+    });
+    handleRegister(response, firstName);
+
+  } catch (error) {
+    console.error("Error:", error);
+  }
+}
+
+function handleRegister(response, firstName) {
+  if (response.ok) {
+    alert(`${firstName}, your account have been successfully created`);
+    window.location.href = `login.html?id=${placeId}`;
+    document.getElementById("register-form").reset();
+  } else {
+    alert("Failed to create account.");
   }
 }
