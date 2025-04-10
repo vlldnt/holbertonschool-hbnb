@@ -70,6 +70,5 @@ run_api
 3. Display a message confirming that the part4 folder has been cloned and the current directory is inside it.
 4. Create a Python virtual environment using venv.
 5. Activate the virtual environment.
-6. Display a message indicating that dependency installation is starting.
-7. Install the dependencies needed using `pip install -r requirements.txt`
-9. Start the Python script `run.py` to launch the API.
+6. Install the dependencies needed using `pip install -r requirements.txt`
+7. Start the Python script `run.py` to launch the API.
