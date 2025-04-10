@@ -131,10 +131,14 @@ function checkAuthentication() {
   const token = getCookie("token");
   const loginLink = document.getElementById("login-link");
   const logoutLink = document.getElementById('logout-link');
+  const placesList = document.getElementById("places-list");
 
   if (!token) {
     loginLink.style.display = "block";
     logoutLink.style.display = "none"
+    if (placesList) {
+      placesList.innerHTML = "<p class='noLogged'>You need to be logged in to display places.</p>";
+    }
   } else {
     loginLink.style.display = "none";
     logoutLink.style.display = "block"

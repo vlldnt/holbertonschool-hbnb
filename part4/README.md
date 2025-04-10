@@ -1,6 +1,6 @@
 # HbnB Project - Adrien Vieilledent
 
-### Installation :
+## Installation :
 You will git clone the repository to get and test my API / front end project  part4 of the HbnB.
 
 - You need to create an executable file **install.sh** :
@@ -72,3 +72,8 @@ run_api
 5. Activate the virtual environment.
 6. Install the dependencies needed using `pip install -r requirements.txt`
 7. Start the Python script `run.py` to launch the API.
+
+
+## Usage 
+
+Now you can "Go Live" the `index.html` in your VS Code and 
