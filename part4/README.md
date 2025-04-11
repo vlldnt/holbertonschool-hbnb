@@ -2,6 +2,11 @@
 
 # HbnB Project - Adrien Vieilledent
 
+## 🔍  Project Overview
+
+This project, part 4 of the **HBNB** (HolbertonBnB), is a web application designed to simulate a vacation rental platform. It provides users with functionalities such as viewing, filtering, and reviewing places, while also allowing owners to manage their listings. The backend API is built using **Flask**, and the frontend uses **HTML**, **CSS**, and **JavaScript**.
+
+
 ## ⚙️ Installation :
 
 This installation guide is tailored for systems running **Ubuntu 24.04**. Make sure your environment is up to date by running 
@@ -137,5 +142,6 @@ The project consists of three main parts: Frontend, Backend, and Database.
     - Mermaid (diagram generation)
 
 ## 👤 Authors
+
 
 [Adrien Vieilledent](https://github.com/vlldnt) - C#25 - <img src="https://ml.globenewswire.com/Resource/Download/ea0a5220-97e2-43ce-acb7-038eecef6315?size=3" alt="Description of the image" width="100" />
