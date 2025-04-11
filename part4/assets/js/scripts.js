@@ -129,13 +129,17 @@ function checkAuthentication() {
   const loginLink = document.getElementById("login-link");
   const logoutLink = document.getElementById("logout-link");
   const placesList = document.getElementById("places-list");
+  const footer = document.querySelector('footer');
 
   if (!token) {
     loginLink.style.display = "block";
     logoutLink.style.display = "none";
     if (placesList) {
       placesList.innerHTML =
-        "<p class='noLogged'>You need to be logged in to display places.</p>";
+        `<a href="login.html">
+          <p class='noLogged'>You need to be logged in to display places.</p>
+        </a>`;
+        footer.style.position = 'fixed';
     }
   } else {
     loginLink.style.display = "none";
@@ -464,4 +468,27 @@ document.addEventListener("DOMContentLoaded", () => {
     reviewForm.reset();
     allStars.forEach((star) => star.classList.remove("active"));
   });
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+  const noLoggedElement = document.querySelector(".noLogged");
+
+  if (noLoggedElement) {
+    const originalText = noLoggedElement.textContent;
+    noLoggedElement.addEventListener("mouseover", () => {
+      noLoggedElement.style.opacity = "0";
+      setTimeout(() => {
+        noLoggedElement.textContent = "Click here to log in";
+        noLoggedElement.style.opacity = "1";
+      }, 200);
+    });
+
+    noLoggedElement.addEventListener("mouseout", () => {
+      noLoggedElement.style.opacity = "0";
+      setTimeout(() => {
+        noLoggedElement.textContent = originalText;
+        noLoggedElement.style.opacity = "1";
+      }, 200);
+    });
+  }
 });

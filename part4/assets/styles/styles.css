@@ -78,7 +78,6 @@ main {
 }
 
 footer {
-    position: fixed;
     bottom: 0;
     left: 0;
     width: 100%;
@@ -348,7 +347,6 @@ select {
 }
 
 #place-details p {
-    margin-top: 20px;
     line-height: 1.9;
     text-align: justify;
     width: 900px;
@@ -705,17 +703,16 @@ select {
     padding: 20px;
     margin-top: 50px;
     font-weight: bold;
-    color: #60b2f9;
+    color: #fd0f0f;
     font-size: 40px;
     border: #ddd solid 1px;
     border-radius: 20px;
-    transition: scale 0.2s ease-in-out, color 0.2s ease-in-out, border 0.2s ease-in-out;
+    transition: color 0.3s ease, transform 0.3s ease, opacity 0.3s ease, border 0.2s ease-in-out;
 }
 
 .noLogged:hover {
-    scale: 1.1;
     color: #44a4f8;
-    border: #a6a5a5 solid 2px;
+    border: #a6a5a5 solid 4px;
 }
 
 /* Carroussel to make images defile while clicking on arrows */
@@ -724,7 +721,6 @@ select {
     width: 100%;
     max-width: 900px;
     overflow: hidden;
-    margin: 20px auto;
     border-radius: 10px;
 }
   
@@ -949,4 +945,6 @@ textarea {
     background: var(--light);
 }
 
-
+.fixedFooter {
+    position: fixed;
+}
