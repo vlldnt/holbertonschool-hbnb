@@ -208,24 +208,34 @@ function displayPlaces(places) {
     `;
     placesList.appendChild(placeCard);
   });
+  applyPriceFilter();
 }
 
-document.getElementById("price-filter").addEventListener("change", () => {
-  const selectedPrice = document.getElementById("price-filter").value;
+function applyPriceFilter() {
+  const priceOptions = document.querySelectorAll(".price-option");
   const places = document.querySelectorAll(".place-card");
 
-  places.forEach((card) => {
-    const price = parseInt(
-      card.querySelector(".price-card strong").textContent.replace(" €", ""),
-      10
-    );
-    if (selectedPrice === "All" || price <= parseInt(selectedPrice, 10)) {
-      card.style.display = "flex";
-    } else {
-      card.style.display = "none";
-    }
+  priceOptions.forEach((option) => {
+    option.addEventListener("click", () => {
+      priceOptions.forEach((btn) => btn.classList.remove("selected"));
+      option.classList.add("selected");
+
+      const selectedPrice = option.getAttribute("data-price");
+
+      places.forEach((card) => {
+        const price = parseInt(
+          card.querySelector(".price-card strong").textContent.replace(" €", ""),
+          10
+        );
+        if (selectedPrice === "All" || price <= parseInt(selectedPrice, 10)) {
+          card.style.display = "flex";
+        } else {
+          card.style.display = "none";
+        }
+      });
+    });
   });
-});
+}
 
 /** Place Details Fetch and Display */
 async function fetchDetailedPlace(token, placeId) {

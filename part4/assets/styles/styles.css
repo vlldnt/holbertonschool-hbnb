@@ -260,13 +260,50 @@ nav a:hover {
 section {
     display: flex;
     line-height: 45px;
-    justify-content: space-around;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
     flex-wrap: wrap;
 }
 
 #filter {
-    display: block;
-    text-align: center;
+    display: flex;
+    align-content: center;
+    flex-direction: row;
+    align-items: flex-end;
+}
+
+#filter label {
+    font-size: large;
+    padding-right: 10px;
+    font-weight: 500;
+}
+
+#price-filter {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 10px;
+}
+.price-option {
+    padding: 10px 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: white;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.price-option:hover {
+    background-color: #6cb9fd;
+    color: white;
+}
+
+.price-option.selected {
+    background-color: #007BFF;
+    color: white;
+    font-weight: bold;
 }
 
 .detail-button {
