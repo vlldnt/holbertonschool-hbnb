@@ -1,7 +1,19 @@
+<img src="https://ml.globenewswire.com/Resource/Download/ea0a5220-97e2-43ce-acb7-038eecef6315?size=3" alt="Description of the image" width="417" />
+
 # HbnB Project - Adrien Vieilledent
 
-## Installation :
-You will git clone the repository to get and test my API / front end project  part4 of the HbnB.
+## ⚙️ Installation :
+
+This installation guide is tailored for systems running **Ubuntu 24.04**. Make sure your environment is up to date by running 
+```
+sudo apt update && sudo apt upgrade
+```
+This ensures compatibility with dependencies and tools used during the installation.
+
+---
+
+
+### You will clone the repository to obtain and test the API / frontend project, part 4 of HbnB.
 
 - You need to create an executable file **install.sh** :
 ```bash
@@ -63,7 +75,7 @@ run_api
 ```
 </details>
 
-#### Step of the install.sh :
+### Step of the install.sh :
 
 1. Clone the GitHub repository from vlldnt.
 2. Navigate into the holbertonschool-hbnb/part4 folder.
@@ -74,6 +86,56 @@ run_api
 7. Start the Python script `run.py` to launch the API.
 
 
-## Usage 
+## 🔧 Current Features
+You can now launch the `index.html` file in your Visual Studio Code 
 
-Now you can "Go Live" the `index.html` in your VS Code and 
+You can explore additional features by navigating through the site and interacting with different elements:
+- User Authentication
+    - Log in
+    - Register (if you don’t have an account)
+- Place Listings
+    - Filter places by price (50€, 100€, 150€, or view all)
+    - View detailed information by clicking on a place (image)
+- Place Details
+    - Photo gallery
+    - Description
+    - Available amenities
+    - User reviews  
+    - Option to add a new review
+
+## 🚧 Upcoming Features
+- Ability to create a new place listing
+    - Owners will have the option to edit their listings
+-Disable the "Add Review" button once a user has already submitted a review for a place 
+- General improvements to overall functionality and design
+- Enhanced responsive design for better compatibility across smartphones, tablets, and various screen sizes
+- Enable registration and login using Apple, Google, or Facebook accounts
+
+
+## 🧱 Structure of the project and technologies:
+
+The project consists of three main parts: Frontend, Backend, and Database.
+- **Frontend:**
+    - Languages: HTML (structure), CSS (layout & styling), JavaScript (interactivity)
+
+- **Backend:**
+    - Language: Python
+    - Framework: Flask (for RESTful APIs)
+        - Extensions:
+            - Flask-RESTx (API structuring & documentation)
+            - Flask-JWT-Extended (JWT authentication)
+            - Flask-Bcrypt (password hashing)
+            - Flask-CORS (cross-origin requests)
+
+- **Database:**
+    - Technology: SQLite (lightweight relational database)
+    - ORM: SQLAlchemy (for database interaction)
+
+- **Other Tools:**
+    - Git (version control)
+    - VS Code (IDE)
+    - Mermaid (diagram generation)
+
+## 👤 Authors
+
+[Adrien Vieilledent](https://github.com/vlldnt) - C#25 - <img src="https://ml.globenewswire.com/Resource/Download/ea0a5220-97e2-43ce-acb7-038eecef6315?size=3" alt="Description of the image" width="100" />
