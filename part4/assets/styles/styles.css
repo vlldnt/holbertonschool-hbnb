@@ -657,6 +657,7 @@ select {
 }
 
 .amenities {
+    margin-top: 50px;
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
@@ -829,6 +830,7 @@ select {
 }
 textarea {
   width: 100%;
+  height: 120px;
   background: var(--light);
   padding: 1rem;
   border-radius: 0.5rem;
@@ -836,6 +838,7 @@ textarea {
   outline: none;
   resize: none;
   margin-bottom: 0.5rem;
+  font-size: 16px;
 }
 .btn-group {
   display: flex;
@@ -898,7 +901,7 @@ textarea {
 }
 
 #review-form .rating .star.active {
-    color: var(--blue);
+    color: var(--yellow);
 }
 
 #review-form textarea {
