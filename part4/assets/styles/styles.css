@@ -78,6 +78,7 @@ main {
 }
 
 footer {
+    position: fixed;
     bottom: 0;
     left: 0;
     width: 100%;
@@ -251,7 +252,7 @@ nav a:hover {
     border: 1px solid #ddd;
     border-radius: 10px;
     text-align: center;
-    width: 800px;
+    width: 700px;
     max-width: 100%;
 }
 
@@ -260,6 +261,7 @@ section {
     display: flex;
     line-height: 45px;
     justify-content: space-around;
+    flex-wrap: wrap;
 }
 
 #filter {
@@ -325,7 +327,7 @@ select {
     flex-direction: column;
     width: 400px;
     margin: 0 auto;
-    margin-top: 50px;
+    margin-top: 15px;
 }
 
 #login-form label {
@@ -360,6 +362,7 @@ select {
     border-radius: 5px;
     cursor: pointer;
     font-weight: bold;
+    font-size: 18px;
 }
 
 #login-form button:hover {
@@ -372,7 +375,7 @@ select {
     flex-direction: column;
     width: 400px;
     margin: 0 auto;
-    margin-top: 50px;
+    margin-top: 15px;
 }
 
 #register-form label {
@@ -407,6 +410,7 @@ select {
     border-radius: 5px;
     cursor: pointer;
     font-weight: bold;
+    font-size: 18px;
 }
 
 #register-form button:hover {
@@ -498,6 +502,10 @@ select {
     color: white;
 }
 
+.apple-btn {
+    margin-bottom: 20px;
+}
+
 .apple-btn:hover {
     background-color: #8f8d8d;
     color: rgb(255, 255, 255);
@@ -541,7 +549,7 @@ select {
 }
 
 .switch-form {
-    margin-top: 20px;
+    margin-top: 10px;
     font-size: 14px;
     text-align: center;
 }
@@ -557,20 +565,25 @@ select {
 }
 
 /* Review section css */
-#add-review button {
+#place-details button {
+    margin: 15px 160px 0 0;
     padding: 12px 24px;
     background: linear-gradient(135deg, #6c63ff, #48c6ef);
     color: white;
     font-weight: bold;
     border: none;
-    border-radius: 20px;
+    border-radius: 10px;
     cursor: pointer;
     transition: all 0.3s ease;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     position: relative;
     overflow: hidden;
 }
-  
+.addButtonContainer {
+    width: 100%;
+    text-align: right;
+}
+
 #add-review button::before {
     content: "";
     position: absolute;

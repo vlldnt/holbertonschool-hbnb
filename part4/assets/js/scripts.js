@@ -263,8 +263,8 @@ function displayDetailedPlaces(place) {
           </span>
           `)
           .join("")}
-          </p>
-        <p class="detailedPrice"><strong>${place.price} €</strong> per night</p>
+        </p>
+        <div class='addButtonContainer'><a href="add_review.html?id=${place.id}"><button>Add a review</button></a></div>
     `;
 
   const reviewsPlace = document.getElementById("reviews");
@@ -275,19 +275,13 @@ function displayDetailedPlaces(place) {
       reviewCard.classList.add("review-card");
       reviewCard.innerHTML = `
                 <p>${review.text}</p>
-                <p>Rating: ${review.rating}</p>
+                <p><strong>Rating: ${review.rating}/5</strong></p>
             `;
       reviewsPlace.appendChild(reviewCard);
     });
   } else {
     reviewsPlace.innerHTML += "<p>No reviews available for this place.</p>";
   }
-
-  const addReview = document.getElementById("add-review");
-  const button = document.createElement("a");
-  button.href = `add_review.html?id=${place.id}`;
-  button.innerHTML = `<button>Add a review</button>`;
-  addReview.appendChild(button);
 }
 
 /** Review Submit */
