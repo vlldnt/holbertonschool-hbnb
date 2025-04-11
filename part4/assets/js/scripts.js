@@ -1,6 +1,5 @@
 /** Login/Logout Form  */
 document.addEventListener("DOMContentLoaded", () => {
-  
   // Authentification check for user based on the token cookie
   checkAuthentication();
 
@@ -8,12 +7,12 @@ document.addEventListener("DOMContentLoaded", () => {
   const logoutLink = document.getElementById("logout-link");
   if (logoutLink) {
     logoutLink.addEventListener("click", function (event) {
-      event.preventDefault(); 
-      deleteTokenCookie();    
-      window.location.href = "login.html"; 
+      event.preventDefault();
+      deleteTokenCookie();
+      window.location.href = "login.html";
     });
   }
-  
+
   // Submit event for login ( receiveing email and password from form)
   const loginForm = document.getElementById("login-form");
   if (loginForm) {
@@ -21,7 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
       event.preventDefault();
       const email = document.getElementById("email").value;
       const password = document.getElementById("password").value;
-  
+
       try {
         await loginUser(email, password);
       } catch (error) {
@@ -45,17 +44,17 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
-  // Ftech detailed place if token and place id identified
-  const token = getCookie("token");
-  const urlParams = new URLSearchParams(window.location.search);
-  const placeId = urlParams.get("id");
-  try {
-    if (token && placeId) {
-      fetchDetailedPlace(token, placeId);
-    }
-  } catch (error) {
-    console.error(error);
-  };
+// Ftech detailed place if token and place id identified
+const token = getCookie("token");
+const urlParams = new URLSearchParams(window.location.search);
+const placeId = urlParams.get("id");
+try {
+  if (token && placeId) {
+    fetchDetailedPlace(token, placeId);
+  }
+} catch (error) {
+  console.error(error);
+}
 
 // Get review text and rating from form and submit it
 document.addEventListener("DOMContentLoaded", () => {
@@ -96,14 +95,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
       try {
         if (password !== confirmPassword) {
-          console.error("Both password are not the same")
-        }
-        else {
+          console.error("Both password are not the same");
+        } else {
           if (firstName && lastName && email && password) {
             register(firstName, lastName, email, password);
-          }
-          else {
-            console.error("Please fill all the fields.")
+          } else {
+            console.error("Please fill all the fields.");
           }
         }
       } catch (error) {
@@ -130,18 +127,19 @@ function getCookie(name) {
 function checkAuthentication() {
   const token = getCookie("token");
   const loginLink = document.getElementById("login-link");
-  const logoutLink = document.getElementById('logout-link');
+  const logoutLink = document.getElementById("logout-link");
   const placesList = document.getElementById("places-list");
 
   if (!token) {
     loginLink.style.display = "block";
-    logoutLink.style.display = "none"
+    logoutLink.style.display = "none";
     if (placesList) {
-      placesList.innerHTML = "<p class='noLogged'>You need to be logged in to display places.</p>";
+      placesList.innerHTML =
+        "<p class='noLogged'>You need to be logged in to display places.</p>";
     }
   } else {
     loginLink.style.display = "none";
-    logoutLink.style.display = "block"
+    logoutLink.style.display = "block";
     fetchPlaces(token);
   }
 }
@@ -149,8 +147,6 @@ function checkAuthentication() {
 function deleteTokenCookie() {
   document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
 }
-
-
 
 /** Login User */
 async function loginUser(email, password) {
@@ -171,8 +167,6 @@ async function loginUser(email, password) {
     alert("Login failed: " + response.statusText);
   }
 }
-
-
 
 /** Places fetch and display */
 async function fetchPlaces(token) {
@@ -224,7 +218,9 @@ function applyPriceFilter() {
 
       places.forEach((card) => {
         const price = parseInt(
-          card.querySelector(".price-card strong").textContent.replace(" €", ""),
+          card
+            .querySelector(".price-card strong")
+            .textContent.replace(" €", ""),
           10
         );
         if (selectedPrice === "All" || price <= parseInt(selectedPrice, 10)) {
@@ -263,18 +259,36 @@ async function fetchDetailedPlace(token, placeId) {
 function displayDetailedPlaces(place) {
   document.getElementById("place-details").innerHTML = `
         <h1 class="detailedTitle">${place.title}</h1>
-        <img src="assets/images/places-images/${place.title}.avif" alt="git">
-        <p class="detailedDescription">Description: ${place.description}</p>
+        <div class="carousel">
+            <div class="carousel-images">
+                <img src="assets/images/places-images/${
+                  place.title
+                }.avif" alt="Image 1">
+                <img src="assets/images/places-images/lit.avif" alt="Image 2">
+                <img src="assets/images/places-images/pool.avif" alt="Image 3">
+                <img src="assets/images/places-images/terasse.avif" alt="Image 4">
+                <img src="assets/images/places-images/garden.avif" alt="Image 5">
+            </div>
+            <button class="carousel-button prev">❮</button>
+            <button class="carousel-button next">❯</button>
+        </div>
+        <p class="detailedDescription">${place.description}</p>
         <p class="amenities">What this place offers: 
         ${place.amenities
-          .map((a) => `
+          .map(
+            (a) => `
           <span class="amenity" data-alt="${a.name}">
-          <img src="assets/images/amenities-logos/${a.name.toLowerCase()}.png" alt="${a.name}" />
+          <img src="assets/images/amenities-logos/${a.name.toLowerCase()}.png" alt="${
+              a.name
+            }" />
           </span>
-          `)
+          `
+          )
           .join("")}
         </p>
-        <div class='addButtonContainer'><a href="add_review.html?id=${place.id}"><button>Add a review</button></a></div>
+        <div class='addButtonContainer'><a href="add_review.html?id=${
+          place.id
+        }"><button>Add a review</button></a></div>
     `;
 
   const reviewsPlace = document.getElementById("reviews");
@@ -292,6 +306,31 @@ function displayDetailedPlaces(place) {
   } else {
     reviewsPlace.innerHTML += "<p>No reviews available for this place.</p>";
   }
+  initializeCarousel();
+}
+
+function initializeCarousel() {
+  const carouselImages = document.querySelector(".carousel-images");
+  const images = document.querySelectorAll(".carousel-images img");
+  const prevButton = document.querySelector(".carousel-button.prev");
+  const nextButton = document.querySelector(".carousel-button.next");
+
+  let currentIndex = 0;
+
+  function updateCarousel() {
+    const offset = -currentIndex * 100;
+    carouselImages.style.transform = `translateX(${offset}%)`;
+  }
+
+  prevButton.addEventListener("click", () => {
+    currentIndex = (currentIndex - 1 + images.length) % images.length;
+    updateCarousel();
+  });
+
+  nextButton.addEventListener("click", () => {
+    currentIndex = (currentIndex + 1) % images.length;
+    updateCarousel();
+  });
 }
 
 /** Review Submit */
@@ -314,7 +353,6 @@ async function submitReview(token, placeId, reviewText, rating) {
       body: JSON.stringify(body),
     });
     handleResponse(response, placeId);
-
   } catch (error) {
     console.error("Error:", error);
   }
@@ -336,7 +374,7 @@ async function register(firstName, lastName, email, password) {
       first_name: firstName,
       last_name: lastName,
       email: email,
-      password: password
+      password: password,
     };
     console.log("Request body:", body);
 
@@ -348,7 +386,6 @@ async function register(firstName, lastName, email, password) {
       body: JSON.stringify(body),
     });
     handleRegister(response, firstName);
-
   } catch (error) {
     console.error("Error:", error);
   }
@@ -363,3 +400,68 @@ function handleRegister(response, firstName) {
     alert("Failed to create account.");
   }
 }
+
+// source : https://codepen.io/fajarnurwahid/pen/MWEBMwV
+const allStar = document.querySelectorAll(".rating .star");
+const ratingValue = document.querySelector(".rating input");
+
+allStar.forEach((item, idx) => {
+  item.addEventListener("click", function () {
+    let click = 0;
+    ratingValue.value = idx + 1;
+
+    allStar.forEach((i) => {
+      i.classList.replace("bxs-star", "bx-star");
+      i.classList.remove("active");
+    });
+    for (let i = 0; i < allStar.length; i++) {
+      if (i <= idx) {
+        allStar[i].classList.replace("bx-star", "bxs-star");
+        allStar[i].classList.add("active");
+      } else {
+        allStar[i].style.setProperty("--i", click);
+        click++;
+      }
+    }
+  });
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+  const allStars = document.querySelectorAll("#review-form .rating .star");
+  const ratingInput = document.querySelector("#review-form #rating");
+  const reviewForm = document.querySelector("#review-form form");
+  const cancelButton = document.querySelector("#review-form .btn.cancel");
+
+  allStars.forEach((star, index) => {
+    star.addEventListener("click", () => {
+      ratingInput.value = index + 1;
+      allStars.forEach((s, i) => {
+        s.classList.toggle("active", i <= index);
+      });
+    });
+  });
+
+  reviewForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const reviewText = document.querySelector("#review-form #review").value;
+    const rating = ratingInput.value;
+
+    if (!rating || !reviewText) {
+      alert("Please provide a rating and a review.");
+      return;
+    }
+
+    try {
+      const token = getCookie("token");
+      const placeId = getPlaceIdFromURL();
+      await submitReview(token, placeId, reviewText, rating);
+    } catch (error) {
+      console.error("Error submitting review:", error);
+    }
+  });
+
+  cancelButton.addEventListener("click", () => {
+    reviewForm.reset();
+    allStars.forEach((star) => star.classList.remove("active"));
+  });
+});
