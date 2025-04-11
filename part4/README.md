@@ -115,7 +115,7 @@ You can explore additional features by navigating through the site and interacti
 - General improvements to overall functionality and design
 - Enhanced responsive design for better compatibility across smartphones, tablets, and various screen sizes
 - Enable registration and login using Apple, Google, or Facebook accounts
-
+- Web deployement
 
 ## 🧱 Structure of the project and technologies:
 
