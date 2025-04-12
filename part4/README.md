@@ -80,12 +80,12 @@ run_api
 ```
 </details>
 
-### Step of the install.sh :
-
-**First lauch the executable:**
+### Lauch the executable `install.sh`
 ```python
 ./install.sh
 ```
+
+### Step of the install.sh :
 
 1. Clone the GitHub repository from vlldnt.
 2. Navigate into the holbertonschool-hbnb/part4 folder.
