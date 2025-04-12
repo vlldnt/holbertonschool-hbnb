@@ -82,7 +82,7 @@ run_api
 
 ### Step of the install.sh :
 
-**First lauch the executable 
+**First lauch the executable:**
 ```python
 ./install.sh
 ```
