@@ -82,6 +82,11 @@ run_api
 
 ### Step of the install.sh :
 
+**First lauch the executable 
+```python
+./install.sh
+```
+
 1. Clone the GitHub repository from vlldnt.
 2. Navigate into the holbertonschool-hbnb/part4 folder.
 3. Display a message confirming that the part4 folder has been cloned and the current directory is inside it.
